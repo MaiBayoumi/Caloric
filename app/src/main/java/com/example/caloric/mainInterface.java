@@ -1,4 +1,8 @@
 package com.example.caloric;
 
-public class mainInterface {
+public interface mainInterface {
+    public void onFinishedDeletingItemsOfThisAccount();
+
+    public void onFinishedDeletingAccount();
 }
+

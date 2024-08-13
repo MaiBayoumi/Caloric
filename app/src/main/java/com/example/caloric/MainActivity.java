@@ -1,14 +1,13 @@
 package com.example.caloric;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,11 +17,27 @@ import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static NavController navController;
+    public static BottomNavigationView bottomNavigationView;
+    public static MainActivity mainActivity;
+    private NavigationView navigationView;
+    private NetworkChecker networkChecker;
+    public static TextView tv_headerDrawer;
+    private static final String TAG = "MainActivity";
+    private Timer timer;
+    private Boolean timerIsExists = false;
+    public static Boolean Asaguest = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        networkChecker = NetworkChecker.getInstance(this);
+        bottomNavigationView = findViewById(R.id.bottomnavigator);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        //navigationView = findViewById(R.id.n);
+
 
     }
 }

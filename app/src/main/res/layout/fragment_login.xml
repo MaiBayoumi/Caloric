@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/spagettibackgrond"
-    tools:context=".LoginFrag">
+    tools:context=".login.LoginFrag">
 
     <TextView
         android:id="@+id/caloric"
@@ -141,7 +141,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <com.google.android.gms.common.SignInButton
-        android:id="@+id/btn_signin"
+        android:id="@+id/googlebtn"
         android:layout_width="135dp"
         android:layout_height="55dp"
         android:layout_marginTop="24dp"
@@ -166,7 +166,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_signin"
+        app:layout_constraintTop_toBottomOf="@+id/googlebtn"
         app:layout_constraintVertical_bias="0.694" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

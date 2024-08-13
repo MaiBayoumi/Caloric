@@ -3,28 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/onBoardingFrag">
+    app:startDestination="@id/nav_onBoardingFrag">
 
     <fragment
-        android:id="@+id/onBoardingFrag"
+        android:id="@+id/nav_onBoardingFrag"
         android:name="com.example.caloric.OnBoardingFrag"
         tools:layout="@layout/fragment_on_boarding" >
         <action
             android:id="@+id/action_onBoardingFrag_to_loginFrag"
-            app:destination="@id/loginFrag" />
+            app:destination="@id/nav_loginFrag" />
     </fragment>
     <fragment
-        android:id="@+id/loginFrag"
-        android:name="com.example.caloric.LoginFrag"
+        android:id="@+id/nav_loginFrag"
+        android:name="com.example.caloric.login.LoginFrag"
         android:label="Log In"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFrag_to_signInFrag"
-            app:destination="@id/signInFrag" />
+            app:destination="@id/nav_signInFrag" />
+        <action
+            android:id="@+id/action_loginFrag_to_recommendationFrag"
+            app:destination="@id/nav_recommendationFrag" />
     </fragment>
     <fragment
-        android:id="@+id/signInFrag"
+        android:id="@+id/nav_signInFrag"
         android:name="com.example.caloric.SignInFrag"
         android:label="Sign In"
-        tools:layout="@layout/fragment_sign_in" />
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFrag_to_recommendationFrag"
+            app:destination="@id/nav_recommendationFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_recommendationFrag"
+        android:name="com.example.caloric.RecommendationFrag"
+        android:label="Our recommendayions"
+        tools:layout="@layout/fragment_recommendation" />
 </navigation>

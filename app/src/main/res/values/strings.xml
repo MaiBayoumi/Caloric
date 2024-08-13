@@ -17,4 +17,9 @@
     <string name="favorits">Favourits</string>
     <string name="planners">Planners</string>
     <string name="empty">"  "</string>
+    <string name="Username">User Name</string>
+    <string name="recommendations">Our Recommendations</string>
+    <string name="meals">Our Meals For Today</string>
+    <string name="must_login">you must log in</string>
+    <string name="access">you must log in</string>
 </resources>
