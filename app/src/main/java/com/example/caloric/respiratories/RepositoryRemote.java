@@ -1,12 +1,14 @@
-package com.example.caloric.login;
+package com.example.caloric.respiratories;
 
 import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
+import com.example.caloric.login.presenter.LoginIterface;
 import com.example.caloric.model.MealsItem;
 import com.example.caloric.network.RemotDataSource;
+import com.example.caloric.signin.presenter.SigninInterface;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -27,6 +29,7 @@ public class RepositoryRemote {
     private RemotDataSource retrofitClient = RemotDataSource.getInstance();
     private List<MealsItem> meals = new ArrayList<>();
     private Context context;
+    private SigninInterface signinInterface;
 
     public RepositoryRemote(LoginIterface loginIterface, Context context) {
         this.loginIterface = loginIterface;
@@ -77,5 +80,18 @@ public class RepositoryRemote {
                 }
             }) ;
         }
+    }
+
+    public RepositoryRemote(SigninInterface interfaceRegister) {
+        this.signinInterface = interfaceRegister;
+    }
+
+    public void createUserWithEmailAndPassword(String email, String password) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                signinInterface.NormalSignIn(task);
+            }
+        }) ;
     }
 }

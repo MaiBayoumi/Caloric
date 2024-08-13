@@ -22,4 +22,16 @@
     <string name="meals">Our Meals For Today</string>
     <string name="must_login">you must log in</string>
     <string name="access">you must log in</string>
+    <string name="search_by_all_meals">Search By:</string>
+    <string name="bymeals">Meals</string>
+    <string name="category">Category</string>
+    <string name="ingrediants">Ingredients</string>
+    <string name="area">Countries</string>
+    <string name="searching">Search</string>
+    <string name="add_to_weekplan">Add To</string>
+    <string name="filteringrd">Filtered by ingredient</string>
+    <string name="categories">Categories</string>
+    <string name="my_saved_recipes">My Favourite Recipies</string>
+    <string name="foodplanner">My Week Plan</string>
+    <string name="steps">Steps</string>
 </resources>

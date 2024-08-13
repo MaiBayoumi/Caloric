@@ -1,4 +1,4 @@
-package com.example.caloric;
+package com.example.caloric.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -1,13 +1,10 @@
-package com.example.caloric.login;
+package com.example.caloric.respiratories;
 
 import android.content.Context;
 
-import com.example.caloric.RecommendationFrag;
 import com.example.caloric.database.DAO;
 import com.example.caloric.database.LocalDataSource;
 import com.example.caloric.model.MealsItem;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;

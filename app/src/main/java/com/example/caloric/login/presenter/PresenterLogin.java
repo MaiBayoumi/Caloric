@@ -1,8 +1,9 @@
-package com.example.caloric.login;
+package com.example.caloric.login.presenter;
 
 import android.content.Context;
 
-import com.airbnb.lottie.L;
+import com.example.caloric.respiratories.RepositoryLocal;
+import com.example.caloric.respiratories.RepositoryRemote;
 
 public class PresenterLogin {
     public LoginIterface loginIterface;

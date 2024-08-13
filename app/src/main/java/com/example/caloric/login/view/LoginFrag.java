@@ -1,4 +1,4 @@
-package com.example.caloric.login;
+package com.example.caloric.login.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,8 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caloric.MainActivity;
-import com.example.caloric.NetworkChecker;
+import com.example.caloric.network.NetworkChecker;
 import com.example.caloric.R;
+import com.example.caloric.login.presenter.LoginIterface;
+import com.example.caloric.login.presenter.PresenterLogin;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -31,7 +33,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 
-public class LoginFrag extends Fragment implements LoginIterface{
+public class LoginFrag extends Fragment implements LoginIterface {
 
     private TextInputEditText inputemail;
     private TextInputEditText inputpassword;

@@ -1,4 +1,4 @@
-package com.example.caloric.login;
+package com.example.caloric.login.presenter;
 
 import android.content.Intent;
 

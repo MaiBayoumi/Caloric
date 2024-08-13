@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/spagettibackgrond"
-    tools:context=".login.LoginFrag">
+    tools:context=".login.view.LoginFrag">
 
     <TextView
         android:id="@+id/caloric"
@@ -25,6 +25,7 @@
         style="@style/customEditText"
         android:layout_width="370dp"
         android:layout_height="wrap_content"
+        android:paddingEnd="10dp"
         android:hint="@string/enter_email"
         android:layout_marginStart="30dp"
         android:layout_marginTop="200dp"
@@ -48,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
+        android:paddingEnd="10dp"
         android:hint="@string/enter_password"
         app:endIconMode="password_toggle"
         app:layout_constraintStart_toStartOf="parent"

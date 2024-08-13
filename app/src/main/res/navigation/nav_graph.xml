@@ -3,40 +3,154 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/nav_onBoardingFrag">
+    android:label="Ingredient"
+    app:startDestination="@id/onBoardingFrag">
 
     <fragment
-        android:id="@+id/nav_onBoardingFrag"
+        android:id="@+id/onBoardingFrag"
         android:name="com.example.caloric.OnBoardingFrag"
-        tools:layout="@layout/fragment_on_boarding" >
+        tools:layout="@layout/fragment_on_boarding">
         <action
             android:id="@+id/action_onBoardingFrag_to_loginFrag"
-            app:destination="@id/nav_loginFrag" />
+            app:destination="@id/loginFrag" />
     </fragment>
     <fragment
-        android:id="@+id/nav_loginFrag"
-        android:name="com.example.caloric.login.LoginFrag"
+        android:id="@+id/loginFrag"
+        android:name="com.example.caloric.login.view.LoginFrag"
         android:label="Log In"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFrag_to_signInFrag"
-            app:destination="@id/nav_signInFrag" />
+            app:destination="@id/signInFrag" />
         <action
             android:id="@+id/action_loginFrag_to_recommendationFrag"
-            app:destination="@id/nav_recommendationFrag" />
+            app:destination="@id/recommendationFrag" />
     </fragment>
     <fragment
-        android:id="@+id/nav_signInFrag"
-        android:name="com.example.caloric.SignInFrag"
+        android:id="@+id/signInFrag"
+        android:name="com.example.caloric.signin.view.SignInFrag"
         android:label="Sign In"
-        tools:layout="@layout/fragment_sign_in" >
+        tools:layout="@layout/fragment_sign_in">
         <action
             android:id="@+id/action_signInFrag_to_recommendationFrag"
-            app:destination="@id/nav_recommendationFrag" />
+            app:destination="@id/recommendationFrag" />
     </fragment>
     <fragment
-        android:id="@+id/nav_recommendationFrag"
+        android:id="@+id/recommendationFrag"
         android:name="com.example.caloric.RecommendationFrag"
         android:label="Our recommendayions"
-        tools:layout="@layout/fragment_recommendation" />
+        tools:layout="@layout/fragment_recommendation" >
+        <action
+            android:id="@+id/action_recommendationFrag_to_plannerFrag"
+            app:destination="@id/plannerFrag" />
+        <action
+            android:id="@+id/action_recommendationFrag_to_favouritelistFrag"
+            app:destination="@id/favouritelistFrag" />
+        <action
+            android:id="@+id/action_recommendationFrag_to_mealRecipeFrag"
+            app:destination="@id/mealRecipeFrag" />
+        <action
+            android:id="@+id/action_recommendationFrag_to_searchFrag"
+            app:destination="@id/searchFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFrag"
+        android:name="com.example.caloric.SearchFrag"
+        android:label="Search"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFrag_to_searchByMealFrag"
+            app:destination="@id/searchByMealFrag" />
+        <action
+            android:id="@+id/action_searchFrag_to_searchByCountryFrag"
+            app:destination="@id/searchByCountryFrag" />
+        <action
+            android:id="@+id/action_searchFrag_to_searchByIngFrag"
+            app:destination="@id/searchByIngFrag" />
+        <action
+            android:id="@+id/action_searchFrag_to_searchByCategoryFrag"
+            app:destination="@id/searchByCategoryFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchByMealFrag"
+        android:name="com.example.caloric.SearchByMealFrag"
+        android:label="Meals"
+        tools:layout="@layout/fragment_search_by_meal" >
+        <action
+            android:id="@+id/action_searchByMealFrag_to_mealRecipeFrag"
+            app:destination="@id/mealRecipeFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchByCountryFrag"
+        android:name="com.example.caloric.SearchByCountryFrag"
+        android:label="Countries"
+        tools:layout="@layout/fragment_search_by_country">
+        <action
+            android:id="@+id/action_searchByCountryFrag_to_countryFoodFrag"
+            app:destination="@id/countryFoodFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/countryFoodFrag"
+        android:name="com.example.caloric.CountryFoodFrag"
+        android:label="Country"
+        tools:layout="@layout/fragment_country_food" />
+    <fragment
+        android:id="@+id/searchByIngFrag"
+        android:name="com.example.caloric.SearchByIngFrag"
+        android:label="Ingredient"
+        tools:layout="@layout/fragment_search_by_ing">
+        <action
+            android:id="@+id/action_searchByIngFrag_to_ingFoodFrag2"
+            app:destination="@id/ingFoodFrag2" />
+    </fragment>
+    <fragment
+        android:id="@+id/ingFoodFrag2"
+        android:name="com.example.caloric.IngFoodFrag"
+        android:label="fragment_ing_food"
+        tools:layout="@layout/fragment_ing_food" >
+        <action
+            android:id="@+id/action_ingFoodFrag2_to_mealRecipeFrag"
+            app:destination="@id/mealRecipeFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchByCategoryFrag"
+        android:name="com.example.caloric.SearchByCategoryFrag"
+        android:label="Category"
+        tools:layout="@layout/fragment_search_by_category" >
+        <action
+            android:id="@+id/action_searchByCategoryFrag_to_categoryFoodFrag"
+            app:destination="@id/categoryFoodFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFoodFrag"
+        android:name="com.example.caloric.CategoryFoodFrag"
+        android:label="Category"
+        tools:layout="@layout/fragment_category_food" >
+        <action
+            android:id="@+id/action_categoryFoodFrag_to_mealRecipeFrag"
+            app:destination="@id/mealRecipeFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/plannerFrag"
+        android:name="com.example.caloric.PlannerFrag"
+        android:label="Planner"
+        tools:layout="@layout/fragment_planner" >
+        <action
+            android:id="@+id/action_plannerFrag_to_mealRecipeFrag"
+            app:destination="@id/mealRecipeFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouritelistFrag"
+        android:name="com.example.caloric.FavouritelistFrag"
+        android:label="Favourite"
+        tools:layout="@layout/fragment_favouritelist" >
+        <action
+            android:id="@+id/action_favouritelistFrag_to_mealRecipeFrag"
+            app:destination="@id/mealRecipeFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/mealRecipeFrag"
+        android:name="com.example.caloric.MealRecipeFrag"
+        android:label="Meal Recipe"
+        tools:layout="@layout/fragment_meal_recipe" />
 </navigation>
