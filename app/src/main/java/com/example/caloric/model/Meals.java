@@ -1,4 +1,4 @@
-package com.example.caloric;
+package com.example.caloric.model;
 
 import com.google.gson.annotations.SerializedName;
 

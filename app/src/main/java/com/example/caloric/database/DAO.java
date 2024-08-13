@@ -1,4 +1,4 @@
-package com.example.caloric;
+package com.example.caloric.database;
 
 import java.util.List;
 import androidx.room.Dao;
@@ -6,6 +6,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+
+import com.example.caloric.model.MealsItem;
 
 import io.reactivex.rxjava3.core.Flowable;
 @Dao
