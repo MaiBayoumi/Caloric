@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Caloric</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="caloric">Caloric</string>
+    <string name="enter_email">Enter your E-mail</string>
+    <string name="enter_password">Enter your Password\n</string>
+    <string name="login">Log In</string>
+    <string name="dHaccount">You don\'t have an account</string>
+    <string name="register">REGISTER</string>
+    <string name="or">Or Use</string>
+    <string name="signin">Sign In</string>
+    <string name="guest">As a guest</string>
+    <string name="confirmpass">Confirm your Password</string>
+    <string name="title_home">Home</string>
+    <string name="search">Search</string>
+    <string name="favorits">Favourits</string>
+    <string name="planners">Planners</string>
+    <string name="empty">"  "</string>
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/onBoardingFrag">
+
+    <fragment
+        android:id="@+id/onBoardingFrag"
+        android:name="com.example.caloric.OnBoardingFrag"
+        tools:layout="@layout/fragment_on_boarding" >
+        <action
+            android:id="@+id/action_onBoardingFrag_to_loginFrag"
+            app:destination="@id/loginFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFrag"
+        android:name="com.example.caloric.LoginFrag"
+        android:label="Log In"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFrag_to_signInFrag"
+            app:destination="@id/signInFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFrag"
+        android:name="com.example.caloric.SignInFrag"
+        android:label="Sign In"
+        tools:layout="@layout/fragment_sign_in" />
+</navigation>
