@@ -6,28 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".RecommendationFrag" >
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclermeals"
-        android:layout_width="380dp"
-        android:layout_height="428dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recommendation" />
 
-    <TextView
-        android:id="@+id/recommendation"
-        android:layout_width="wrap_content"
+
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:fontFamily="@font/joti_one"
-        android:text="@string/meals"
-        android:textSize="37sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.347"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="4dp"
+            tools:layout_editor_absoluteY="120dp">
 
     <ImageView
         android:id="@+id/logout"
@@ -54,17 +46,97 @@
         app:layout_constraintStart_toEndOf="@+id/logout"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:fontFamily="@font/joti_one"
-        android:text="@string/Username"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.062"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/caloric" />
+
+            <TextView
+                android:id="@+id/dailyTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/meals"
+                android:textColor="@color/black"
+                android:textSize="35sp"
+               android:fontFamily="@font/joti_one"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.186"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/caloric" />
+
+            <com.google.android.material.carousel.MaskableFrameLayout
+                android:id="@+id/carousel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dailyTV"
+                android:foreground="?attr/selectableItemBackground"
+                app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recommendRecycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/meal_item" />
+            </com.google.android.material.carousel.MaskableFrameLayout>
+
+            <TextView
+                android:id="@+id/countriesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/area"
+                android:fontFamily="@font/joti_one"
+                android:textColor="@color/black"
+                android:layout_marginStart="18dp"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="@id/carousel"
+                app:layout_constraintTop_toBottomOf="@id/carousel"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/countriesRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/countriesTextView"
+                tools:listitem="@layout/country_item" />
+
+            <TextView
+                android:id="@+id/categoriesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/categories"
+                android:textColor="@color/black"
+                android:fontFamily="@font/joti_one"
+                android:layout_marginStart="18dp"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="@id/carousel"
+                app:layout_constraintTop_toBottomOf="@id/countriesRecyclerView"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categoriesRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="100dp"
+                app:layout_constraintTop_toBottomOf="@id/categoriesTextView"
+                app:layout_goneMarginTop="20dp"
+                tools:listitem="@layout/country_item"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

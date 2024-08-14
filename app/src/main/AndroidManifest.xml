@@ -4,10 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -20,6 +21,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Caloric"
         tools:targetApi="31">
+        <activity
+            android:name=".register.SignIn"
+            android:exported="false" />
+        <activity
+            android:name=".register.LogIn"
+            android:exported="false" />
+        <activity
+            android:name=".HostedActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

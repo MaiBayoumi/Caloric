@@ -1,41 +1,36 @@
 package com.example.caloric;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.ui.NavigationUI;
+import androidx.appcompat.app.AppCompatDelegate;
 
-import com.example.caloric.network.NetworkChecker;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
+import com.example.caloric.register.LogIn;
 
-import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static NavController navController;
-    public static BottomNavigationView bottomNavigationView;
-    public static MainActivity mainActivity;
-    private NavigationView navigationView;
-    private NetworkChecker networkChecker;
-    public static TextView tv_headerDrawer;
-    private static final String TAG = "MainActivity";
-    private Timer timer;
-    private Boolean timerIsExists = false;
-    public static Boolean Asaguest = false;
-
-
+    TextView caloric;
+    ImageView caloriclogo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        networkChecker = NetworkChecker.getInstance(this);
-        bottomNavigationView = findViewById(R.id.bottomnavigator);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        //navigationView = findViewById(R.id.n);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
 
+        caloric = findViewById(R.id.caloric);
+        caloriclogo=findViewById(R.id.caloric_logo);
+
+        caloric.postOnAnimationDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, LogIn.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 4000);
     }
 }

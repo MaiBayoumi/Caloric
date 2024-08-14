@@ -2,24 +2,62 @@ package com.example.caloric.database;
 
 import android.content.Context;
 
-import androidx.room.Database;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
+import androidx.lifecycle.LiveData;
 
-import com.example.caloric.model.MealsItem;
+import com.example.caloric.model.Meal;
 
-@Database(entities = MealsItem.class, exportSchema = false, version = 1)
-public abstract class LocalDataSource extends RoomDatabase {
+import java.util.List;
 
+public class LocalDataSource implements LocalSource {
     private static LocalDataSource instance = null;
+    private MealsDao mealsDao;
 
-    public abstract DAO mealsDAO();
+    private LocalDataSource(Context context){
+        mealsDao = MealsDatabase.getInstance(context).getMealsDao();
+    }
 
-    public static synchronized LocalDataSource getInstance(Context context) {
-        if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(), LocalDataSource.class, "Meal").build();
+    public static synchronized LocalDataSource getInstance(Context context){
+        if(instance == null){
+            instance = new LocalDataSource(context);
         }
         return instance;
     }
 
+
+    @Override
+    public void insertMeal(Meal meal) {
+        mealsDao.insertMeal(meal);
+    }
+
+    @Override
+    public void insertAllFav(List<Meal> meals) {
+        mealsDao.insertAllFav(meals);
+    }
+
+    @Override
+    public void deleteMeal(Meal meal) {
+        mealsDao.deleteMeal(meal);
+    }
+
+    @Override
+    public void deleteAllMeals() {
+        mealsDao.deleteAllMeals();
+    }
+
+    @Override
+    public LiveData<List<Meal>> getAllMeals() {
+        return mealsDao.getAllMeals();
+    }
+
+    @Override
+    public LiveData<List<Meal>> getMealsOfDay(String day) {
+        return mealsDao.getMealsOfDay(day);
+    }
+
+    @Override
+    public void updateDayOfMeal(String id, String day) {
+        mealsDao.updateColumnDay(id,day);
+    }
 }
+
+

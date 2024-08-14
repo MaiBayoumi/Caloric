@@ -34,4 +34,10 @@
     <string name="my_saved_recipes">My Favourite Recipies</string>
     <string name="foodplanner">My Week Plan</string>
     <string name="steps">Steps</string>
+    <string name="nameofMeal">Name Of Meal</string>
+    <string name="no_result">No Result</string>
+    <string name="day">Day</string>
+    <string name="enter_name">Enter Your Name</string>
+    <string name="google">Google</string>
+    <string name="defaultId">YOUR_DEFAULT_WEB_CLIENT_ID.apps.googleusercontent.com</string>
 </resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "130596279737",
+    "project_id": "caloric-aaffe",
+    "storage_bucket": "caloric-aaffe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130596279737:android:159940432cc9aa28345268",
+        "android_client_info": {
+          "package_name": "com.example.caloric"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUv6_lZmlAyhRnB0W3bk-7lXgS-OfetOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

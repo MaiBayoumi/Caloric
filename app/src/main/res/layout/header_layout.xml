@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="60dp"
-        android:fontFamily="@font/amaranth_bold"
+        android:fontFamily="@font/akaya"
         android:gravity="start"
         android:textColor="#000000"
         android:textSize="24sp"
