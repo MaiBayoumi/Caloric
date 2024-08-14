@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     android:label="Ingredient"
-    app:startDestination="@id/splashFrag">
+    app:startDestination="@id/splachFrag">
 
     <fragment
         android:id="@+id/recommendationFrag"
-        android:name="com.example.caloric.RecommendationFrag"
+        android:name="com.example.caloric.home.RecommendationFrag"
         android:label="Our recommendayions"
         tools:layout="@layout/fragment_recommendation" >
         <action
@@ -53,12 +53,22 @@
         android:label="Meal Recipe"
         tools:layout="@layout/fragment_meal_recipe" />
     <fragment
-        android:id="@+id/splashFrag"
-        android:name="com.example.caloric.SplashFrag"
-        android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        android:id="@+id/splachFrag"
+        android:name="com.example.caloric.SplachFrag"
+        android:label="fragment_splach"
+        tools:layout="@layout/fragment_splach" >
         <action
-            android:id="@+id/action_splashFrag_to_recommendationFrag"
-            app:destination="@id/recommendationFrag" />
+            android:id="@+id/action_splachFrag_to_logIn"
+            app:destination="@id/logIn" />
     </fragment>
+    <activity
+        android:id="@+id/logIn"
+        android:name="com.example.caloric.register.LogIn"
+        android:label="activity_log_in"
+        tools:layout="@layout/activity_log_in" />
+    <activity
+        android:id="@+id/signIn"
+        android:name="com.example.caloric.register.SignIn"
+        android:label="activity_sign_in"
+        tools:layout="@layout/activity_sign_in" />
 </navigation>

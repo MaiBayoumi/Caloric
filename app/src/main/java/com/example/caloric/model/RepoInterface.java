@@ -2,7 +2,6 @@ package com.example.caloric.model;
 
 import androidx.lifecycle.LiveData;
 
-
 import com.example.caloric.network.NetworkDelegate;
 
 import java.util.List;

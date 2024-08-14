@@ -80,6 +80,13 @@ dependencies {
     implementation(libs.credentials.play.services.auth)
     implementation(libs.googleid)
 
+    implementation ("com.airbnb.android:lottie:3.4.0")
+    implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.22")
+    implementation ("com.airbnb.android:lottie:latest_version")
+
+
+
+
 
 
 

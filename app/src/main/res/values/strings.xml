@@ -40,4 +40,5 @@
     <string name="enter_name">Enter Your Name</string>
     <string name="google">Google</string>
     <string name="defaultId">YOUR_DEFAULT_WEB_CLIENT_ID.apps.googleusercontent.com</string>
+    <string name="clientId">130596279737-b7ic2eimdq77ajcbev5bk7crmqs88qu9.apps.googleusercontent.com</string>
 </resources>

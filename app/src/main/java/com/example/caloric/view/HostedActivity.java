@@ -1,4 +1,4 @@
-package com.example.caloric;
+package com.example.caloric.view;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -7,15 +7,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.caloric.FavouritelistFrag;
+import com.example.caloric.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HostedActivity extends AppCompatActivity {
@@ -48,7 +46,7 @@ public class HostedActivity extends AppCompatActivity {
 
     private void initialiseViews() {
 
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this, R.id.recommendationFrag);
         bottomNavigationView = findViewById(R.id.bottomNavigator);
 
     }
