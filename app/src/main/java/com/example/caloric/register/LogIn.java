@@ -37,6 +37,8 @@ public class LogIn extends AppCompatActivity {
     Button google;
     TextView register;
     ProgressBar progressBar;
+    Button guest;
+    Intent intent;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -53,6 +55,7 @@ public class LogIn extends AppCompatActivity {
         login = findViewById(R.id.loginbtn);
         google = findViewById(R.id.googlebtn);
         register = findViewById(R.id.register);
+        guest = findViewById(R.id.guestbtn);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
 
@@ -84,6 +87,14 @@ public class LogIn extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 signInWithGoogle();
+            }
+        });
+
+        guest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(LogIn.this, HostedActivity.class);
+                startActivity(intent);
             }
         });
     }

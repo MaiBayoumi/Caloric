@@ -8,7 +8,7 @@
     tools:context=".view.HostedActivity">
 
     <fragment
-        android:id="@+id/recommendationFrag"
+        android:id="@+id/nav_host_fargment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

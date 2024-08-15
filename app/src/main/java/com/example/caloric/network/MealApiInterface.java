@@ -1,6 +1,9 @@
 package com.example.caloric.network;
 
 
+import com.example.caloric.model.CategoryResponse;
+import com.example.caloric.model.CountryResponse;
+import com.example.caloric.model.IngredientResponse;
 import com.example.caloric.model.MealResponse;
 
 import retrofit2.Call;
@@ -20,6 +23,15 @@ public interface MealApiInterface {
     @GET("random.php")
     Call<MealResponse> getRandomMeal();
 
+    @GET("categories.php")
+    Call<CategoryResponse> getAllCategories();
+
+    @GET("list.php?a=list")
+    Call<CountryResponse> getAllCountries();
+
+    @GET("list.php?i=list")
+    Call<IngredientResponse> getAllIngredient();
+
     @GET("filter.php")//this return list of strMeal and strMealThumb and idMeal just
     Call<MealResponse> getMealsByIngredient(@Query("i") String ingredient);
 
@@ -28,6 +40,7 @@ public interface MealApiInterface {
 
     @GET("filter.php")//this return list of strMeal and strMealThumb and idMeal just
     Call<MealResponse> getMealsByCountry(@Query("a") String country);
+
 
 
     //this to put your ingredient name instead of Cajun to get thumb of ingredient

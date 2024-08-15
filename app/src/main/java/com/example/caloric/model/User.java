@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class UserPojo {
+public class User {
     private String name;
     private String email;
     private List<Meal> favMeals;
     private String userImage;
 
-    public UserPojo() {
+    public User() {
     }
 
-    public UserPojo(String name, String email) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
     }
 
-    public UserPojo(Map<String, Object> data) {
+    public User(Map<String, Object> data) {
         this.name = (String) data.get("name");
         this.email = (String) data.get("email");
         this.userImage = (String) data.get("userImage");
@@ -85,14 +85,14 @@ public class UserPojo {
         }
     }
 
-    public UserPojo(String name, String email, List<Meal> favMeals, String userImage) {
+    public User(String name, String email, List<Meal> favMeals, String userImage) {
         this.name = name;
         this.email = email;
         this.favMeals = favMeals;
         this.userImage = userImage;
     }
 
-    public UserPojo(String displayName, String email, List<Meal> mealsFromRoom) {
+    public User(String displayName, String email, List<Meal> mealsFromRoom) {
         this.name = displayName;
         this.email = email;
         this.favMeals = mealsFromRoom;

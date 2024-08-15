@@ -31,11 +31,11 @@ public class HostedActivity extends AppCompatActivity {
         if (!checkConnection()) {
             FavouritelistFrag fragment = new FavouritelistFrag();
             fragment.setArguments(new Bundle());
-            navController.navigate(R.id.favorite);
+            navController.navigate(R.id.favouritelistFrag);
             Menu menu = bottomNavigationView.getMenu();
             MenuItem menuItem = menu.findItem(R.id.recommendationFrag);
-            MenuItem menuItem2 =menu.findItem(R.id.search);
-            MenuItem menuItem3 =menu.findItem(R.id.planner);
+            MenuItem menuItem2 =menu.findItem(R.id.searchFrag);
+            MenuItem menuItem3 =menu.findItem(R.id.plannerFrag);
             menuItem.setEnabled(false);
             menuItem2.setEnabled(false);
             menuItem3.setEnabled(false);
@@ -46,7 +46,7 @@ public class HostedActivity extends AppCompatActivity {
 
     private void initialiseViews() {
 
-        navController = Navigation.findNavController(this, R.id.recommendationFrag);
+        navController = Navigation.findNavController(this, R.id.nav_host_fargment);
         bottomNavigationView = findViewById(R.id.bottomNavigator);
 
     }

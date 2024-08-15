@@ -9,6 +9,15 @@ public interface RemoteSource {
 
     void getRandomMeal(NetworkDelegate networkDelegate);
 
+    void getAllCategories(NetworkDelegate networkDelegate);
 
+    void getAllCountries(NetworkDelegate networkDelegate);
+
+    void getAllIngredient(NetworkDelegate networkDelegate);
+
+    void getMealsByIngredient(String ingredient, NetworkDelegate networkDelegate);
+
+    void getMealsByCategory(String category, NetworkDelegate networkDelegate);
+
+    void getMealsByCountry(String country, NetworkDelegate networkDelegate);
 }
-

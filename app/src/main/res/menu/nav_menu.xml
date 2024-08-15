@@ -7,17 +7,17 @@
         android:title="@string/empty" />
 
     <item
-        android:id="@+id/search"
+        android:id="@+id/searchFrag"
         android:icon="@drawable/search"
         android:title="@string/empty" />
 
     <item
-        android:id="@+id/favorite"
+        android:id="@+id/favouritelistFrag"
         android:icon="@drawable/favorite"
         android:title="@string/empty" />
 
     <item
-        android:id="@+id/planner"
+        android:id="@+id/plannerFrag"
         android:icon="@drawable/calendar"
         android:title="@string/empty" />
 </group>

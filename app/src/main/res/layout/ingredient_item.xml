@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="10dp"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ingredientImg"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ingrediants"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/measureTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/ingredientImg"
+            app:layout_constraintTop_toTopOf="@id/ingredientImg"
+            app:layout_constraintBottom_toBottomOf="@id/ingredientImg"
+            android:layout_marginStart="15dp"
+            android:text="2 kg"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            />
+        
+        <TextView
+            android:id="@+id/ingredientTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/ingredientImg"
+            app:layout_constraintBottom_toBottomOf="@id/ingredientImg"
+            app:layout_constraintStart_toEndOf="@id/measureTextView"
+            android:layout_marginStart="15dp"
+            android:textColor="@color/black"
+            android:text="@string/ingrediants"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

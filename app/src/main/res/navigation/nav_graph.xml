@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     android:label="Ingredient"
-    app:startDestination="@id/splachFrag">
+    app:startDestination="@id/recommendationFrag">
 
     <fragment
         android:id="@+id/recommendationFrag"
-        android:name="com.example.caloric.home.RecommendationFrag"
+        android:name="com.example.caloric.home.view.RecommendationFrag"
         android:label="Our recommendayions"
         tools:layout="@layout/fragment_recommendation" >
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/mealRecipeFrag"
-        android:name="com.example.caloric.MealRecipeFrag"
+        android:name="com.example.caloric.recipe.view.MealRecipeFrag"
         android:label="Meal Recipe"
         tools:layout="@layout/fragment_meal_recipe" />
     <fragment

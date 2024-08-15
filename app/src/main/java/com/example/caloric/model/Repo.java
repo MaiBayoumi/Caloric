@@ -3,6 +3,7 @@ package com.example.caloric.model;
 import androidx.lifecycle.LiveData;
 
 import com.example.caloric.database.LocalDataSource;
+import com.example.caloric.database.LocalSource;
 import com.example.caloric.network.NetworkDelegate;
 import com.example.caloric.network.RemoteSource;
 
@@ -11,14 +12,14 @@ import java.util.List;
 public class Repo implements RepoInterface {
     private static Repo instance;
     private RemoteSource remoteSource;
-    private LocalDataSource localSource;
+    private LocalSource localSource;
 
-    private Repo(RemoteSource remoteSource,  LocalDataSource localSource){
+    private Repo(RemoteSource remoteSource, LocalSource localSource){
         this.remoteSource = remoteSource;
         this.localSource = localSource;
     }
 
-    public static synchronized Repo getInstance(RemoteSource remoteSource, LocalDataSource localSource){
+    public static synchronized Repo getInstance(RemoteSource remoteSource, LocalSource localSource){
         if(instance == null){
             instance = new Repo(remoteSource, localSource);
         }
