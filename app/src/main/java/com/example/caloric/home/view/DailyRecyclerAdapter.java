@@ -40,6 +40,7 @@ public class DailyRecyclerAdapter extends RecyclerView.Adapter<DailyRecyclerAdap
         Meal currentMeal = myList.get(position);
 
         holder.mealName.setText(currentMeal.getStrMeal());
+
         Glide.with(context).load(currentMeal.getStrMealThumb())
                 .apply(new RequestOptions().override(500, 500)
                         .error(R.drawable.images)).into(holder.mealImg);
@@ -56,12 +57,11 @@ public class DailyRecyclerAdapter extends RecyclerView.Adapter<DailyRecyclerAdap
 
     @Override
     public int getItemCount() {
-        return (myList != null) ? myList.size() : 0;
+        return myList.size();
     }
 
    public void setList(ArrayList<Meal> myList) {
         this.myList = myList;
-       Log.d("DailyRecyclerAdapter", "Setting list with size: " + (myList != null ? myList.size() : 0));
         notifyDataSetChanged();
     }
     public class DailyViewHolder extends RecyclerView.ViewHolder {

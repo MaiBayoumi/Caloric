@@ -95,7 +95,7 @@ public class MealRecipeFrag extends Fragment implements DetailsViewInterface{
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
         detailsPresenter = new DetailsPresenter(repo, this);
 
-        id = MealRecipeFragArgs.fromBundle(getArguments()).getId();
+        //id = MealRecipeFragArgs.fromBundle(getArguments()).getId();
 
         detailsPresenter.getMealById(id);
         addToPlanBtn.setOnClickListener(new View.OnClickListener() {
@@ -123,12 +123,7 @@ public class MealRecipeFrag extends Fragment implements DetailsViewInterface{
         });
 
 
-        addToYourCalender.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addToMobileCalender();
-            }
-        });
+
     }
 
     private void showDialog() {

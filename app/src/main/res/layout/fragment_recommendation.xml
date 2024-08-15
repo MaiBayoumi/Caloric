@@ -7,6 +7,7 @@
     android:background="@color/white"
     tools:context=".home.view.RecommendationFrag" >
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,54 +53,47 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:fontFamily="@font/joti_one"
                 android:text="@string/meals"
                 android:textColor="@color/black"
                 android:textSize="35sp"
-                android:fontFamily="@font/joti_one"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.186"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/caloric" />
 
-            <com.google.android.material.carousel.MaskableFrameLayout
-                android:id="@+id/carousel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dailyTV"
-                android:foreground="?attr/selectableItemBackground"
-                app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recommendRecycler"
-                    android:layout_width="400dp"
-                    android:layout_height="261dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:listitem="@layout/meal_item" />
-            </com.google.android.material.carousel.MaskableFrameLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recommendRecycler"
+                android:layout_width="402dp"
+                android:layout_height="366dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dailyTV"
+                tools:listitem="@layout/meal_item" />
 
             <TextView
                 android:id="@+id/countriesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/area"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/joti_one"
+                android:text="@string/area"
                 android:textColor="@color/black"
-                android:layout_marginStart="18dp"
                 android:textSize="25sp"
-                app:layout_constraintStart_toStartOf="@id/carousel"
-                app:layout_constraintTop_toBottomOf="@id/carousel"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.04"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recommendRecycler" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/countriesRecyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
@@ -110,15 +104,14 @@
                 android:id="@+id/categoriesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="256dp"
+                android:fontFamily="@font/joti_one"
                 android:text="@string/categories"
                 android:textColor="@color/black"
-                android:fontFamily="@font/joti_one"
-                android:layout_marginStart="18dp"
                 android:textSize="25sp"
-                app:layout_constraintStart_toStartOf="@id/carousel"
-                app:layout_constraintTop_toBottomOf="@id/countriesRecyclerView"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/countriesRecyclerView" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/categoriesRecyclerView"
@@ -133,12 +126,11 @@
                 app:layout_goneMarginTop="20dp"
                 tools:listitem="@layout/country_item"
                 />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

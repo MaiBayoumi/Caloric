@@ -12,16 +12,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.example.caloric.R;
 import com.example.caloric.database.LocalDataSource;
 import com.example.caloric.database.LocalSource;
@@ -67,7 +64,10 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
     boolean isExist = false;
     FirebaseUser currentUser;
     User userPojo;
-    ArrayList<Meal> myList;
+
+    ArrayList<Meal> mealList;
+    ArrayList<Country> countryList;
+    ArrayList<Category> categoryList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,10 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        myList= new ArrayList<>();
+        mealList = new ArrayList<>();
+        categoryList = new ArrayList<>();
+        countryList = new ArrayList<>();
+
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         dailyRecyclerView = view.findViewById(R.id.recommendRecycler);
@@ -105,21 +108,27 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
         categoryTV = view.findViewById(R.id.categoriesTextView);
         caloric= view.findViewById(R.id.caloric);
         exit=view.findViewById(R.id.logout);
-
-        dailyAdapter = new DailyRecyclerAdapter(view.getContext(), this,myList);
-        countryAdapter = new CountryRecyclerAdapter(view.getContext(), this);
-        categoryAdapter = new CategoryRecyclerAdapter(view.getContext(), this);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getActivity(), LogIn.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
 
+        dailyAdapter = new DailyRecyclerAdapter(view.getContext(), this, mealList);
         dailyRecyclerView.setLayoutManager(linearLayoutManager);
         dailyRecyclerView.setAdapter(dailyAdapter);
 
-
+        countryAdapter = new CountryRecyclerAdapter(view.getContext(), this, countryList);
         countryRecyclerView.setAdapter(countryAdapter);
 
-
+        categoryAdapter = new CategoryRecyclerAdapter(view.getContext(), this,categoryList);
         categoryRecyclerView.setAdapter(categoryAdapter);
 
         db = FirebaseFirestore.getInstance();

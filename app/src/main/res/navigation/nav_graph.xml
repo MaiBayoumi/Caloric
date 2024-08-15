@@ -52,15 +52,6 @@
         android:name="com.example.caloric.recipe.view.MealRecipeFrag"
         android:label="Meal Recipe"
         tools:layout="@layout/fragment_meal_recipe" />
-    <fragment
-        android:id="@+id/splachFrag"
-        android:name="com.example.caloric.SplachFrag"
-        android:label="fragment_splach"
-        tools:layout="@layout/fragment_splach" >
-        <action
-            android:id="@+id/action_splachFrag_to_logIn"
-            app:destination="@id/logIn" />
-    </fragment>
     <activity
         android:id="@+id/logIn"
         android:name="com.example.caloric.register.LogIn"
