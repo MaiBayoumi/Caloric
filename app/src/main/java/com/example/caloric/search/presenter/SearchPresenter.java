@@ -8,6 +8,7 @@ import com.example.caloric.model.Meal;
 import com.example.caloric.model.MealResponse;
 import com.example.caloric.model.RepoInterface;
 import com.example.caloric.network.NetworkDelegate;
+import com.example.caloric.search.view.SearchViewInterface;
 
 import java.util.List;
 
