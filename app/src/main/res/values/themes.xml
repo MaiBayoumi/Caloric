@@ -11,7 +11,7 @@
     <style name="customEditText" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/akaya</item>
         <item name="boxCornerRadiusBottomEnd">16dp</item>
         <item name="boxCornerRadiusBottomStart">16dp</item>

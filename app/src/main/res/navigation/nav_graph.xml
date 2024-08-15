@@ -26,9 +26,13 @@
     </fragment>
     <fragment
         android:id="@+id/searchFrag"
-        android:name="com.example.caloric.SearchFrag"
+        android:name="com.example.caloric.search.view.SearchFrag"
         android:label="Search"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFrag_to_mealRecipeFrag"
+            app:destination="@id/mealRecipeFrag" />
+    </fragment>
     <fragment
         android:id="@+id/plannerFrag"
         android:name="com.example.caloric.PlannerFrag"

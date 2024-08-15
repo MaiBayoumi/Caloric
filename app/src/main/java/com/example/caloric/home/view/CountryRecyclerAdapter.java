@@ -49,7 +49,7 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
             
             holder.countryName.setText(currentCountry.getStrArea());
             holder.itemView.setOnClickListener(v-> onClickInterface.onCountryItemClicked(currentCountry));
-
+           
         }
     }
 
