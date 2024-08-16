@@ -18,8 +18,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph"
-        android:layout_gravity="center|top"
-        />
+        android:layout_gravity="center|top" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigator"
@@ -31,8 +30,7 @@
         app:itemIconTint="@color/black"
         app:itemIconSize="35dp"
         android:elevation="10dp"
-        app:elevation="10dp"
-        />
+        app:elevation="10dp" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

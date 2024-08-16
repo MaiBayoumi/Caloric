@@ -126,6 +126,7 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
         dailyRecyclerView.setAdapter(dailyAdapter);
 
         countryAdapter = new CountryRecyclerAdapter(view.getContext(), this, countryList);
+        //countryRecyclerView.setLayoutManager(linearLayoutManager);
         countryRecyclerView.setAdapter(countryAdapter);
 
         categoryAdapter = new CategoryRecyclerAdapter(view.getContext(), this,categoryList);
@@ -183,14 +184,25 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
             showMaterialDialog(getContext());
         }
     }
-
     @Override
     public void onDailyInspirationItemClicked(String id) {
         Bundle args = new Bundle();
-        args.putString("id", id);
+        args.putString("id", id);  // Pass the selected meal ID
         NavController navController = Navigation.findNavController(getView());
         navController.navigate(R.id.action_recommendationFrag_to_mealRecipeFrag, args);
     }
+
+//    @Override
+//    public void onDailyInspirationItemClicked(String id) {
+////        RecommendationFragDirections.ActionRecommendationFragToMealRecipeFrag action =
+////    RecommendationFragDirections.actionRecommendationFragToMealRecipeFrag(id);
+////        Navigation.findNavController(getView()).navigate(action);
+//        Bundle args = new Bundle();
+//        args.putString("id", id);
+//        NavController navController = Navigation.findNavController(getView());
+//        navController.navigate(R.id.action_recommendationFrag_to_mealRecipeFrag, args);
+//
+//    }
 
     @Override
     public void onSuccessToFilter(MealResponse meals) {

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +54,7 @@ public class MealRecipeFrag extends Fragment implements DetailsViewInterface{
 
     ImageView mealImg;
     TextView mealNameTV, mealCountryTV, mealDescriptionTV;
-    Button addToPlanBtn, addToYourCalender, addToFavourite;
+    ImageButton addToPlanBtn, addToYourCalender, addToFavourite;
     RecyclerView ingredientRecyclerView;
     YouTubePlayerView youTubePlayer;
     String[] videoArray;
@@ -94,10 +95,21 @@ public class MealRecipeFrag extends Fragment implements DetailsViewInterface{
         LocalSource localSource =LocalDataSource.getInstance(view.getContext());
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
         detailsPresenter = new DetailsPresenter(repo, this);
-
+//
+//        ScreenBFragmentArgs args = ScreenBFragmentArgs.fromBundle(getArguments());
+//        UserData userData = args.getUserData();
+//        MealRecipeFragArgs args = MealRecipeFragArgs.fromBundele(getArguments());
+//        id = args.getId();
         //id = MealRecipeFragArgs.fromBundle(getArguments()).getId();
 
         detailsPresenter.getMealById(id);
+
+        // Retrieve the ID from the Bundle
+        if (getArguments() != null) {
+            id = getArguments().getString("id");  // Get the ID from the arguments
+            detailsPresenter.getMealById(id);
+        }
+
         addToPlanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
