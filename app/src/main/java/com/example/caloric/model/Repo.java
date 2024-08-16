@@ -49,32 +49,32 @@ public class Repo implements RepoInterface {
 
     @Override
     public void getAllCategories(NetworkDelegate networkDelegate) {
-        //remoteSource.getAllCategories(networkDelegate);
+        remoteSource.getAllCategories(networkDelegate);
     }
 
     @Override
     public void getAllCountries(NetworkDelegate networkDelegate) {
-        //remoteSource.getAllCountries(networkDelegate);
+        remoteSource.getAllCountries(networkDelegate);
     }
 
     @Override
     public void getAllIngredient(NetworkDelegate networkDelegate) {
-        //remoteSource.getAllIngredient(networkDelegate);
+        remoteSource.getAllIngredient(networkDelegate);
     }
 
     @Override
     public void getMealsByIngredient(String ingredient, NetworkDelegate networkDelegate) {
-        //remoteSource.getMealsByIngredient(ingredient, networkDelegate);
+        remoteSource.getMealsByIngredient(ingredient, networkDelegate);
     }
 
     @Override
     public void getMealsByCategory(String category, NetworkDelegate networkDelegate) {
-        //remoteSource.getMealsByCategory(category, networkDelegate);
+        remoteSource.getMealsByCategory(category, networkDelegate);
     }
 
     @Override
     public void getMealsByCountry(String country, NetworkDelegate networkDelegate) {
-        //remoteSource.getMealsByCountry(country, networkDelegate);
+        remoteSource.getMealsByCountry(country, networkDelegate);
     }
 
     @Override

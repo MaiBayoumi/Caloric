@@ -147,7 +147,7 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
         if (currentUser != null) {
             checkDataInFireStore();
         }else{
-            presenter.deleteAllFavMeals();
+            //presenter.deleteAllFavMeals();
         }
     }
 
