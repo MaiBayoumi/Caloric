@@ -100,11 +100,11 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         dailyRecyclerView = view.findViewById(R.id.recommendRecycler);
-        countryRecyclerView = view.findViewById(R.id.countriesRecyclerView);
-        categoryRecyclerView = view.findViewById(R.id.categoriesRecyclerView);
+//        countryRecyclerView = view.findViewById(R.id.countriesRecyclerView);
+//        categoryRecyclerView = view.findViewById(R.id.categoriesRecyclerView);
         dailyTV = view.findViewById(R.id.dailyTV);
-        countryTV = view.findViewById(R.id.countriesTextView);
-        categoryTV = view.findViewById(R.id.categoriesTextView);
+//        countryTV = view.findViewById(R.id.countriesTextView);
+//        categoryTV = view.findViewById(R.id.categoriesTextView);
         caloric= view.findViewById(R.id.caloric);
 
 
@@ -116,13 +116,13 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
         dailyRecyclerView.setLayoutManager(linearLayoutManager);
         dailyRecyclerView.setAdapter(dailyAdapter);
 
-        countryAdapter = new CountryRecyclerAdapter(view.getContext(), this, countryList);
-        //countryRecyclerView.setLayoutManager(linearLayoutManager);
-        countryRecyclerView.setAdapter(countryAdapter);
-
-        categoryAdapter = new CategoryRecyclerAdapter(view.getContext(), this,categoryList);
-        Log.d("mai", "onViewCreated: ");
-        categoryRecyclerView.setAdapter(categoryAdapter);
+//        countryAdapter = new CountryRecyclerAdapter(view.getContext(), this, countryList);
+//        //countryRecyclerView.setLayoutManager(linearLayoutManager);
+//        countryRecyclerView.setAdapter(countryAdapter);
+//
+//        categoryAdapter = new CategoryRecyclerAdapter(view.getContext(), this,categoryList);
+//        Log.d("mai", "onViewCreated: ");
+//        categoryRecyclerView.setAdapter(categoryAdapter);
 
         db = FirebaseFirestore.getInstance();
         userPojo = new User();
@@ -153,15 +153,15 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
 
     @Override
     public void setListToCategoriesAdapter(List<Category> categories) {
-        categoryAdapter.setList((ArrayList<Category>) categories);
-        Log.d("mai", "setListToCategoriesAdapter: ");
-        categoryAdapter.notifyDataSetChanged();
+//        categoryAdapter.setList((ArrayList<Category>) categories);
+//        Log.d("mai", "setListToCategoriesAdapter: ");
+//        categoryAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void setListToCountriesAdapter(List<Country> countries) {
-        countryAdapter.setList((ArrayList<Country>) countries);
-        countryAdapter.notifyDataSetChanged();
+//        countryAdapter.setList((ArrayList<Country>) countries);
+//        countryAdapter.notifyDataSetChanged();
     }
 
     @Override
