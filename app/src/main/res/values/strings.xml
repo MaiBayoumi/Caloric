@@ -47,6 +47,11 @@
     <string name="recipe">Recipe</string>
     <string name="addtofav">Add to Favourite</string>
     <string name="inst">instructions</string>
+    <string name="messageFav">You need to Sign in to Show Your Favorite Meals</string>
+    <string name="addToFav">Add To Favourite</string>
+    <string name="name">Mai Ibrahim</string>
+    <string name="email">mai@gmail.com</string>
+    <string name="logout">LogOut</string>
 
 
     <string-array name="flags">
