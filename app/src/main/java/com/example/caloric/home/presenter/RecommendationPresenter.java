@@ -1,7 +1,7 @@
 package com.example.caloric.home.presenter;
 
 
-import com.example.caloric.home.view.HomeViewInterface;
+import com.example.caloric.home.view.RecommendationViewInterface;
 import com.example.caloric.model.Category;
 import com.example.caloric.model.Country;
 import com.example.caloric.model.Ingredient;
@@ -12,11 +12,11 @@ import com.example.caloric.network.NetworkDelegate;
 
 import java.util.List;
 
-public class HomePresenter implements NetworkDelegate, HomePresenterInterface {
+public class RecommendationPresenter implements NetworkDelegate, RecommendationPresenterInterface {
     private RepoInterface repo;
-    private HomeViewInterface homeView;
+    private RecommendationViewInterface homeView;
 
-    public HomePresenter(RepoInterface repo, HomeViewInterface home){
+    public RecommendationPresenter(RepoInterface repo, RecommendationViewInterface home){
         this.repo = repo;
         this.homeView = home;
     }

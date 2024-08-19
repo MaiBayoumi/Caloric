@@ -18,13 +18,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ClientService implements RemoteSource {
+public class RemoteDataSource implements RemoteSource {
     private static final String TAG = "TAG";
-    private static ClientService instance = null;
+    private static RemoteDataSource instance = null;
     private MealApiInterface mealApiInterface;
     private static final String BASE_URL = "https://www.themealdb.com/api/json/v1/1/";
 
-    private ClientService(Context context) {
+    private RemoteDataSource(Context context) {
         File cacheDirectory = new File(context.getCacheDir(), "offline_cache_directory");
         Cache cache = new Cache(cacheDirectory, 80 * 1024 * 1024);
 
@@ -40,9 +40,9 @@ public class ClientService implements RemoteSource {
         mealApiInterface = retrofit.create(MealApiInterface.class);
     }
 
-    public static synchronized ClientService getInstance(Context context) {
+    public static synchronized RemoteDataSource getInstance(Context context) {
         if (instance == null) {
-            instance = new ClientService(context);
+            instance = new RemoteDataSource(context);
         }
         return instance;
     }

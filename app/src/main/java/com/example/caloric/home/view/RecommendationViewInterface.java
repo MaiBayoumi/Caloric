@@ -7,7 +7,7 @@ import com.example.caloric.model.MealResponse;
 
 import java.util.List;
 
-public interface HomeViewInterface {
+public interface RecommendationViewInterface {
     void setDailyInspirationData(List<Meal> meals);
 
     void onSuccessToFilter(MealResponse meals);

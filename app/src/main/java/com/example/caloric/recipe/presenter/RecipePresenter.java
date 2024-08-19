@@ -8,15 +8,15 @@ import com.example.caloric.model.Meal;
 import com.example.caloric.model.MealResponse;
 import com.example.caloric.model.RepoInterface;
 import com.example.caloric.network.NetworkDelegate;
-import com.example.caloric.recipe.view.DetailsViewInterface;
+import com.example.caloric.recipe.view.RecipeViewInterface;
 
 import java.util.List;
 
-public class DetailsPresenter implements NetworkDelegate, DetailsPresenterInterface{
+public class RecipePresenter implements NetworkDelegate, RecipePresenterInterface {
     private RepoInterface repo;
-    private DetailsViewInterface detailsView;
+    private RecipeViewInterface detailsView;
 
-    public DetailsPresenter(RepoInterface repo, DetailsViewInterface detailsView){
+    public RecipePresenter(RepoInterface repo, RecipeViewInterface detailsView){
         this.repo = repo;
         this.detailsView = detailsView;
     }

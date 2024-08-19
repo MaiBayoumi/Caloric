@@ -1,4 +1,4 @@
-package com.example.caloric.view;
+package com.example.caloric.mealplan;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +8,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.yumfit.R;
+import com.example.caloric.R;
 
 import java.util.ArrayList;
 
-public class PlanRecyclerAdapter extends RecyclerView.Adapter<PlanRecyclerAdapter.PlanViewHolder> {
+public class mealPlanRecyclerAdapter extends RecyclerView.Adapter<mealPlanRecyclerAdapter.PlanViewHolder> {
     private ArrayList<String> myList = new ArrayList<>();
     private OnPlanClickInterface onPlanClickInterface;
-    public PlanRecyclerAdapter(OnPlanClickInterface onPlanClickInterface){
+    public mealPlanRecyclerAdapter(OnPlanClickInterface onPlanClickInterface){
         this.onPlanClickInterface = onPlanClickInterface;
     }
     @NonNull

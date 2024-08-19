@@ -4,7 +4,7 @@ import com.example.caloric.model.Meal;
 
 import java.util.List;
 
-public interface HomePresenterInterface {
+public interface RecommendationPresenterInterface {
     void getRandomMeal();
     void getAllCategories();
     void getAllCountries();

@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +35,7 @@ import com.example.caloric.model.Meal;
 import com.example.caloric.model.Repo;
 import com.example.caloric.model.RepoInterface;
 import com.example.caloric.model.User;
-import com.example.caloric.network.ClientService;
+import com.example.caloric.network.RemoteDataSource;
 import com.example.caloric.network.RemoteSource;
 import com.example.caloric.register.LogIn;
 import com.example.caloric.view.HostedActivity;
@@ -53,7 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FavouritelistFrag extends Fragment implements LifecycleOwner, FavouriteViewInterface, OnClickFavouriteInterface {
+public class FavouriteFrag extends Fragment implements LifecycleOwner, FavouriteViewInterface, OnClickFavouriteInterface {
     FavouritePresenterInterface favouritePresenter;
     RecyclerView favouriteRecycler;
     FavouriteRecyclerAdapter favouriteAdapter;
@@ -83,7 +82,7 @@ public class FavouritelistFrag extends Fragment implements LifecycleOwner, Favou
 
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        RemoteSource remoteSource = ClientService.getInstance(view.getContext());
+        RemoteSource remoteSource = RemoteDataSource.getInstance(view.getContext());
         LocalSource localSource = LocalDataSource.getInstance(view.getContext());
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
         favouritePresenter = new FavouritePresenter(repo, this);
