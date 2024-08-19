@@ -130,6 +130,7 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
         countryRecyclerView.setAdapter(countryAdapter);
 
         categoryAdapter = new CategoryRecyclerAdapter(view.getContext(), this,categoryList);
+        Log.d("mai", "onViewCreated: ");
         categoryRecyclerView.setAdapter(categoryAdapter);
 
         db = FirebaseFirestore.getInstance();
@@ -147,7 +148,7 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
         if (currentUser != null) {
             checkDataInFireStore();
         }else{
-            //presenter.deleteAllFavMeals();
+            presenter.deleteAllFavMeals();
         }
     }
 
@@ -162,6 +163,7 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
     @Override
     public void setListToCategoriesAdapter(List<Category> categories) {
         categoryAdapter.setList((ArrayList<Category>) categories);
+        Log.d("mai", "setListToCategoriesAdapter: ");
         categoryAdapter.notifyDataSetChanged();
     }
 
@@ -187,7 +189,7 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
     @Override
     public void onDailyInspirationItemClicked(String id) {
         Bundle args = new Bundle();
-        args.putString("id", id);  // Pass the selected meal ID
+        args.putString("id", id);
         NavController navController = Navigation.findNavController(getView());
         navController.navigate(R.id.action_recommendationFrag_to_mealRecipeFrag, args);
     }

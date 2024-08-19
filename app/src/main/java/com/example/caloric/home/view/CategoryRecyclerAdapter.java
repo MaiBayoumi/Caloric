@@ -1,6 +1,7 @@
 package com.example.caloric.home.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
 
     public void setList(ArrayList<Category> myList) {
         this.myList = myList;
+        Log.d("mai", "setList: "+myList);
         notifyDataSetChanged();
     }
 
