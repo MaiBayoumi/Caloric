@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".profileFrag">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/personalImgView"
+        android:layout_width="160dp"
+        android:layout_height="121dp"
+        android:src="@drawable/person"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp"
+        />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:fontFamily="@font/joti_one"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/personalImgView"
+        app:layout_constraintTop_toTopOf="@id/personalImgView"
+        app:layout_constraintBottom_toBottomOf="@id/personalImgView"
+        android:text="@string/name"
+        android:textSize="30sp"
+        />
+
+    <TextView
+        android:id="@+id/emailTextView"
+        android:fontFamily="@font/akaya"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/nameTextView"
+        app:layout_constraintTop_toBottomOf="@id/nameTextView"
+        android:text="@string/email"
+        android:textSize="12sp"
+        android:textColor="#676565"
+        />
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personalImgView"
+        android:layout_marginTop="70dp"
+        android:text="@string/logout"
+        android:fontFamily="@font/joti_one"
+        android:backgroundTint="@color/yellow"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.caloric.FavouritelistFrag;
+import com.example.caloric.favourites.view.FavouritelistFrag;
 import com.example.caloric.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

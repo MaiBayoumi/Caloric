@@ -32,6 +32,7 @@ import com.example.caloric.network.ClientService;
 import com.example.caloric.network.RemoteSource;
 import com.example.caloric.search.presenter.SearchPresenter;
 import com.example.caloric.search.presenter.SearchPresenterInterface;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,8 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
         super.onViewCreated(view, savedInstanceState);
 
         radioGroup = view.findViewById(R.id.radioGroup);
-        searchET = view.findViewById(R.id.inputsearch);
+        searchET = view.findViewById(R.id.etSearch);
+        //TextInputLayout textInputLayout = view.findViewById(R.id.textInputLayout);
         searchRecycler = view.findViewById(R.id.searchRecycler);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
@@ -74,6 +76,7 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
         searchRecyclerAdapter = new SearchRecyclerAdapter(view.getContext(), this);
         searchRecycler.setLayoutManager(linearLayoutManager);
         searchRecycler.setAdapter(searchRecyclerAdapter);
+
         selectedBtnId = R.id.country_radioBtn;
         nullTextView = view.findViewById(R.id.nullTextViewInsearch);
 
@@ -110,6 +113,7 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
+
 
             @Override
             public void afterTextChanged(Editable s) {

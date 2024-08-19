@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/favouritelistFrag"
-        android:name="com.example.caloric.FavouritelistFrag"
+        android:name="com.example.caloric.favourites.view.FavouritelistFrag"
         android:label="Favourite"
         tools:layout="@layout/fragment_favouritelist" >
         <action
@@ -66,4 +66,9 @@
         android:name="com.example.caloric.register.SignIn"
         android:label="activity_sign_in"
         tools:layout="@layout/activity_sign_in" />
+    <fragment
+        android:id="@+id/profileFrag"
+        android:name="com.example.caloric.profileFrag"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

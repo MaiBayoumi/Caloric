@@ -20,6 +20,11 @@
         android:id="@+id/plannerFrag"
         android:icon="@drawable/calendar"
         android:title="@string/empty" />
+
+    <item
+        android:id="@+id/profileFrag"
+        android:icon="@drawable/person"
+        android:title="@string/empty" />
 </group>
 
 </menu>
