@@ -68,7 +68,7 @@
         tools:layout="@layout/activity_sign_in" />
     <fragment
         android:id="@+id/profileFrag"
-        android:name="com.example.caloric.profileFrag"
+        android:name="com.example.caloric.profile.view.profileFrag"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

@@ -14,11 +14,17 @@ import androidx.navigation.Navigation;
 
 import com.example.caloric.R;
 import com.example.caloric.register.LogIn;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity {
     Animation scaleChanger;
     TextView appNameTextView;
+
+    Intent intent;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,4 +46,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 4000);
     }
+
+//    @Override
+//    public void onStart(){
+//        super.onStart();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if(currentUser != null){
+//            intent.setClass(MainActivity.this,HostedActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+//    }
 }

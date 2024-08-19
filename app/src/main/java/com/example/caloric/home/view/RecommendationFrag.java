@@ -58,7 +58,6 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
     DailyRecyclerAdapter dailyAdapter;
     CountryRecyclerAdapter countryAdapter;
     TextView dailyTV, countryTV, categoryTV,caloric;
-    ImageButton exit;
     CategoryRecyclerAdapter categoryAdapter;
     FirebaseFirestore db;
     boolean isExist = false;
@@ -107,16 +106,8 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
         countryTV = view.findViewById(R.id.countriesTextView);
         categoryTV = view.findViewById(R.id.categoriesTextView);
         caloric= view.findViewById(R.id.caloric);
-        exit=view.findViewById(R.id.logout);
-        exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getActivity(), LogIn.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
+
+
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);

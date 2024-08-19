@@ -52,6 +52,7 @@
     <string name="name">Mai Ibrahim</string>
     <string name="email">mai@gmail.com</string>
     <string name="logout">LogOut</string>
+    <string name="messagePlan">You need to Sign in to Show Your Plan</string>
 
 
     <string-array name="flags">
