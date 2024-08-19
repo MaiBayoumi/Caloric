@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_favouritelistFrag_to_mealRecipeFrag"
             app:destination="@id/mealRecipeFrag" />
+        <action
+            android:id="@+id/action_favouritelistFrag_self"
+            app:destination="@id/favouritelistFrag" />
     </fragment>
     <fragment
         android:id="@+id/mealRecipeFrag"
@@ -71,4 +74,13 @@
         android:name="com.example.caloric.profile.view.profileFrag"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/mealPlanFrag"
+        android:name="com.example.caloric.mealPlanFrag"
+        android:label="fragment_meal_plan"
+        tools:layout="@layout/fragment_meal_plan" >
+        <action
+            android:id="@+id/action_mealPlanFrag_to_plannerFrag"
+            app:destination="@id/plannerFrag" />
+    </fragment>
 </navigation>

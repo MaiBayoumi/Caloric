@@ -54,6 +54,7 @@
     <string name="logout">LogOut</string>
     <string name="messagePlan">You need to Sign in to Show Your Plan</string>
     <string name="dailyrecom">Daily Recommendations</string>
+    <string name="plan">My Plan</string>
 
 
     <string-array name="flags">

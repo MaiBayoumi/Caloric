@@ -30,7 +30,7 @@
         android:fontFamily="@font/joti_one"
         android:text="@string/foodplanner"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="35sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/caloric" />
 
@@ -42,7 +42,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
-        tools:listitem="@layout/rowmeal"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
