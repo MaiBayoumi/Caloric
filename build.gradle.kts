@@ -6,6 +6,7 @@ plugins {
 buildscript {
     repositories {
         google()
+
     }
     dependencies {
         classpath(libs.navigation.safe.args.gradle.plugin)
