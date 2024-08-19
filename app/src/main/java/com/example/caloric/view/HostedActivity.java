@@ -12,7 +12,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.caloric.favourites.view.FavouritelistFrag;
+import com.example.caloric.favourites.view.FavouriteFrag;
 import com.example.caloric.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,7 +29,7 @@ public class HostedActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         if (!checkConnection()) {
-            FavouritelistFrag fragment = new FavouritelistFrag();
+            FavouriteFrag fragment = new FavouriteFrag();
             fragment.setArguments(new Bundle());
             navController.navigate(R.id.favouritelistFrag);
             Menu menu = bottomNavigationView.getMenu();

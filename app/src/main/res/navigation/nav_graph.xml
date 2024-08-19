@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/plannerFrag"
-        android:name="com.example.caloric.PlannerFrag"
+        android:name="com.example.caloric.calender.view.PlannerFrag"
         android:label="Planner"
         tools:layout="@layout/fragment_planner" >
         <action
@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/favouritelistFrag"
-        android:name="com.example.caloric.favourites.view.FavouritelistFrag"
+        android:name="com.example.caloric.favourites.view.FavouriteFrag"
         android:label="Favourite"
         tools:layout="@layout/fragment_favouritelist" >
         <action
@@ -76,7 +76,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/mealPlanFrag"
-        android:name="com.example.caloric.mealPlanFrag"
+        android:name="com.example.caloric.mealplan.mealPlanFrag"
         android:label="fragment_meal_plan"
         tools:layout="@layout/fragment_meal_plan" >
         <action

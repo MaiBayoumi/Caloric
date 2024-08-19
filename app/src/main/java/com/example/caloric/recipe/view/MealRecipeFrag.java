@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,15 +25,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.caloric.R;
 import com.example.caloric.database.LocalDataSource;
 import com.example.caloric.database.LocalSource;
-import com.example.caloric.model.Ingredient;
 import com.example.caloric.model.IngredientModel;
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.Repo;
 import com.example.caloric.model.RepoInterface;
-import com.example.caloric.network.ClientService;
+import com.example.caloric.network.RemoteDataSource;
 import com.example.caloric.network.RemoteSource;
-import com.example.caloric.recipe.presenter.DetailsPresenter;
-import com.example.caloric.recipe.presenter.DetailsPresenterInterface;
+import com.example.caloric.recipe.presenter.RecipePresenter;
+import com.example.caloric.recipe.presenter.RecipePresenterInterface;
 import com.example.caloric.register.LogIn;
 import com.example.caloric.view.HostedActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -50,7 +48,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class MealRecipeFrag extends Fragment implements DetailsViewInterface{
+public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
 
     ImageView mealImg;
     TextView mealNameTV, mealCountryTV, mealDescriptionTV;
@@ -60,7 +58,7 @@ public class MealRecipeFrag extends Fragment implements DetailsViewInterface{
     String[] videoArray;
     String videoString;
     IngredientRecyclerAdapter ingredientAdapter;
-    DetailsPresenterInterface detailsPresenter;
+    RecipePresenterInterface detailsPresenter;
     String id;
     Meal currentMeal;
     FirebaseUser currentUser;
@@ -91,10 +89,10 @@ public class MealRecipeFrag extends Fragment implements DetailsViewInterface{
         super.onViewCreated(view, savedInstanceState);
 
         initializeViews(view);
-        RemoteSource remoteSource = ClientService.getInstance(view.getContext());
+        RemoteSource remoteSource = RemoteDataSource.getInstance(view.getContext());
         LocalSource localSource =LocalDataSource.getInstance(view.getContext());
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
-        detailsPresenter = new DetailsPresenter(repo, this);
+        detailsPresenter = new RecipePresenter(repo, this);
 //
 //        ScreenBFragmentArgs args = ScreenBFragmentArgs.fromBundle(getArguments());
 //        UserData userData = args.getUserData();

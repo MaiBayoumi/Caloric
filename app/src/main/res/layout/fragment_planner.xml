@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".PlannerFrag">
+    tools:context=".calender.view.PlannerFrag">
 
 
     <TextView
@@ -21,40 +21,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:fontFamily="@font/joti_one"
-        android:text="@string/foodplanner"
-        android:textColor="@color/black"
-        android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/caloric" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="380dp"
-        android:layout_height="430dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="383dp"
+        android:layout_height="569dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/day" />
 
     <TextView
         android:id="@+id/day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/joti_one"
-        android:text="@string/day"
+        android:text="@string/plan"
         android:textColor="@color/black"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/caloric" />
 </androidx.constraintlayout.widget.ConstraintLayout>

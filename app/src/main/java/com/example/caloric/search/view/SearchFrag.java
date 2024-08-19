@@ -28,11 +28,10 @@ import com.example.caloric.model.Ingredient;
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.Repo;
 import com.example.caloric.model.RepoInterface;
-import com.example.caloric.network.ClientService;
+import com.example.caloric.network.RemoteDataSource;
 import com.example.caloric.network.RemoteSource;
 import com.example.caloric.search.presenter.SearchPresenter;
 import com.example.caloric.search.presenter.SearchPresenterInterface;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +80,7 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
         nullTextView = view.findViewById(R.id.nullTextViewInsearch);
 
 
-        RemoteSource remoteSource = ClientService.getInstance(view.getContext());
+        RemoteSource remoteSource = RemoteDataSource.getInstance(view.getContext());
         LocalSource localSource = LocalDataSource.getInstance(view.getContext());
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
         searchPresenter = new SearchPresenter(repo, this);

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".mealPlanFrag">
+    tools:context=".mealplan.mealPlanFrag">
 
 
     <TextView
@@ -20,30 +20,28 @@
         android:textColor="@color/yellow"
         android:textSize="40sp" />
 
+
     <TextView
-        android:id="@+id/planTitleTV"
+        android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/joti_one"
-        android:text="@string/plan"
+        android:text="@string/foodplanner"
         android:textColor="@color/black"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.027"
+        android:textSize="35sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/caloric" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/planRecyclerView"
-        android:layout_width="352dp"
-        android:layout_height="458dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="391dp"
+        android:layout_height="562dp"
+        android:layout_marginTop="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.372"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/planTitleTV" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

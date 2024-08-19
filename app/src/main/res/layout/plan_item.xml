@@ -11,7 +11,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/yellow">
 
         <TextView
             android:id="@+id/dayTextView"
@@ -20,14 +21,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
+            android:fontFamily="@font/joti_one"
             android:text="@string/day"
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginStart="20dp"
             />
 
-        <ImageView
+       <!-- <ImageView
             android:id="@+id/addToFavouriteBtn"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -36,7 +38,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-             />
+             />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

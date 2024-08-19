@@ -6,7 +6,7 @@ import com.example.caloric.model.Meal;
 
 import java.util.List;
 
-public interface DetailsViewInterface {
+public interface RecipeViewInterface {
     void onGetMealDetails(List<Meal> meals);
 
     void insertMealToFavourite(Meal meal);
