@@ -16,14 +16,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.caloric.R;
 import com.example.caloric.database.LocalDataSource;
 import com.example.caloric.database.LocalSource;
-import com.example.caloric.home.presenter.HomePresenter;
-import com.example.caloric.home.presenter.HomePresenterInterface;
+import com.example.caloric.home.presenter.RecommendationPresenter;
+import com.example.caloric.home.presenter.RecommendationPresenterInterface;
 import com.example.caloric.model.Category;
 import com.example.caloric.model.Country;
 import com.example.caloric.model.Meal;
@@ -31,7 +30,7 @@ import com.example.caloric.model.MealResponse;
 import com.example.caloric.model.Repo;
 import com.example.caloric.model.RepoInterface;
 import com.example.caloric.model.User;
-import com.example.caloric.network.ClientService;
+import com.example.caloric.network.RemoteDataSource;
 import com.example.caloric.network.RemoteSource;
 import com.example.caloric.register.LogIn;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,10 +50,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecommendationFrag extends Fragment  implements HomeViewInterface, OnClickInterface{
+public class RecommendationFrag extends Fragment  implements RecommendationViewInterface, OnClickInterface{
     private static final String TAG = "TAG";
     RecyclerView dailyRecyclerView, countryRecyclerView, categoryRecyclerView;
-    HomePresenterInterface presenter;
+    RecommendationPresenterInterface presenter;
     DailyRecyclerAdapter dailyAdapter;
     CountryRecyclerAdapter countryAdapter;
     TextView dailyTV, countryTV, categoryTV,caloric;
@@ -127,10 +126,10 @@ public class RecommendationFrag extends Fragment  implements HomeViewInterface, 
         db = FirebaseFirestore.getInstance();
         userPojo = new User();
 
-        RemoteSource remoteSource = ClientService.getInstance(view.getContext());
+        RemoteSource remoteSource = RemoteDataSource.getInstance(view.getContext());
         LocalSource localSource = LocalDataSource.getInstance(view.getContext());
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
-        presenter = new HomePresenter(repo, this);
+        presenter = new RecommendationPresenter(repo, this);
 
         presenter.getRandomMeal();
         presenter.getAllCountries();
