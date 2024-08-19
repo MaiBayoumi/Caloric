@@ -118,7 +118,7 @@ public class FavouritelistFrag extends Fragment implements LifecycleOwner, Favou
 
     @Override
     public void onGetFavouriteMeals(List<Meal> favouriteMeals) {
-        Log.d("FavouritelistFrag", "Favourite meals received: " + favouriteMeals.size());
+        //Log.d("FavouritelistFrag", "Favourite meals received: " + favouriteMeals.size());
         if (favouriteMeals.isEmpty()) {
             nullText.setVisibility(View.VISIBLE);
         } else {
@@ -218,7 +218,9 @@ public class FavouritelistFrag extends Fragment implements LifecycleOwner, Favou
         Menu menu = activity.bottomNavigationView.getMenu();
         MenuItem menuItem = menu.findItem(R.id.recommendationFrag);
         MenuItem menuItem2 = menu.findItem(R.id.searchFrag);
+        MenuItem menuItem3 = menu.findItem(R.id.profileFrag);
         menuItem.setEnabled(true);
         menuItem2.setEnabled(true);
+        menuItem3.setEnabled(true);
     }
 }

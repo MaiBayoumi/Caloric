@@ -5,8 +5,10 @@ import static android.app.Activity.RESULT_OK;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -180,17 +182,45 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
     }
 
     private String convertDrawableImageToString(Drawable drawableImg) {
-        Bitmap bitmap = ((BitmapDrawable) drawableImg).getBitmap();
+        if (drawableImg instanceof BitmapDrawable) {
+            // Handle BitmapDrawable
+            Bitmap bitmap = ((BitmapDrawable) drawableImg).getBitmap();
 
-        // Convert the bitmap to a byte array
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
+            // Convert the bitmap to a byte array
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
 
-        // Encode the byte array as a Base64 string
-        String photoString = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        return photoString;
+            // Encode the byte array as a Base64 string
+            return Base64.encodeToString(byteArray, Base64.DEFAULT);
+        } else if (drawableImg instanceof VectorDrawable) {
+            // Handle VectorDrawable
+            Bitmap bitmap = convertVectorDrawableToBitmap((VectorDrawable) drawableImg);
+
+            // Convert the bitmap to a byte array
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+
+            // Encode the byte array as a Base64 string
+            return Base64.encodeToString(byteArray, Base64.DEFAULT);
+        } else {
+            throw new IllegalArgumentException("Unsupported drawable type");
+        }
     }
+
+    private Bitmap convertVectorDrawableToBitmap(VectorDrawable vectorDrawable) {
+        Bitmap bitmap = Bitmap.createBitmap(
+                vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        vectorDrawable.draw(canvas);
+        return bitmap;
+    }
+
 
     private void showMaterialDialog(Context context) {
 

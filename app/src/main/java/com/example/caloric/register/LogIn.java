@@ -164,4 +164,22 @@ public class LogIn extends AppCompatActivity {
                     }
                 });
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        // Check if user is already signed in (non-null) and update UI accordingly.
+        if (currentUser != null) {
+            // Initialize intent if it's not already initialized
+            if (intent == null) {
+                intent = new Intent(LogIn.this, HostedActivity.class);
+            }
+            // Redirect to HostedActivity
+            startActivity(intent);
+            finish();
+        }
+    }
+
 }
