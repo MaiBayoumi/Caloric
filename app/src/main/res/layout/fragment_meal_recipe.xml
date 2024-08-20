@@ -101,12 +101,12 @@
 
                 <ImageButton
                     android:id="@+id/detailsAddToFav"
-                    android:layout_width="75dp"
+                    android:layout_width="63dp"
                     android:layout_height="54dp"
                     android:layout_marginTop="12dp"
                     android:background="@color/white"
                     android:paddingHorizontal="20dp"
-                    android:src="@drawable/favorite"
+                    android:src="@drawable/heart_fill"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"

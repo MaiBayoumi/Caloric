@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_recommendationFrag_to_searchFrag"
             app:destination="@id/searchFrag" />
+        <action
+            android:id="@+id/action_recommendationFrag_to_mealsFrag"
+            app:destination="@id/mealsFrag" />
     </fragment>
     <fragment
         android:id="@+id/searchFrag"
@@ -50,9 +53,6 @@
         <action
             android:id="@+id/action_favouritelistFrag_to_mealRecipeFrag"
             app:destination="@id/mealRecipeFrag" />
-        <action
-            android:id="@+id/action_favouritelistFrag_self"
-            app:destination="@id/favouritelistFrag" />
     </fragment>
     <fragment
         android:id="@+id/mealRecipeFrag"
@@ -82,5 +82,14 @@
         <action
             android:id="@+id/action_mealPlanFrag_to_plannerFrag"
             app:destination="@id/plannerFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/mealsFrag"
+        android:name="com.example.caloric.meals.view.MealsFrag"
+        android:label="fragment_meals"
+        tools:layout="@layout/fragment_meals" >
+        <action
+            android:id="@+id/action_mealsFrag_to_mealRecipeFrag"
+            app:destination="@id/mealRecipeFrag" />
     </fragment>
 </navigation>

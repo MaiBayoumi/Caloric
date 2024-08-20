@@ -58,7 +58,7 @@
             android:contentDescription="@string/app_name"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/favorite"
+            android:src="@drawable/heart_fill"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="TouchTargetSizeCheck" />

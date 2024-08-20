@@ -209,6 +209,12 @@ public class RecommendationFrag extends Fragment  implements RecommendationViewI
 
     @Override
     public void onSuccessToFilter(MealResponse meals) {
+
+        Bundle args = new Bundle();
+        args.putSerializable("meals", meals);
+        NavController navController = Navigation.findNavController(getView());
+        navController.navigate(R.id.action_recommendationFrag_to_mealsFrag, args);
+
   }
 
     @Override
