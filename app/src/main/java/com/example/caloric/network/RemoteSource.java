@@ -20,4 +20,6 @@ public interface RemoteSource {
     void getMealsByCategory(String category, NetworkDelegate networkDelegate);
 
     void getMealsByCountry(String country, NetworkDelegate networkDelegate);
+
+    void getRandomMeals(NetworkDelegate networkDelegate);
 }

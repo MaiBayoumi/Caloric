@@ -28,6 +28,9 @@ public interface RepoInterface {
 
     void getMealsByCountry(String country, NetworkDelegate networkDelegate);
 
+    void getRandomMeals(NetworkDelegate networkDelegate);
+
+
     //db
     void insertMealToFavourite(Meal meal);
 

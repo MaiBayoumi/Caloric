@@ -3,12 +3,18 @@ package com.example.caloric.network;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.caloric.model.Category;
 import com.example.caloric.model.CategoryResponse;
+import com.example.caloric.model.Country;
 import com.example.caloric.model.CountryResponse;
+import com.example.caloric.model.Ingredient;
 import com.example.caloric.model.IngredientResponse;
+import com.example.caloric.model.Meal;
 import com.example.caloric.model.MealResponse;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -232,4 +238,47 @@ public class RemoteDataSource implements RemoteSource {
             }
         });
     }
+
+    public void getRandomMeals(NetworkDelegate networkDelegate) {
+        List<Meal> randomMeals = new ArrayList<>();
+
+        // Example: Fetch 5 random meals
+        for (int i = 0; i < 5; i++) {
+            getRandomMeal(new NetworkDelegate() {
+                @Override
+                public void onSuccessResultMeal(List<Meal> meals) {
+                    randomMeals.addAll(meals);
+                    if (randomMeals.size() == 5) {
+                        networkDelegate.onSuccessResultMeal(randomMeals); // Pass the accumulated random meals
+                    }
+                }
+
+                @Override
+                public void onSuccessFilter(MealResponse meals) {
+
+                }
+
+                @Override
+                public void onSuccessResultCategory(List<Category> categories) {
+
+                }
+
+                @Override
+                public void onSuccessResultIngredient(List<Ingredient> ingredients) {
+
+                }
+
+                @Override
+                public void onSuccessResultCountries(List<Country> countries) {
+                }
+
+                @Override
+                public void onFailureResult(String message) {
+                    networkDelegate.onFailureResult(message);
+                }
+            });
+        }
+    }
+
+
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,16 @@ import com.example.caloric.network.RemoteSource;
 import com.example.caloric.search.presenter.SearchPresenter;
 import com.example.caloric.search.presenter.SearchPresenterInterface;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import com.jakewharton.rxbinding4.widget.RxTextView;
+
+import java.util.concurrent.TimeUnit;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +57,7 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
     TextView nullTextView;
     int selectedBtnId;
     ArrayList<Meal> emptyMeals = new ArrayList<>();
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +78,6 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
 
         radioGroup = view.findViewById(R.id.radioGroup);
         searchET = view.findViewById(R.id.etSearch);
-        //TextInputLayout textInputLayout = view.findViewById(R.id.textInputLayout);
         searchRecycler = view.findViewById(R.id.searchRecycler);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
@@ -85,15 +96,16 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
         searchPresenter = new SearchPresenter(repo, this);
 
-        searchPresenter.getMealsByCountry("egyption");
+        searchPresenter.getMealsByCountry("Egyptian");
+        Log.d("SearchFrag", "Getting Canadian meals");
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.meal_radioBtn) {
-                    searchPresenter.getRandomMeal();
+                    searchPresenter.getRandomMeals();
                 } else if (checkedId == R.id.country_radioBtn) {
-                    searchPresenter.getMealsByCountry("egyption");
+                    searchPresenter.getMealsByCountry("Egyptian");
                 } else if (checkedId == R.id.category_radioBtn) {
                     searchPresenter.getMealsByCategory("chicken");
                 } else if (checkedId == R.id.ingredient_radioBtn) {
@@ -102,35 +114,60 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
                 selectedBtnId = checkedId;
             }
         });
-        searchET.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//        searchET.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                String query = s.toString();
+//                if (selectedBtnId == R.id.meal_radioBtn) {
+//                    searchPresenter.getMealByName(query);
+//                } else if (selectedBtnId == R.id.country_radioBtn) {
+//                    searchPresenter.getMealsByCountry(query);
+//                } else if (selectedBtnId == R.id.category_radioBtn) {
+//                    searchPresenter.getMealsByCategory(query);
+//                } else if (selectedBtnId == R.id.ingredient_radioBtn) {
+//                    searchPresenter.getMealsByIngredient(query);
+//                }
+//            }
+//        });
+//
+//
+//    }
+        Disposable searchDisposable = RxTextView.textChanges(searchET)
+                .debounce(300, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(charSequence -> {
+                    String query = charSequence.toString();
+                    if (selectedBtnId == R.id.meal_radioBtn) {
+                        searchPresenter.getMealByName(query);
+                    } else if (selectedBtnId == R.id.country_radioBtn) {
+                        searchPresenter.getMealsByCountry(query);
+                    } else if (selectedBtnId == R.id.category_radioBtn) {
+                        searchPresenter.getMealsByCategory(query);
+                    } else if (selectedBtnId == R.id.ingredient_radioBtn) {
+                        searchPresenter.getMealsByIngredient(query);
+                    }
+                });
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String query = s.toString();
-                if (selectedBtnId == R.id.meal_radioBtn) {
-                    searchPresenter.getMealByName(query);
-                } else if (selectedBtnId == R.id.country_radioBtn) {
-                    searchPresenter.getMealsByCountry(query);
-                } else if (selectedBtnId == R.id.category_radioBtn) {
-                    searchPresenter.getMealsByCategory(query);
-                } else if (selectedBtnId == R.id.ingredient_radioBtn) {
-                    searchPresenter.getMealsByIngredient(query);
-                }
-            }
-        });
-
-
+        compositeDisposable.add(searchDisposable);
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        compositeDisposable.clear();
+    }
+
 
     @Override
     public void onSaveBtnClicked(Meal meal) {
@@ -148,11 +185,17 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
 
     @Override
     public void onGetMeals(List<Meal> meals) {
-        searchRecycler.setVisibility(View.VISIBLE);
-        nullTextView.setVisibility(View.GONE);
-        searchRecyclerAdapter.setList((ArrayList<Meal>) meals);
-        searchRecyclerAdapter.notifyDataSetChanged();
+        if (meals != null && !meals.isEmpty()) {
+            searchRecycler.setVisibility(View.VISIBLE);
+            nullTextView.setVisibility(View.GONE);
+            searchRecyclerAdapter.setList((ArrayList<Meal>) meals);
+            searchRecyclerAdapter.notifyDataSetChanged();
+        } else {
+            onFailureResult("No meals found");
+        }
     }
+
+
 
     @Override
     public void onGetAllCategories(List<Category> categories) {
@@ -171,7 +214,9 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
 
     @Override
     public void onFailureResult(String message) {
+        nullTextView.setText(message);
         nullTextView.setVisibility(View.VISIBLE);
         searchRecycler.setVisibility(View.GONE);
     }
+
 }

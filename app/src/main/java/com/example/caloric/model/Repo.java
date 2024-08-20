@@ -78,6 +78,11 @@ public class Repo implements RepoInterface {
     }
 
     @Override
+    public void getRandomMeals(NetworkDelegate networkDelegate) {
+        remoteSource.getRandomMeals(networkDelegate);
+    }
+
+    @Override
     public void insertMealToFavourite(Meal meal) {
         localSource.insertMeal(meal);
     }

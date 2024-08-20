@@ -86,5 +86,39 @@ public class SearchPresenter implements NetworkDelegate, SearchPresenterInterfac
         searchView.onFailureResult(message);
     }
 
+    public void getRandomMeals() {
+        repo.getRandomMeals(new NetworkDelegate() {
+            @Override
+            public void onSuccessResultMeal(List<Meal> meals) {
+                searchView.onGetMeals(meals);
+            }
+
+            @Override
+            public void onSuccessFilter(MealResponse meals) {
+                // Not used in this context
+            }
+
+            @Override
+            public void onSuccessResultCategory(List<Category> categories) {
+                // Not used in this context
+            }
+
+            @Override
+            public void onSuccessResultIngredient(List<Ingredient> ingredients) {
+                // Not used in this context
+            }
+
+            @Override
+            public void onSuccessResultCountries(List<Country> countries) {
+                // Not used in this context
+            }
+
+            @Override
+            public void onFailureResult(String message) {
+                searchView.onFailureResult(message);
+            }
+        });
+    }
+
 
 }

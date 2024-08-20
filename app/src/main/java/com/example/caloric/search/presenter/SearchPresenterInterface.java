@@ -16,4 +16,6 @@ public interface SearchPresenterInterface {
     void getRandomMeal();
 
     void insertMeal(Meal meal);
+
+    void getRandomMeals();
 }
