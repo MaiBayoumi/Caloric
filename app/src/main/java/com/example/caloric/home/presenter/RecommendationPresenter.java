@@ -67,7 +67,39 @@ public class RecommendationPresenter implements NetworkDelegate, RecommendationP
         repo.insertAllFav(meals);
     }
 
+    public void getRandomMeals() {
+        repo.getRandomMeals(new NetworkDelegate() {
+            @Override
+            public void onSuccessResultMeal(List<Meal> meals) {
+                homeView.onGetMeals(meals);
+            }
 
+            @Override
+            public void onSuccessFilter(MealResponse meals) {
+                // Not used in this context
+            }
+
+            @Override
+            public void onSuccessResultCategory(List<Category> categories) {
+                // Not used in this context
+            }
+
+            @Override
+            public void onSuccessResultIngredient(List<Ingredient> ingredients) {
+                // Not used in this context
+            }
+
+            @Override
+            public void onSuccessResultCountries(List<Country> countries) {
+                // Not used in this context
+            }
+
+            @Override
+            public void onFailureResult(String message) {
+                homeView.onFailureResult(message);
+            }
+        });
+    }
 
 
     //Delegate

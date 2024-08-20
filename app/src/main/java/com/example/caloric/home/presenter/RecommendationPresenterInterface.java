@@ -16,4 +16,6 @@ public interface RecommendationPresenterInterface {
     void getMealsByCountry(String country);
 
     void deleteAllFavMeals();
+
+    void getRandomMeals();
 }

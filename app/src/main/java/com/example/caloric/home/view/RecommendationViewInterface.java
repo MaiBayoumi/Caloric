@@ -14,4 +14,6 @@ public interface RecommendationViewInterface {
     void setListToCategoriesAdapter(List<Category> categories);
     void setListToCountriesAdapter(List<Country> countries);
     void onFailureResult(String message);
+
+    void onGetMeals(List<Meal> meals);
 }

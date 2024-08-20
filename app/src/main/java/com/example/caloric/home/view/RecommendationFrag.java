@@ -131,7 +131,7 @@ public class RecommendationFrag extends Fragment  implements RecommendationViewI
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
         presenter = new RecommendationPresenter(repo, this);
 
-        presenter.getRandomMeal();
+        presenter.getRandomMeals();
         presenter.getAllCountries();
         presenter.getAllCategories();
 
@@ -146,7 +146,8 @@ public class RecommendationFrag extends Fragment  implements RecommendationViewI
 
     @Override
     public void setDailyInspirationData(List<Meal> meals) {
-        dailyAdapter.setList((ArrayList<Meal>) meals);
+        mealList.clear();  // Clear the previous data
+        mealList.addAll(meals);  // Add the new random meals
         dailyAdapter.notifyDataSetChanged();
     }
 
@@ -166,6 +167,17 @@ public class RecommendationFrag extends Fragment  implements RecommendationViewI
     @Override
     public void onFailureResult(String message) {
 
+    }
+
+    @Override
+    public void onGetMeals(List<Meal> meals) {
+        if (meals != null && !meals.isEmpty()) {
+            dailyRecyclerView.setVisibility(View.VISIBLE);
+            dailyAdapter.setList((ArrayList<Meal>) meals);
+            dailyAdapter.notifyDataSetChanged();
+        } else {
+            onFailureResult("No meals found");
+        }
     }
 
     @Override
