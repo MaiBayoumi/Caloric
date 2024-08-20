@@ -14,125 +14,88 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/detailsImageView"
-            android:layout_width="415dp"
-            android:layout_height="354dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/images"
+
+        <TextView
+            android:id="@+id/detailsMealNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/joti_one"
+            android:maxLines="2"
+            android:text="@string/nameofMeal"
+            android:textAlignment="center"
+            android:textColor="@color/yellow"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/detailsCountryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:fontFamily="@font/akaya"
+            android:text="@string/area"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@id/detailsMealNameTextView"
+            app:layout_constraintStart_toStartOf="@id/detailsMealNameTextView"
+            app:layout_constraintTop_toBottomOf="@id/detailsMealNameTextView" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/detailsCardView"
-            android:layout_width="380dp"
+        <ImageView
+            android:id="@+id/detailsImageView"
+            android:layout_width="388dp"
             android:layout_height="250dp"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            app:cardCornerRadius="30dp"
-            app:cardElevation="30dp"
-            app:elevationOverlayEnabled="true"
-            app:layout_constraintBottom_toBottomOf="@id/detailsImageView"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/images"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.548"
+            app:layout_constraintHorizontal_bias="0.478"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailsImageView"
-            app:layout_constraintVertical_bias="0.292">
+            app:layout_constraintTop_toBottomOf="@+id/detailsCountryName" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/detailsAddToPlanBtn"
+            android:layout_width="70dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="84dp"
+            android:background="@color/white"
+            android:paddingHorizontal="20dp"
+            android:src="@drawable/calendar"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/detailsRecipeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/akaya"
-                    android:text="@string/recipe"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/detailsMealNameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/joti_one"
-                    android:maxLines="2"
-                    android:text="@string/nameofMeal"
-                    android:textAlignment="center"
-                    android:textColor="@color/yellow"
-                    android:textSize="28sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/detailsRecipeTextView" />
-
-
-                <TextView
-                    android:id="@+id/detailsCountryName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/akaya"
-                    android:text="@string/area"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="@id/detailsMealNameTextView"
-                    app:layout_constraintStart_toStartOf="@id/detailsMealNameTextView"
-                    app:layout_constraintTop_toBottomOf="@id/detailsMealNameTextView" />
-
-                <ImageButton
-                    android:id="@+id/detailsAddToPlanBtn"
-                    android:layout_width="70dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/white"
-                    android:paddingHorizontal="20dp"
-                    android:src="@drawable/calendar"
-                    app:layout_constraintEnd_toStartOf="@+id/detailsAddToFav"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/detailsCountryName" />
-
-                <ImageButton
-                    android:id="@+id/detailsAddToFav"
-                    android:layout_width="63dp"
-                    android:layout_height="54dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/white"
-                    android:paddingHorizontal="20dp"
-                    android:src="@drawable/heart_fill"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/detailsAddToPlanBtn"
-                    app:layout_constraintTop_toBottomOf="@id/detailsCountryName" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </androidx.cardview.widget.CardView>
+        <ImageButton
+            android:id="@+id/detailsAddToFav"
+            android:layout_width="63dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="88dp"
+            android:layout_marginEnd="44dp"
+            android:background="@color/white"
+            android:paddingHorizontal="20dp"
+            android:src="@drawable/heart_fill"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/detailsDescriptionOfmeal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailsCardView"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/akaya"
             android:padding="10dp"
             android:text="@string/inst"
-            android:fontFamily="@font/akaya"
             android:textColor="@color/black"
             android:textSize="19sp"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailsImageView" />
 
         <TextView
             android:id="@+id/letsCook"
@@ -143,11 +106,10 @@
             android:layout_marginTop="20dp"
             android:text="@string/steps"
             android:fontFamily="@font/joti_one"
-            android:textSize="50sp"
+            android:textSize="35sp"
             android:textColor="@color/black"
             android:layout_marginStart="20dp"
             />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardYoutubePlayer"
             android:layout_width="match_parent"
@@ -176,11 +138,10 @@
             app:layout_constraintTop_toBottomOf="@id/cardYoutubePlayer"
             android:layout_marginTop="20dp"
             android:text="@string/ingrediants"
-            android:textSize="50sp"
+            android:textSize="35sp"
             android:textColor="@color/black"
             android:fontFamily="@font/joti_one"
-            android:layout_marginStart="20dp"
-            />
+            android:layout_marginStart="20dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/detailsIngredientRecycler"
@@ -193,8 +154,6 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </ScrollView>
