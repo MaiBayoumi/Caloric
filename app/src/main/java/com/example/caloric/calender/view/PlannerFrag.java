@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
     RecyclerView mealsRecyclerPlan;
     PlannerPresenterInterface detailsPresenter;
     DayAdapter dayAdapter;
+    ImageButton back;
 
 
     @Override
@@ -71,7 +73,15 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
         nameDay = view.findViewById(R.id.day);
         mealsRecyclerPlan = view.findViewById(R.id.recyclerView);
         dayAdapter = new DayAdapter(view.getContext(), this);
-        mealsRecyclerPlan.setAdapter(dayAdapter);
+        mealsRecyclerPlan.setAdapter(dayAdapter); back = view.findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_plannerFrag_to_mealPlanFrag);
+            }
+        });
 
 
         if (getArguments() != null) {

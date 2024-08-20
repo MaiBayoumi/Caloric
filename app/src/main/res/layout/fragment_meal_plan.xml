@@ -36,8 +36,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/planRecyclerView"
-        android:layout_width="391dp"
-        android:layout_height="562dp"
+        android:layout_width="402dp"
+        android:layout_height="491dp"
         android:layout_marginTop="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"

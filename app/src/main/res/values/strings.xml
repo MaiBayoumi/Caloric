@@ -31,7 +31,7 @@
     <string name="add_to_weekplan">Add To</string>
     <string name="filteringrd">Filtered by ingredient</string>
     <string name="categories">Categories</string>
-    <string name="my_saved_recipes">My Favourite Recipies</string>
+    <string name="my_saved_recipes">My Favourite Recipes</string>
     <string name="foodplanner">My Week Plan</string>
     <string name="steps">Steps</string>
     <string name="nameofMeal">Name Of Meal</string>
@@ -46,7 +46,7 @@
     <string name="cancel">Cancel</string>
     <string name="recipe">Recipe</string>
     <string name="addtofav">Add to Favourite</string>
-    <string name="inst">instructions</string>
+    <string name="inst">Instructions</string>
     <string name="messageFav">You need to Sign in to Show Your Favorite Meals</string>
     <string name="addToFav">Add To Favourite</string>
     <string name="name">Mai Ibrahim</string>

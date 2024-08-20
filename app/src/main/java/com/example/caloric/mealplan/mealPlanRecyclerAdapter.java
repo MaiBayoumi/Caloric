@@ -48,13 +48,13 @@ public class mealPlanRecyclerAdapter extends RecyclerView.Adapter<mealPlanRecycl
     }
 
     public void setList() {
-        myList.add("saturday");
-        myList.add("sunday");
-        myList.add("monday");
-        myList.add("tuesday");
-        myList.add("wednesday");
-        myList.add("thursday");
-        myList.add("friday");
+        myList.add("Saturday");
+        myList.add("Sunday");
+        myList.add("Monday");
+        myList.add("Tuesday");
+        myList.add("Wednesday");
+        myList.add("Thursday");
+        myList.add("Friday");
         notifyDataSetChanged();
     }
 

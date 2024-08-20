@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_plannerFrag_to_mealRecipeFrag"
             app:destination="@id/mealRecipeFrag" />
+        <action
+            android:id="@+id/action_plannerFrag_to_mealPlanFrag"
+            app:destination="@id/mealPlanFrag" />
     </fragment>
     <fragment
         android:id="@+id/favouritelistFrag"
