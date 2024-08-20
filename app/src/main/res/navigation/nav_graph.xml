@@ -91,5 +91,8 @@
         <action
             android:id="@+id/action_mealsFrag_to_mealRecipeFrag"
             app:destination="@id/mealRecipeFrag" />
+        <action
+            android:id="@+id/action_mealsFrag_to_recommendationFrag"
+            app:destination="@id/recommendationFrag" />
     </fragment>
 </navigation>

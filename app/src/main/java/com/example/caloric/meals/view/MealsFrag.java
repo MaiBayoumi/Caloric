@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.caloric.R;
@@ -25,6 +26,7 @@ import com.example.caloric.model.Repo;
 import com.example.caloric.model.RepoInterface;
 import com.example.caloric.network.RemoteDataSource;
 import com.example.caloric.network.RemoteSource;
+import com.example.caloric.view.HostedActivity;
 
 import java.util.ArrayList;
 
@@ -36,11 +38,18 @@ public class MealsFrag extends Fragment implements OnCommonClickInterface, Meals
     MealsAdapter mealsAdapter;
     MealsPresenterInterface presenter;
     TextView caloric;
+    ImageButton back;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((HostedActivity) requireActivity()).bottomNavigationView.setVisibility(View.GONE);
     }
 
     @Override
@@ -56,6 +65,17 @@ public class MealsFrag extends Fragment implements OnCommonClickInterface, Meals
 
         mealRecycler = view.findViewById(R.id.mealRecycler);
         caloric= view.findViewById(R.id.caloric);
+        back = view.findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_mealsFrag_to_recommendationFrag);
+            }
+        });
+
+
         mealsAdapter = new MealsAdapter(view.getContext(), this);
 
 
@@ -75,6 +95,12 @@ public class MealsFrag extends Fragment implements OnCommonClickInterface, Meals
         presenter = new MealsPresenter(repo, this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ((HostedActivity) requireActivity()).bottomNavigationView.setVisibility(View.GONE);
+    }
 
     @Override
     public void onSaveBtnClicked(Meal meal) {
@@ -88,5 +114,10 @@ public class MealsFrag extends Fragment implements OnCommonClickInterface, Meals
         NavController navController = Navigation.findNavController(getView());
         navController.navigate(R.id.action_mealsFrag_to_mealRecipeFrag, args);
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
 
+        ((HostedActivity) requireActivity()).bottomNavigationView.setVisibility(View.VISIBLE);
+    }
 }
