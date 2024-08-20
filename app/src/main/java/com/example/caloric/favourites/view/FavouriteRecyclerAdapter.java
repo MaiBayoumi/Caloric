@@ -23,12 +23,14 @@ import java.util.ArrayList;
 public class FavouriteRecyclerAdapter extends RecyclerView.Adapter<FavouriteRecyclerAdapter.FavouriteViewHolder> {
     private ArrayList<Meal> myList = new ArrayList<>();
     private Context context;
-
     OnClickFavouriteInterface onClickFavouriteInterface;
+
+
     public FavouriteRecyclerAdapter(Context context, OnClickFavouriteInterface onClickFavouriteInterface){
         this.context = context;
         this.onClickFavouriteInterface = onClickFavouriteInterface;
     }
+
     @NonNull
     @Override
     public FavouriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -12,6 +12,8 @@ import java.util.List;
 public class PlannerPresenter implements PlannerPresenterInterface {
     private RepoInterface repo;
     private PlannerViewInterface dayViewInterface;
+
+
     public PlannerPresenter(RepoInterface repo, PlannerViewInterface dayViewInterface){
         this.repo = repo;
         this.dayViewInterface = dayViewInterface;

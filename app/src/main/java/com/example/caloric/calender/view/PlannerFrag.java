@@ -39,7 +39,6 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
 
 
     String day;
-
     TextView nameDay;
     RecyclerView mealsRecyclerPlan;
     PlannerPresenterInterface detailsPresenter;
@@ -68,9 +67,13 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initializeViews(view);
 
-        // Retrieve the day from the Bundle
+        nameDay = view.findViewById(R.id.day);
+        mealsRecyclerPlan = view.findViewById(R.id.recyclerView);
+        dayAdapter = new DayAdapter(view.getContext(), this);
+        mealsRecyclerPlan.setAdapter(dayAdapter);
+
+
         if (getArguments() != null) {
             day = getArguments().getString("day");
         }
@@ -84,12 +87,6 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
         nameDay.setText(day);
     }
 
-    void initializeViews(View view) {
-        nameDay = view.findViewById(R.id.day);
-        mealsRecyclerPlan = view.findViewById(R.id.recyclerView);
-        dayAdapter = new DayAdapter(view.getContext(), this);
-        mealsRecyclerPlan.setAdapter(dayAdapter);
-    }
 
 
     @Override

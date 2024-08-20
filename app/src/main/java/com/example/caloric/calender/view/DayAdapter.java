@@ -21,15 +21,19 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
     private ArrayList<Meal> myList = new ArrayList<>();
     private Context context;
     private OnDayClickInterface onDayClickInterface;
+
+
     public DayAdapter(Context context, OnDayClickInterface onDayClickInterface){
         this.context = context;
         this.onDayClickInterface = onDayClickInterface;
     }
+
     @NonNull
     @Override
     public DayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new DayViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.meal_item, parent, false));
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull DayViewHolder holder, int position) {

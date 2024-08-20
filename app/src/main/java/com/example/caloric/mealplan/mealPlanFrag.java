@@ -44,12 +44,7 @@ public class mealPlanFrag extends Fragment implements OnPlanClickInterface {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initializeViews(view);
 
-
-    }
-
-    private void initializeViews(View view) {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         planRecyclerView = view.findViewById(R.id.planRecyclerView);
         planAdapter = new mealPlanRecyclerAdapter(this);
@@ -60,6 +55,8 @@ public class mealPlanFrag extends Fragment implements OnPlanClickInterface {
         } else {
             showMaterialDialog(view.getContext());
         }
+
+
     }
 
     @Override

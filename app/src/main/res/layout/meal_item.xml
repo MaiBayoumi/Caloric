@@ -13,7 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="322dp"
+        android:layout_height="match_parent"
         android:background="@drawable/genralwhite">
 
         <ImageView
@@ -37,24 +37,23 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="25dp"
             android:ellipsize="end"
-            android:fontFamily="@font/joti_one"
+            android:fontFamily="@font/akaya"
             android:maxLines="2"
             android:text="@string/nameofMeal"
             android:textColor="@color/black"
-            android:textSize="22sp"
+            android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/addToFavouriteBtn"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mealImg"
-            app:layout_constraintVertical_bias="0.039" />
+            />
 
         <ImageView
             android:id="@+id/addToFavouriteBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="48dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="36dp"
             android:clickable="true"
             android:contentDescription="@string/app_name"
             android:focusable="true"

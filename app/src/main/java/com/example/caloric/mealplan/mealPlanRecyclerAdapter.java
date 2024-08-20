@@ -13,11 +13,16 @@ import com.example.caloric.R;
 import java.util.ArrayList;
 
 public class mealPlanRecyclerAdapter extends RecyclerView.Adapter<mealPlanRecyclerAdapter.PlanViewHolder> {
+
     private ArrayList<String> myList = new ArrayList<>();
     private OnPlanClickInterface onPlanClickInterface;
+
+
     public mealPlanRecyclerAdapter(OnPlanClickInterface onPlanClickInterface){
         this.onPlanClickInterface = onPlanClickInterface;
     }
+
+
     @NonNull
     @Override
     public PlanViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

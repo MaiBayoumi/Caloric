@@ -114,35 +114,8 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
                 selectedBtnId = checkedId;
             }
         });
-//        searchET.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                String query = s.toString();
-//                if (selectedBtnId == R.id.meal_radioBtn) {
-//                    searchPresenter.getMealByName(query);
-//                } else if (selectedBtnId == R.id.country_radioBtn) {
-//                    searchPresenter.getMealsByCountry(query);
-//                } else if (selectedBtnId == R.id.category_radioBtn) {
-//                    searchPresenter.getMealsByCategory(query);
-//                } else if (selectedBtnId == R.id.ingredient_radioBtn) {
-//                    searchPresenter.getMealsByIngredient(query);
-//                }
-//            }
-//        });
-//
-//
-//    }
+
+
         Disposable searchDisposable = RxTextView.textChanges(searchET)
                 .debounce(300, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
@@ -194,8 +167,6 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
             onFailureResult("No meals found");
         }
     }
-
-
 
     @Override
     public void onGetAllCategories(List<Category> categories) {

@@ -53,6 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FavouriteFrag extends Fragment implements LifecycleOwner, FavouriteViewInterface, OnClickFavouriteInterface {
+
     FavouritePresenterInterface favouritePresenter;
     RecyclerView favouriteRecycler;
     FavouriteRecyclerAdapter favouriteAdapter;
@@ -145,9 +146,6 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
             args.putString("id", id);
             NavController navController = Navigation.findNavController(getView());
             navController.navigate(R.id.action_recommendationFrag_to_mealRecipeFrag, args);
-//            FavouritelistFragDirections.ActionFavouriteFragmentToDetailsFragment action =
-//                    FavouriteFragmentDirections.actionFavouriteFragmentToDetailsFragment(id);
-//            Navigation.findNavController(getView()).navigate(action);
         } else {
             Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }

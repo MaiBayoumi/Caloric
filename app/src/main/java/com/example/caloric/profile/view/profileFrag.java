@@ -74,7 +74,13 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initializeViews(view);
+
+        logoutBtn = view.findViewById(R.id.logoutButton);
+        personalImage = view.findViewById(R.id.personalImgView);
+        nameTextView = view.findViewById(R.id.nameTextView);
+        emailTextView = view.findViewById(R.id.emailTextView);
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         RemoteSource remoteSource = RemoteDataSource.getInstance(view.getContext());
         LocalSource localSource = LocalDataSource.getInstance(view.getContext());
@@ -117,14 +123,6 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
         }
     }
 
-    private void initializeViews(View view) {
-        logoutBtn = view.findViewById(R.id.logoutButton);
-        personalImage = view.findViewById(R.id.personalImgView);
-        nameTextView = view.findViewById(R.id.nameTextView);
-        emailTextView = view.findViewById(R.id.emailTextView);
-        db = FirebaseFirestore.getInstance();
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

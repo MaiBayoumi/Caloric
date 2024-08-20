@@ -88,7 +88,19 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initializeViews(view);
+        mealImg = view.findViewById(R.id.detailsImageView);
+        mealNameTV = view.findViewById(R.id.detailsMealNameTextView);
+        mealCountryTV = view.findViewById(R.id.detailsCountryName);
+        mealDescriptionTV = view.findViewById(R.id.detailsDescriptionOfmeal);
+        addToPlanBtn = view.findViewById(R.id.detailsAddToPlanBtn);
+        addToFavourite = view.findViewById(R.id.detailsAddToFav);
+        ingredientRecyclerView = view.findViewById(R.id.detailsIngredientRecycler);
+        youTubePlayer = view.findViewById(R.id.youtubePlayer);
+
+        ingredientAdapter = new IngredientRecyclerAdapter(view.getContext());
+        ingredientRecyclerView.setAdapter(ingredientAdapter);
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
         RemoteSource remoteSource = RemoteDataSource.getInstance(view.getContext());
         LocalSource localSource =LocalDataSource.getInstance(view.getContext());
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
@@ -131,9 +143,6 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
                 }
             }
         });
-
-
-
     }
 
     private void showDialog() {
@@ -170,21 +179,7 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
         ((HostedActivity) requireActivity()).bottomNavigationView.setVisibility(View.GONE);
     }
 
-    private void initializeViews(View view) {
-        mealImg = view.findViewById(R.id.detailsImageView);
-        mealNameTV = view.findViewById(R.id.detailsMealNameTextView);
-        mealCountryTV = view.findViewById(R.id.detailsCountryName);
-        mealDescriptionTV = view.findViewById(R.id.detailsDescriptionOfmeal);
-        addToPlanBtn = view.findViewById(R.id.detailsAddToPlanBtn);
-        addToFavourite = view.findViewById(R.id.detailsAddToFav);
-        ingredientRecyclerView = view.findViewById(R.id.detailsIngredientRecycler);
-        youTubePlayer = view.findViewById(R.id.youtubePlayer);
-        ingredientAdapter = new IngredientRecyclerAdapter(view.getContext());
 
-        ingredientRecyclerView.setAdapter(ingredientAdapter);
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-    }
 
     @Override
     public void onGetMealDetails(List<Meal> meals) {
@@ -223,7 +218,7 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
 
     @Override
     public void onFailToGetMealDetails(String message) {
-        //tell user there is an error while fetch data
+
     }
 
 
@@ -241,11 +236,11 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
                     myIngredientList.add(new IngredientModel(ingredient, measure, imageUrl));
                 }
             } catch (IllegalAccessException e) {
-                //throw new RuntimeException(e);
+
             } catch (InvocationTargetException e) {
-                //throw new RuntimeException(e);
+
             } catch (NoSuchMethodException e) {
-                //throw new RuntimeException(e);
+
             }
         }
 
@@ -259,7 +254,6 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
     }
 
     private void showMaterialDialog(Context context) {
-
         new MaterialAlertDialogBuilder(context)
                 .setTitle(getResources().getString(R.string.caloric))
                 .setMessage(getResources().getString(R.string.messageAdd))
@@ -275,6 +269,4 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
                 })
                 .show();
     }
-
-
 }
