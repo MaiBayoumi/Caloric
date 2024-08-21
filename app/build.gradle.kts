@@ -100,6 +100,6 @@ dependencies {
     implementation ("io.reactivex.rxjava3:rxandroid:3.0.0")
     implementation ("com.jakewharton.rxbinding4:rxbinding:4.0.0")
 
-
+    implementation("com.google.firebase:firebase-storage")
 
 }

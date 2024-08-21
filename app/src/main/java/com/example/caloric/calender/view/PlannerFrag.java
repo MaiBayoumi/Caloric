@@ -12,7 +12,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,27 +24,24 @@ import com.example.caloric.calender.presenter.PlannerPresenter;
 import com.example.caloric.calender.presenter.PlannerPresenterInterface;
 import com.example.caloric.database.LocalDataSource;
 import com.example.caloric.database.LocalSource;
-
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.Repo;
 import com.example.caloric.model.RepoInterface;
 import com.example.caloric.network.RemoteDataSource;
 import com.example.caloric.network.RemoteSource;
 import com.example.caloric.view.HostedActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDayClickInterface {
 
-
-    String day;
-    TextView nameDay;
-    RecyclerView mealsRecyclerPlan;
-    PlannerPresenterInterface detailsPresenter;
-    DayAdapter dayAdapter;
-    ImageButton back;
-
+    private String day;
+    private TextView nameDay;
+    private RecyclerView mealsRecyclerPlan;
+    private PlannerPresenterInterface detailsPresenter;
+    private DayAdapter dayAdapter;
+    private ImageButton back;
 
     @Override
     public void onStart() {
@@ -56,13 +52,14 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // Fetch the day argument if it exists
+        if (getArguments() != null) {
+            day = getArguments().getString("day");
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_planner, container, false);
     }
 
@@ -70,43 +67,51 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initializeViews(view);
+        setupPresenter();
+        setupListeners();
+        loadMealData();
+    }
+
+    private void initializeViews(View view) {
         nameDay = view.findViewById(R.id.day);
         mealsRecyclerPlan = view.findViewById(R.id.recyclerView);
+        back = view.findViewById(R.id.back);
+
         dayAdapter = new DayAdapter(view.getContext(), this);
-        mealsRecyclerPlan.setAdapter(dayAdapter); back = view.findViewById(R.id.back);
+        mealsRecyclerPlan.setAdapter(dayAdapter);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavController navController = Navigation.findNavController(view);
-                navController.navigate(R.id.action_plannerFrag_to_mealPlanFrag);
-            }
-        });
+        // Set the day text
+        nameDay.setText(day != null ? day : "No Day Selected");
+    }
 
-
-        if (getArguments() != null) {
-            day = getArguments().getString("day");
-        }
-
+    private void setupPresenter() {
         RemoteSource remoteSource = RemoteDataSource.getInstance(getContext());
         LocalSource localSource = LocalDataSource.getInstance(getContext());
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
         detailsPresenter = new PlannerPresenter(repo, this);
-
-        detailsPresenter.getMealsForDay(day);
-        nameDay.setText(day);
     }
 
+    private void setupListeners() {
+        back.setOnClickListener(view -> {
+            NavController navController = Navigation.findNavController(view);
+            navController.navigate(R.id.action_plannerFrag_to_mealPlanFrag);
+        });
+    }
 
-
-    @Override
-    public void onGetMealOfDay(List<Meal> favouriteMeals) {
-        if (favouriteMeals != null) {
-            dayAdapter.setList((ArrayList<Meal>) favouriteMeals);
-            dayAdapter.notifyDataSetChanged();
+    private void loadMealData() {
+        if (day != null) {
+            detailsPresenter.getMealsForDay(day);
         }
     }
 
+    @Override
+    public void onGetMealOfDay(List<Meal> meals) {
+        if (meals != null) {
+            dayAdapter.setList(new ArrayList<>(meals));
+            dayAdapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public void onDeleteBtnClicked(Meal meal) {
@@ -118,7 +123,6 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
         if (checkConnection()) {
             Bundle bundle = new Bundle();
             bundle.putString("mealId", id);
-
             NavController navController = Navigation.findNavController(getView());
             navController.navigate(R.id.action_plannerFrag_to_mealRecipeFrag, bundle);
         } else {

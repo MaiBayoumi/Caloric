@@ -145,7 +145,7 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
             Bundle args = new Bundle();
             args.putString("id", id);
             NavController navController = Navigation.findNavController(getView());
-            navController.navigate(R.id.action_recommendationFrag_to_mealRecipeFrag, args);
+            navController.navigate(R.id.action_favouritelistFrag_to_mealRecipeFrag, args);
         } else {
             Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }

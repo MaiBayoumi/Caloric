@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.caloric.R;
 import com.example.caloric.database.LocalDataSource;
-import com.example.caloric.database.LocalSource;
 import com.example.caloric.model.IngredientModel;
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.Repo;
@@ -47,28 +45,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
 
-    ImageView mealImg;
-    TextView mealNameTV, mealCountryTV, mealDescriptionTV;
-    ImageButton addToPlanBtn, addToYourCalender, addToFavourite;
-    RecyclerView ingredientRecyclerView;
-    YouTubePlayerView youTubePlayer;
-    String[] videoArray;
-    String videoString;
-    IngredientRecyclerAdapter ingredientAdapter;
-    RecipePresenterInterface detailsPresenter;
-    String id;
-    Meal currentMeal;
-    FirebaseUser currentUser;
-    int mSelectedIndex;
+    private ImageView mealImg;
+    private TextView mealNameTV, mealCountryTV, mealDescriptionTV;
+    private ImageButton addToPlanBtn, addToFavourite;
+    private RecyclerView ingredientRecyclerView;
+    private YouTubePlayerView youTubePlayer;
+    private IngredientRecyclerAdapter ingredientAdapter;
+    private RecipePresenterInterface detailsPresenter;
+    private FirebaseUser currentUser;
+    private Meal currentMeal;
+    private int mSelectedIndex;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -78,9 +70,7 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_meal_recipe, container, false);
     }
 
@@ -99,59 +89,44 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
 
         ingredientAdapter = new IngredientRecyclerAdapter(view.getContext());
         ingredientRecyclerView.setAdapter(ingredientAdapter);
+
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        RemoteSource remoteSource = RemoteDataSource.getInstance(view.getContext());
-        LocalSource localSource =LocalDataSource.getInstance(view.getContext());
-        RepoInterface repo = Repo.getInstance(remoteSource, localSource);
+        RepoInterface repo = Repo.getInstance(RemoteDataSource.getInstance(view.getContext()), LocalDataSource.getInstance(view.getContext()));
         detailsPresenter = new RecipePresenter(repo, this);
-//
-//        ScreenBFragmentArgs args = ScreenBFragmentArgs.fromBundle(getArguments());
-//        UserData userData = args.getUserData();
-//        MealRecipeFragArgs args = MealRecipeFragArgs.fromBundele(getArguments());
-//        id = args.getId();
-        //id = MealRecipeFragArgs.fromBundle(getArguments()).getId();
 
-        detailsPresenter.getMealById(id);
+        addToPlanBtn.setOnClickListener(v -> {
+            if (currentUser != null) {
+                showDaySelectionDialog();
+            } else {
+                showMaterialDialog(requireContext());
+            }
+        });
 
-        // Retrieve the ID from the Bundle
+        addToFavourite.setOnClickListener(v -> {
+            if (currentUser != null) {
+                detailsPresenter.insertMealToFavourite(currentMeal);
+                Toast.makeText(requireContext(), "Saved", Toast.LENGTH_SHORT).show();
+            } else {
+                showMaterialDialog(requireContext());
+            }
+        });
+
         if (getArguments() != null) {
-            id = getArguments().getString("id");  // Get the ID from the arguments
-            detailsPresenter.getMealById(id);
+            String id = getArguments().getString("id");
+            if (id != null) {
+                detailsPresenter.getMealById(id);
+            }
         }
-
-        addToPlanBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentUser != null) {
-                    detailsPresenter.insertMealToFavourite(currentMeal);
-                    showDialog();
-                } else {
-                    showMaterialDialog(view.getContext());
-                }
-            }
-        });
-
-        addToFavourite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentUser != null) {
-                    detailsPresenter.insertMealToFavourite(currentMeal);
-                    Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-                } else {
-                    showMaterialDialog(view.getContext());
-                }
-            }
-        });
     }
 
-    private void showDialog() {
-        List<String> daysOfWeek = Arrays.asList("SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_single_choice, daysOfWeek);
 
-        new AlertDialog.Builder(getContext())
+    private void showDaySelectionDialog() {
+        List<String> daysOfWeek = Arrays.asList("SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_single_choice, daysOfWeek);
+
+        new AlertDialog.Builder(requireContext())
                 .setTitle("Select a day of the week")
-                .setSingleChoiceItems(adapter, 0, (dialog, which) -> mSelectedIndex = which)
+                .setSingleChoiceItems(adapter, mSelectedIndex, (dialog, which) -> mSelectedIndex = which)
                 .setPositiveButton("OK", (dialog, which) -> {
                     if (mSelectedIndex >= 0) {
                         String selectedDay = daysOfWeek.get(mSelectedIndex);
@@ -162,15 +137,16 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
                 .show();
     }
 
-    private void addToMobileCalender() {
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-                .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.Events.TITLE, currentMeal.getStrMeal())
-                .putExtra(CalendarContract.Events.DESCRIPTION, "Enjoy a delicious " + currentMeal.getStrMeal() + " for dinner!")
-                .putExtra(CalendarContract.Events.EVENT_LOCATION, "Home")
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, System.currentTimeMillis())
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, System.currentTimeMillis() + (60 * 60 * 1000)); // End time is 1 hour after start time
-        startActivity(intent);
+    private void showMaterialDialog(Context context) {
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(getString(R.string.caloric))
+                .setMessage(getString(R.string.messageAdd))
+                .setNegativeButton(getString(R.string.signIn), (dialog, which) -> {
+                    Intent intent = new Intent(context, LogIn.class);
+                    startActivity(intent);
+                })
+                .setPositiveButton(getString(R.string.cancel), null)
+                .show();
     }
 
     @Override
@@ -179,37 +155,57 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
         ((HostedActivity) requireActivity()).bottomNavigationView.setVisibility(View.GONE);
     }
 
-
-
     @Override
     public void onGetMealDetails(List<Meal> meals) {
-        currentMeal = meals.get(0);
-        Glide.with(getContext()).load(meals.get(0).getStrMealThumb())
-                .apply(new RequestOptions().override(500, 500)
-                        .error(R.drawable.meals)).into(mealImg);
-        mealNameTV.setText(meals.get(0).getStrMeal());
-        mealCountryTV.setText(meals.get(0).getStrArea());
-        mealDescriptionTV.setText(meals.get(0).getStrInstructions());
-
-        if (!meals.get(0).getStrYoutube().equals("")) {
-            videoArray = meals.get(0).getStrYoutube().split("=");
-            videoString = videoArray[1];
-        } else {
-            videoString = "";
+        if (meals != null && !meals.isEmpty()) {
+            currentMeal = meals.get(0);
+            updateUIWithMealDetails(currentMeal);
         }
-        youTubePlayer.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
-            @Override
-            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                super.onReady(youTubePlayer);
-                youTubePlayer.loadVideo(videoString, 0);
-                youTubePlayer.pause();
-            }
-        });
-        ArrayList<IngredientModel> ingredientPojos = getIngredientPojoList(meals.get(0));
-        ingredientAdapter.setList(ingredientPojos);
+    }
+
+    private void updateUIWithMealDetails(Meal meal) {
+        Glide.with(requireContext())
+                .load(meal.getStrMealThumb())
+                .apply(new RequestOptions().override(500, 500).error(R.drawable.meals))
+                .into(mealImg);
+        mealNameTV.setText(meal.getStrMeal());
+        mealCountryTV.setText(meal.getStrArea());
+        mealDescriptionTV.setText(meal.getStrInstructions());
+
+        setupYouTubePlayer(meal.getStrYoutube());
+        ingredientAdapter.setList(getIngredientPojoList(meal));
         ingredientAdapter.notifyDataSetChanged();
     }
 
+    private void setupYouTubePlayer(String youtubeUrl) {
+        if (youtubeUrl != null && !youtubeUrl.isEmpty()) {
+            String videoId = youtubeUrl.split("=")[1];
+            youTubePlayer.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                @Override
+                public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                    youTubePlayer.loadVideo(videoId, 0);
+                    youTubePlayer.pause();
+                }
+            });
+        }
+    }
+
+    private ArrayList<IngredientModel> getIngredientPojoList(Meal meal) {
+        ArrayList<IngredientModel> ingredientList = new ArrayList<>();
+        for (int i = 1; i <= 20; i++) {
+            try {
+                String ingredient = (String) meal.getClass().getMethod("getStrIngredient" + i).invoke(meal);
+                String measure = (String) meal.getClass().getMethod("getStrMeasure" + i).invoke(meal);
+                if (ingredient != null && !ingredient.isEmpty() && measure != null && !measure.isEmpty()) {
+                    String imageUrl = "https://www.themealdb.com/images/ingredients/" + ingredient + ".png";
+                    ingredientList.add(new IngredientModel(ingredient, measure, imageUrl));
+                }
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                // Handle exception if needed
+            }
+        }
+        return ingredientList;
+    }
 
     @Override
     public void insertMealToFavourite(Meal meal) {
@@ -221,52 +217,9 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
 
     }
 
-
-    private ArrayList<IngredientModel> getIngredientPojoList(Meal meal) {
-        ArrayList<IngredientModel> myIngredientList = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            String ingredient = null;
-            try {
-                ingredient = (String) meal.getClass().getMethod("getStrIngredient" + i).invoke(meal);
-
-                String measure = (String) meal.getClass().getMethod("getStrMeasure" + i).invoke(meal);
-
-                if (ingredient != null && !ingredient.isEmpty() && measure != null && !measure.isEmpty()) {
-                    String imageUrl = "https://www.themealdb.com/images/ingredients/" + ingredient + ".png";
-                    myIngredientList.add(new IngredientModel(ingredient, measure, imageUrl));
-                }
-            } catch (IllegalAccessException e) {
-
-            } catch (InvocationTargetException e) {
-
-            } catch (NoSuchMethodException e) {
-
-            }
-        }
-
-        return myIngredientList;
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ((HostedActivity) requireActivity()).bottomNavigationView.setVisibility(View.VISIBLE);
-    }
-
-    private void showMaterialDialog(Context context) {
-        new MaterialAlertDialogBuilder(context)
-                .setTitle(getResources().getString(R.string.caloric))
-                .setMessage(getResources().getString(R.string.messageAdd))
-                .setNegativeButton(getResources().getString(R.string.signIn), (dialog, which) -> {
-
-                    Intent intent = new Intent();
-                    intent.setClass(getContext(), LogIn.class);
-                    startActivity(intent);
-                })
-                .setPositiveButton(getResources().getString(R.string.cancel), (dialog, which) -> {
-
-
-                })
-                .show();
     }
 }

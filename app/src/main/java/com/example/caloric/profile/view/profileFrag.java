@@ -40,6 +40,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -90,7 +96,7 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
 
         logoutBtn.setOnClickListener(v -> {
             if (currentUser != null) {
-                updateUserDataInFireStore();
+                updateUserDataInFireStore(null);
             }
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(getContext(), LogIn.class);
@@ -139,10 +145,34 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
             Bitmap resizedBitmap = resizeBitmap(bitmap, 800, 800); // Resize to prevent large data issues
             personalImage.setImageBitmap(resizedBitmap);
+
+            // Upload image to Firebase Storage
+            uploadImageToFirebaseStorage(resizedBitmap);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    private void uploadImageToFirebaseStorage(Bitmap bitmap) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference profileImagesRef = storageRef.child("profileImages/" + currentUser.getUid() + ".png");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = profileImagesRef.putBytes(data);
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            // Get the download URL
+            profileImagesRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                // Save the download URL to Firestore
+                updateUserDataInFireStore(uri.toString());
+            });
+        }).addOnFailureListener(e -> Log.d("profileFrag", "Error uploading image", e));
+    }
+
 
     private Bitmap resizeBitmap(Bitmap bitmap, int maxWidth, int maxHeight) {
         int width = bitmap.getWidth();
@@ -156,9 +186,8 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
         return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
     }
 
-    private void updateUserDataInFireStore() {
-        String imageString = convertDrawableImageToString(personalImage.getDrawable());
-        User updatedUser = new User(currentUser.getDisplayName(), currentUser.getEmail(), favMeals, imageString);
+    private void updateUserDataInFireStore(String imageUrl) {
+        User updatedUser = new User(currentUser.getDisplayName(), currentUser.getEmail(), favMeals, imageUrl);
         Map<String, Object> data = new HashMap<>();
         data.put("userPojo", updatedUser);
         db.collection("users")
