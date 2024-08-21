@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,8 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
     private FirebaseUser currentUser;
     private Meal currentMeal;
     private int mSelectedIndex;
+    String[] videoArray;
+    String videoString;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,7 +124,7 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
 
 
     private void showDaySelectionDialog() {
-        List<String> daysOfWeek = Arrays.asList("SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY");
+        List<String> daysOfWeek = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_single_choice, daysOfWeek);
 
         new AlertDialog.Builder(requireContext())
@@ -130,19 +133,20 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
                 .setPositiveButton("OK", (dialog, which) -> {
                     if (mSelectedIndex >= 0) {
                         String selectedDay = daysOfWeek.get(mSelectedIndex);
-                        detailsPresenter.updateDayOfMeal(currentMeal.getIdMeal(), selectedDay.toLowerCase());
+                        Log.d("MealRecipeFrag", "Selected Day: " + selectedDay); // Log the selected day
+                        detailsPresenter.updateDayOfMeal(currentMeal.getIdMeal(), selectedDay);
                     }
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
     }
-
     private void showMaterialDialog(Context context) {
         new MaterialAlertDialogBuilder(context)
                 .setTitle(getString(R.string.caloric))
                 .setMessage(getString(R.string.messageAdd))
                 .setNegativeButton(getString(R.string.signIn), (dialog, which) -> {
-                    Intent intent = new Intent(context, LogIn.class);
+                    Intent intent = new Intent();
+                    intent.setClass(getContext(), LogIn.class);
                     startActivity(intent);
                 })
                 .setPositiveButton(getString(R.string.cancel), null)
@@ -157,23 +161,30 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
 
     @Override
     public void onGetMealDetails(List<Meal> meals) {
-        if (meals != null && !meals.isEmpty()) {
-            currentMeal = meals.get(0);
-            updateUIWithMealDetails(currentMeal);
+        currentMeal = meals.get(0);
+        Glide.with(getContext()).load(meals.get(0).getStrMealThumb())
+                .apply(new RequestOptions().override(500, 500)
+                        .error(R.drawable.meals)).into(mealImg);
+        mealNameTV.setText(meals.get(0).getStrMeal());
+        mealCountryTV.setText(meals.get(0).getStrArea());
+        mealDescriptionTV.setText(meals.get(0).getStrInstructions());
+
+        if (!meals.get(0).getStrYoutube().equals("")) {
+            videoArray = meals.get(0).getStrYoutube().split("=");
+            videoString = videoArray[1];
+        } else {
+            videoString = "";
         }
-    }
-
-    private void updateUIWithMealDetails(Meal meal) {
-        Glide.with(requireContext())
-                .load(meal.getStrMealThumb())
-                .apply(new RequestOptions().override(500, 500).error(R.drawable.meals))
-                .into(mealImg);
-        mealNameTV.setText(meal.getStrMeal());
-        mealCountryTV.setText(meal.getStrArea());
-        mealDescriptionTV.setText(meal.getStrInstructions());
-
-        setupYouTubePlayer(meal.getStrYoutube());
-        ingredientAdapter.setList(getIngredientPojoList(meal));
+        youTubePlayer.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                super.onReady(youTubePlayer);
+                youTubePlayer.loadVideo(videoString, 0);
+                youTubePlayer.pause();
+            }
+        });
+        ArrayList<IngredientModel> ingredientPojos = getIngredientPojoList(meals.get(0));
+        ingredientAdapter.setList(ingredientPojos);
         ingredientAdapter.notifyDataSetChanged();
     }
 

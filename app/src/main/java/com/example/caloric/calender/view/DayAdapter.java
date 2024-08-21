@@ -1,6 +1,7 @@
 package com.example.caloric.calender.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,28 +17,30 @@ import com.example.caloric.R;
 import com.example.caloric.model.Meal;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
-    private ArrayList<Meal> myList = new ArrayList<>();
+    private List<Meal> myList ;
     private Context context;
     private OnDayClickInterface onDayClickInterface;
 
 
-    public DayAdapter(Context context, OnDayClickInterface onDayClickInterface){
+    public DayAdapter(Context context, OnDayClickInterface onDayClickInterface,ArrayList<Meal> myList){
         this.context = context;
         this.onDayClickInterface = onDayClickInterface;
+        this.myList = myList;
     }
 
     @NonNull
     @Override
     public DayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         return new DayViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.meal_item, parent, false));
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull DayViewHolder holder, int position) {
-
         holder.deleteBtn.setImageResource(R.drawable.delete_icon);
         holder.mealName.setText(myList.get(position).getStrMeal());
         Glide.with(context).load(myList.get(position).getStrMealThumb())
