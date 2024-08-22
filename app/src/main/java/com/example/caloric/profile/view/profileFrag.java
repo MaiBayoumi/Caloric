@@ -36,16 +36,15 @@ import com.example.caloric.profile.presenter.ProfilePresenter;
 import com.example.caloric.profile.presenter.ProfilePresenterInterface;
 import com.example.caloric.register.LogIn;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -94,6 +93,8 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
         profilePresenter = new ProfilePresenter(repo, this);
         profilePresenter.getAllFavouriteMeals();
 
+        loadUserProfile(); // Load the user's profile information
+
         logoutBtn.setOnClickListener(v -> {
             if (currentUser != null) {
                 updateUserDataInFireStore(null);
@@ -128,7 +129,6 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
             logoutBtn.setText("Sign In");
         }
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -172,7 +172,6 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
             });
         }).addOnFailureListener(e -> Log.d("profileFrag", "Error uploading image", e));
     }
-
 
     private Bitmap resizeBitmap(Bitmap bitmap, int maxWidth, int maxHeight) {
         int width = bitmap.getWidth();
@@ -224,5 +223,24 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
                 })
                 .setPositiveButton(getResources().getString(R.string.cancel), null)
                 .show();
+    }
+
+    private void loadUserProfile() {
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            db.collection("users").document(userId).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            User user = documentSnapshot.toObject(User.class);
+                            if (user != null && user.getUserImage() != null) {
+                                Glide.with(getContext())
+                                        .load(user.getUserImage())
+                                        .apply(new RequestOptions().override(500, 500).error(R.drawable.person))
+                                        .into(personalImage);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> Log.d("profileFrag", "Error loading user profile", e));
+        }
     }
 }
