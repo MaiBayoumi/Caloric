@@ -10,11 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +53,7 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
     private ImageView mealImg;
     private TextView mealNameTV, mealCountryTV, mealDescriptionTV;
     private ImageButton addToPlanBtn, addToFavourite;
+    Button addToYourCalender;
     private RecyclerView ingredientRecyclerView;
     private YouTubePlayerView youTubePlayer;
     private IngredientRecyclerAdapter ingredientAdapter;
@@ -86,6 +89,7 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
         mealCountryTV = view.findViewById(R.id.detailsCountryName);
         mealDescriptionTV = view.findViewById(R.id.detailsDescriptionOfmeal);
         addToPlanBtn = view.findViewById(R.id.detailsAddToPlanBtn);
+        addToYourCalender= view.findViewById(R.id.addToYourCalender);
         addToFavourite = view.findViewById(R.id.detailsAddToFav);
         ingredientRecyclerView = view.findViewById(R.id.detailsIngredientRecycler);
         youTubePlayer = view.findViewById(R.id.youtubePlayer);
@@ -114,12 +118,30 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
             }
         });
 
+        addToYourCalender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addToMobileCalender();
+            }
+        });
+
         if (getArguments() != null) {
             String id = getArguments().getString("id");
             if (id != null) {
                 detailsPresenter.getMealById(id);
             }
         }
+    }
+
+    private void addToMobileCalender() {
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.Events.TITLE, currentMeal.getStrMeal())
+                .putExtra(CalendarContract.Events.DESCRIPTION, "Enjoy a delicious " + currentMeal.getStrMeal() + " for dinner!")
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, "Home")
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, System.currentTimeMillis())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, System.currentTimeMillis() + (60 * 60 * 1000)); // End time is 1 hour after start time
+        startActivity(intent);
     }
 
 
