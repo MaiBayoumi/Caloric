@@ -43,4 +43,7 @@ public interface RepoInterface {
     LiveData<List<Meal>> getAllFavouriteMeals();
     LiveData<List<Meal>> getMealsOfDay(String day);
     void updateDayOfMeal(String id, String day);
+
+    void insertMealToCalendar(Meal meal, String day);
+    Meal getMealById(String id);
 }

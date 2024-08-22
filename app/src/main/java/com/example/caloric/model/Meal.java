@@ -14,6 +14,7 @@ public class Meal implements Parcelable {
     @NonNull
     private String idMeal;
     private String day;
+    private boolean isFavorite;
 
     private String nameDay;
     private String strMeal;
@@ -64,6 +65,10 @@ public class Meal implements Parcelable {
     private String strMeasure18;
     private String strMeasure19;
     private String strMeasure20;
+
+    public Meal() {
+    }
+
 
     public String getIdMeal() {
         return idMeal;
@@ -481,6 +486,135 @@ public class Meal implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(idMeal);
+        dest.writeString(day);
+        dest.writeByte((byte) (isFavorite ? 1 : 0)); // Write boolean as a byte
 
+        // Write other fields to the parcel
+        dest.writeString(strMeal);
+        dest.writeString(strDrinkAlternate);
+        dest.writeString(strCategory);
+        dest.writeString(strArea);
+        dest.writeString(strInstructions);
+        dest.writeString(strMealThumb);
+        dest.writeString(strTags);
+        dest.writeString(strYoutube);
+        dest.writeString(strIngredient1);
+        dest.writeString(strIngredient2);
+        dest.writeString(strIngredient3);
+        dest.writeString(strIngredient4);
+        dest.writeString(strIngredient5);
+        dest.writeString(strIngredient6);
+        dest.writeString(strIngredient7);
+        dest.writeString(strIngredient8);
+        dest.writeString(strIngredient9);
+        dest.writeString(strIngredient10);
+        dest.writeString(strIngredient11);
+        dest.writeString(strIngredient12);
+        dest.writeString(strIngredient13);
+        dest.writeString(strIngredient14);
+        dest.writeString(strIngredient15);
+        dest.writeString(strIngredient16);
+        dest.writeString(strIngredient17);
+        dest.writeString(strIngredient18);
+        dest.writeString(strIngredient19);
+        dest.writeString(strIngredient20);
+        dest.writeString(strMeasure1);
+        dest.writeString(strMeasure2);
+        dest.writeString(strMeasure3);
+        dest.writeString(strMeasure4);
+        dest.writeString(strMeasure5);
+        dest.writeString(strMeasure6);
+        dest.writeString(strMeasure7);
+        dest.writeString(strMeasure8);
+        dest.writeString(strMeasure9);
+        dest.writeString(strMeasure10);
+        dest.writeString(strMeasure11);
+        dest.writeString(strMeasure12);
+        dest.writeString(strMeasure13);
+        dest.writeString(strMeasure14);
+        dest.writeString(strMeasure15);
+        dest.writeString(strMeasure16);
+        dest.writeString(strMeasure17);
+        dest.writeString(strMeasure18);
+        dest.writeString(strMeasure19);
+        dest.writeString(strMeasure20);
     }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
+    protected Meal(Parcel in) {
+        idMeal = in.readString();
+        day = in.readString();
+        isFavorite = in.readByte() != 0; // Read boolean as a byte
+
+        // Read other fields from the parcel
+        strMeal = in.readString();
+        strDrinkAlternate = in.readString();
+        strCategory = in.readString();
+        strArea = in.readString();
+        strInstructions = in.readString();
+        strMealThumb = in.readString();
+        strTags = in.readString();
+        strYoutube = in.readString();
+        strIngredient1 = in.readString();
+        strIngredient2 = in.readString();
+        strIngredient3 = in.readString();
+        strIngredient4 = in.readString();
+        strIngredient5 = in.readString();
+        strIngredient6 = in.readString();
+        strIngredient7 = in.readString();
+        strIngredient8 = in.readString();
+        strIngredient9 = in.readString();
+        strIngredient10 = in.readString();
+        strIngredient11 = in.readString();
+        strIngredient12 = in.readString();
+        strIngredient13 = in.readString();
+        strIngredient14 = in.readString();
+        strIngredient15 = in.readString();
+        strIngredient16 = in.readString();
+        strIngredient17 = in.readString();
+        strIngredient18 = in.readString();
+        strIngredient19 = in.readString();
+        strIngredient20 = in.readString();
+        strMeasure1 = in.readString();
+        strMeasure2 = in.readString();
+        strMeasure3 = in.readString();
+        strMeasure4 = in.readString();
+        strMeasure5 = in.readString();
+        strMeasure6 = in.readString();
+        strMeasure7 = in.readString();
+        strMeasure8 = in.readString();
+        strMeasure9 = in.readString();
+        strMeasure10 = in.readString();
+        strMeasure11 = in.readString();
+        strMeasure12 = in.readString();
+        strMeasure13 = in.readString();
+        strMeasure14 = in.readString();
+        strMeasure15 = in.readString();
+        strMeasure16 = in.readString();
+        strMeasure17 = in.readString();
+        strMeasure18 = in.readString();
+        strMeasure19 = in.readString();
+        strMeasure20 = in.readString();
+    }
+
+    // Parcelable.Creator implementation
+    public static final Parcelable.Creator<Meal> CREATOR = new Parcelable.Creator<Meal>() {
+        @Override
+        public Meal createFromParcel(Parcel in) {
+            return new Meal(in);
+        }
+
+        @Override
+        public Meal[] newArray(int size) {
+            return new Meal[size];
+        }
+    };
 }

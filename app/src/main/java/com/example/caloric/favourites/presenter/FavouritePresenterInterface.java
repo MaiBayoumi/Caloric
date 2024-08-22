@@ -7,4 +7,8 @@ public interface FavouritePresenterInterface {
     void getAllMeals();
 
     void deleteMeal(Meal meal);
+
+    void saveMealIfFavourite(Meal meal);
+
+    Meal getMealById(String id);
 }

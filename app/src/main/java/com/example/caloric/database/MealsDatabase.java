@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.caloric.model.Meal;
 
-@Database(entities = {Meal.class}, version = 2)
+@Database(entities = {Meal.class}, version = 1)
 public abstract class MealsDatabase extends RoomDatabase {
     private static MealsDatabase instance;
 

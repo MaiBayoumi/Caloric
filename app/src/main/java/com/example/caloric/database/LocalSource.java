@@ -18,4 +18,8 @@ public interface LocalSource {
     LiveData<List<Meal>> getAllMeals();
     LiveData<List<Meal>> getMealsOfDay(String day);
     void updateDayOfMeal(String id, String day);
+
+    void insertMealToCalendar(Meal meal, String day);
+
+    Meal getMealById(String id);
 }

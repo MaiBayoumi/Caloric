@@ -72,7 +72,7 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
         nameDay = view.findViewById(R.id.day);
         mealsRecyclerPlan = view.findViewById(R.id.recyclerView);
         back = view.findViewById(R.id.back);
-        dayAdapter = new DayAdapter(view.getContext(), this,new ArrayList<>());
+        dayAdapter = new DayAdapter(view.getContext(), this, new ArrayList<>());
         mealsRecyclerPlan.setAdapter(dayAdapter);
 
         nameDay.setText(day != null ? day : "No Day Selected");
@@ -99,7 +99,6 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
         if (meals != null) {
             Log.d("PlannerFrag", meals.size() + " meals found for day " + day);
             dayAdapter.setList((ArrayList<Meal>) meals);
-
         } else {
             Log.d("PlannerFrag", "No meals found for day " + day);
         }
@@ -126,6 +125,14 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
     public void onDestroyView() {
         super.onDestroyView();
         ((HostedActivity) requireActivity()).bottomNavigationView.setVisibility(View.VISIBLE);
+    }
+
+    // New method to save any meal to the calendar
+    public void onSaveMealToCalendar(Meal meal) {
+        if (day != null && meal != null) {
+            detailsPresenter.updateDayOfMeal(meal.getIdMeal(), day);
+            Toast.makeText(getContext(), "Meal saved to " + day, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean checkConnection() {

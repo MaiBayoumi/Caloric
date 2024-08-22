@@ -34,4 +34,17 @@ public class FavouritePresenter implements FavouritePresenterInterface {
     public void deleteMeal(Meal meal) {
         repo.deleteMealFromFavourite(meal);
     }
+@Override
+    public void saveMealIfFavourite(Meal meal) {
+        if (meal.isFavorite()) {
+            repo.insertMealToFavourite(meal);
+        } else {
+            deleteMeal(meal);
+        }
+    }
+
+    @Override
+    public Meal getMealById(String id) {
+        return repo.getMealById(id);
+    }
 }

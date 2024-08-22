@@ -8,4 +8,5 @@ public interface PlannerPresenterInterface {
     void deleteMeal(Meal meal);
 
     void updateDayOfMeal(String id, String day);
+
 }

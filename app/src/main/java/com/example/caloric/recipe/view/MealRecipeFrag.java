@@ -135,11 +135,16 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
                         String selectedDay = daysOfWeek.get(mSelectedIndex);
                         Log.d("MealRecipeFrag", "Selected Day: " + selectedDay); // Log the selected day
                         detailsPresenter.updateDayOfMeal(currentMeal.getIdMeal(), selectedDay);
+
+                        // Save the meal to the calendar (database) for the selected day
+                        detailsPresenter.insertMealToCalendar(currentMeal, selectedDay);
+                        Toast.makeText(requireContext(), "Meal added to calendar for " + selectedDay, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
     }
+
     private void showMaterialDialog(Context context) {
         new MaterialAlertDialogBuilder(context)
                 .setTitle(getString(R.string.caloric))

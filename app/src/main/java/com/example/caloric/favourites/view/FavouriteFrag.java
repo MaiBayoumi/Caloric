@@ -142,14 +142,23 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
     @Override
     public void onFavItemClicked(String id) {
         if (checkConnection()) {
-            Bundle args = new Bundle();
-            args.putString("id", id);
-            NavController navController = Navigation.findNavController(getView());
-            navController.navigate(R.id.action_favouritelistFrag_to_mealRecipeFrag, args);
+            // Assuming you fetch the meal by ID and check its favorite status
+            Meal meal = favouritePresenter.getMealById(id);
+            favouritePresenter.saveMealIfFavourite(meal);
+
+            if (meal.isFavorite() == true) {
+                Bundle args = new Bundle();
+                args.putString("id", id);
+                NavController navController = Navigation.findNavController(getView());
+                navController.navigate(R.id.action_favouritelistFrag_to_mealRecipeFrag, args);
+            } else {
+                Toast.makeText(getContext(), "Meal not added to favorites", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void updateUserDataInFireStore() {
         User updatedUser = new User(currentUser.getDisplayName(), currentUser.getEmail(),

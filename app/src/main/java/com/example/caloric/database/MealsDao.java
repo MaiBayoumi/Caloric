@@ -33,4 +33,10 @@ public interface MealsDao {
 
     @Query("UPDATE meals_table SET day = :day WHERE idMeal = :id")
     void updateColumnDay(String id, String day);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertMealToCalendar(Meal meal);
+
+    @Query("SELECT * FROM meals_table WHERE idMeal = :id LIMIT 1")
+    Meal getMealById(String id);
 }

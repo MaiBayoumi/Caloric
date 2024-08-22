@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PlannerViewInterface {
     void onGetMealOfDay(List<Meal> favouriteMeals);
+
 }

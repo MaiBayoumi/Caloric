@@ -116,4 +116,16 @@ public class Repo implements RepoInterface {
     public void updateDayOfMeal(String id, String day) {
         localSource.updateDayOfMeal(id, day);
     }
+
+    @Override
+    public void insertMealToCalendar(Meal meal, String day) {
+        // Call the local data source to insert the meal with the selected day
+        localSource.insertMealToCalendar(meal, day);
+    }
+
+    @Override
+    public Meal getMealById(String id) {
+        return localSource.getMealById(id); // Assuming LocalSource has this method implemented
+    }
+
 }

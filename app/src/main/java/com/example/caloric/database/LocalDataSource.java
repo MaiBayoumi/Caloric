@@ -58,6 +58,23 @@ public class LocalDataSource implements LocalSource {
     public void updateDayOfMeal(String id, String day) {
         mealsDao.updateColumnDay(id,day);
     }
+
+    @Override
+    public void insertMealToCalendar(Meal meal, String day) {
+        // Set the day of the week in the meal object
+        meal.setDay(day);
+
+        // Ensure the meal is not marked as a favorite
+        meal.setIsFavorite(false);
+
+        // Insert the meal into the database, associating it with the selected day
+        mealsDao.insertMeal(meal);
+    }
+
+    public Meal getMealById(String id) {
+        return mealsDao.getMealById(id); // Assuming MealDao has this method
+    }
+
 }
 
 

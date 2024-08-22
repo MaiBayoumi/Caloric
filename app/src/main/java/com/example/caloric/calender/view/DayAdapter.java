@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
-    private List<Meal> myList ;
+    private ArrayList<Meal> myList ;
     private Context context;
     private OnDayClickInterface onDayClickInterface;
 
