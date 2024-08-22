@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,10 +35,10 @@ public class LogIn extends AppCompatActivity {
     EditText email;
     EditText password;
     Button login;
-    Button google;
+    ImageView google;
     TextView register;
     ProgressBar progressBar;
-    Button guest;
+    ImageView guest;
     Intent intent;
 
     private FirebaseAuth mAuth;
