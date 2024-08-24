@@ -144,6 +144,8 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
         }
     }
 
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
