@@ -14,4 +14,6 @@ public interface SearchViewInterface {
     void onGetAllCountries(List<Country> countries);
 
     void onFailureResult(String message);
+
+    void onInsertMealSuccess();
 }

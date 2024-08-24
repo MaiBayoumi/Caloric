@@ -1,20 +1,24 @@
 package com.example.caloric.search.presenter;
 
-
 import com.example.caloric.model.Category;
 import com.example.caloric.model.Country;
 import com.example.caloric.model.Ingredient;
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.MealResponse;
 import com.example.caloric.model.RepoInterface;
-import com.example.caloric.network.NetworkDelegate;
 import com.example.caloric.search.view.SearchViewInterface;
 
 import java.util.List;
 
-public class SearchPresenter implements NetworkDelegate, SearchPresenterInterface {
-    private RepoInterface repo;
-    private SearchViewInterface searchView;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+
+public class SearchPresenter implements SearchPresenterInterface {
+    private final RepoInterface repo;
+    private final SearchViewInterface searchView;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public SearchPresenter(RepoInterface repo, SearchViewInterface searchView) {
         this.repo = repo;
@@ -23,102 +27,88 @@ public class SearchPresenter implements NetworkDelegate, SearchPresenterInterfac
 
     @Override
     public void getMealsByIngredient(String ingredient) {
-        repo.getMealsByIngredient(ingredient, this);
+        Disposable disposable = repo.getMealsByIngredient(ingredient)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meals -> searchView.onGetMeals(meals.getMeals()),
+                        throwable -> searchView.onFailureResult(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
     }
 
     @Override
     public void getMealsByCategory(String category) {
-        repo.getMealsByCategory(category, this);
+        Disposable disposable = repo.getMealsByCategory(category)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meals -> searchView.onGetMeals(meals.getMeals()),
+                        throwable -> searchView.onFailureResult(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
     }
 
     @Override
     public void getMealsByCountry(String country) {
-        repo.getMealsByCountry(country, this);
+        Disposable disposable = repo.getMealsByCountry(country)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meals -> searchView.onGetMeals(meals.getMeals()),
+                        throwable -> searchView.onFailureResult(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
     }
 
     @Override
     public void getMealByName(String name) {
-        repo.getMealByName(name, this);
+        Disposable disposable = repo.getMealByName(name)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meal -> searchView.onGetMeals(meal.getMeals()),  // Assuming a single meal wrapped in a list
+                        throwable -> searchView.onFailureResult(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
     }
 
     @Override
     public void getMealByFirstChar(String firstChar) {
-        repo.getMealByFirstChar(firstChar, this);
+        Disposable disposable = repo.getMealByFirstChar(firstChar)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meals -> searchView.onGetMeals(meals.getMeals()),
+                        throwable -> searchView.onFailureResult(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
     }
-
-//    @Override
-//    public void getRandomMeal() {
-//        repo.getRandomMeal(this);
-//    }
 
     @Override
     public void insertMeal(Meal meal) {
-        repo.insertMealToFavourite(meal);
-    }
-
-    @Override
-    public void onSuccessResultMeal(List<Meal> meals) {
-        searchView.onGetMeals(meals);
-    }
-
-    @Override
-    public void onSuccessFilter(MealResponse meals) {
-        searchView.onGetMeals(meals.getMeals());
-    }
-
-    @Override
-    public void onSuccessResultCategory(List<Category> categories) {
-        searchView.onGetAllCategories(categories);
-    }
-
-    @Override
-    public void onSuccessResultIngredient(List<Ingredient> ingredients) {
-        searchView.onGetAllIngredient(ingredients);
-    }
-
-    @Override
-    public void onSuccessResultCountries(List<Country> countries) {
-        searchView.onGetAllCountries(countries);
-    }
-
-    @Override
-    public void onFailureResult(String message) {
-        searchView.onFailureResult(message);
+        Disposable disposable = repo.insertMealToFavourite(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> searchView.onInsertMealSuccess(),
+                        throwable -> searchView.onFailureResult(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
     }
 
     public void getRandomMeals() {
-        repo.getRandomMeals(new NetworkDelegate() {
-            @Override
-            public void onSuccessResultMeal(List<Meal> meals) {
-                searchView.onGetMeals(meals);
-            }
-
-            @Override
-            public void onSuccessFilter(MealResponse meals) {
-                // Not used in this context
-            }
-
-            @Override
-            public void onSuccessResultCategory(List<Category> categories) {
-                // Not used in this context
-            }
-
-            @Override
-            public void onSuccessResultIngredient(List<Ingredient> ingredients) {
-                // Not used in this context
-            }
-
-            @Override
-            public void onSuccessResultCountries(List<Country> countries) {
-                // Not used in this context
-            }
-
-            @Override
-            public void onFailureResult(String message) {
-                searchView.onFailureResult(message);
-            }
-        });
+        Disposable disposable = repo.getRandomMeals()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meals -> searchView.onGetMeals(meals.getMeals()),
+                        throwable -> searchView.onFailureResult(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
     }
 
-
+    public void clearDisposables() {
+        compositeDisposable.clear();
+    }
 }

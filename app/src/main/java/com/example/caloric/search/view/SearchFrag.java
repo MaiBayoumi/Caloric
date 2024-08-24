@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.caloric.R;
 import com.example.caloric.database.LocalDataSource;
@@ -188,6 +189,11 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
         nullTextView.setText(message);
         nullTextView.setVisibility(View.VISIBLE);
         searchRecycler.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onInsertMealSuccess() {
+        Toast.makeText(getContext(), "Meal added successfully.", Toast.LENGTH_SHORT).show();
     }
 
 }
