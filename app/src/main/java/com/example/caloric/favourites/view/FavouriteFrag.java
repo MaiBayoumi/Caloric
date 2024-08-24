@@ -52,6 +52,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+
 public class FavouriteFrag extends Fragment implements LifecycleOwner, FavouriteViewInterface, OnClickFavouriteInterface {
 
     FavouritePresenterInterface favouritePresenter;
@@ -61,11 +63,12 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
     Button refreshBtn;
     FirebaseUser currentUser;
     List<Meal> mealsFromRoom;
+    private final CompositeDisposable disposables = new CompositeDisposable();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -80,44 +83,46 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
         super.onViewCreated(view, savedInstanceState);
         nullText = view.findViewById(R.id.nullTextView);
         refreshBtn = view.findViewById(R.id.refresh);
-
+        favouriteRecycler = view.findViewById(R.id.favouriteRecyclerView);
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        RemoteSource remoteSource = RemoteDataSource.getInstance(view.getContext());
-        LocalSource localSource = LocalDataSource.getInstance(view.getContext());
-        RepoInterface repo = Repo.getInstance(remoteSource, localSource);
-        favouritePresenter = new FavouritePresenter(repo, this);
-
-        favouriteRecycler = view.findViewById(R.id.favouriteRecyclerView);
-        favouriteAdapter = new FavouriteRecyclerAdapter(view.getContext(), this);
-        favouriteRecycler.setAdapter(favouriteAdapter);
-        favouriteRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        favouritePresenter.getAllMeals();
 
         if (currentUser == null) {
-            showMaterialDialog(view.getContext());
+            // Hide the favorite list and show a message to sign in
+            favouriteRecycler.setVisibility(View.GONE);
             nullText.setText("Sign In and Comeback..");
-        }
+            nullText.setVisibility(View.VISIBLE);
+            refreshBtn.setVisibility(View.GONE);
+            showMaterialDialog(view.getContext());
+        } else {
+            // Show the favorite list if the user is signed in
+            RemoteSource remoteSource = RemoteDataSource.getInstance(view.getContext());
+            LocalSource localSource = LocalDataSource.getInstance(view.getContext());
+            RepoInterface repo = Repo.getInstance(remoteSource, localSource);
+            favouritePresenter = new FavouritePresenter(repo, this);
 
-        if (!checkConnection()) {
-            refreshBtn.setVisibility(View.VISIBLE);
-        }
+            favouriteAdapter = new FavouriteRecyclerAdapter(view.getContext(), this);
+            favouriteRecycler.setAdapter(favouriteAdapter);
+            favouriteRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        refreshBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            favouritePresenter.getAllMeals();
+
+            if (!checkConnection()) {
+                refreshBtn.setVisibility(View.VISIBLE);
+            }
+
+            refreshBtn.setOnClickListener(v -> {
                 if (checkConnection()) {
                     connectFragments();
                 }
-            }
-        });
-
+            });
+        }
     }
 
 
     @Override
     public void onGetFavouriteMeals(List<Meal> favouriteMeals) {
+
         //Log.d("FavouritelistFrag", "Favourite meals received: " + favouriteMeals.size());
         if (favouriteMeals.isEmpty()) {
             nullText.setVisibility(View.VISIBLE);
@@ -127,12 +132,28 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
         favouriteAdapter.setList((ArrayList<Meal>) favouriteMeals);
     }
 
-
     @Override
     public void deleteMealFromFavourite(Meal meal) {
         favouritePresenter.deleteMeal(meal);
     }
 
+    @Override
+    public void onError(String message) {
+        Toast.makeText(getActivity(), "Error: " + message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDeleteFromFav() {
+        Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onGetMealDetails(String id) {
+        Bundle args = new Bundle();
+        args.putString("id", id);
+        NavController navController = Navigation.findNavController(getView());
+        navController.navigate(R.id.action_recommendationFrag_to_mealRecipeFrag, args);
+    }
 
     @Override
     public void onDeleteBtnClicked(Meal meal) {
@@ -141,24 +162,11 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
 
     @Override
     public void onFavItemClicked(String id) {
-        if (checkConnection()) {
-            // Assuming you fetch the meal by ID and check its favorite status
-            Meal meal = favouritePresenter.getMealById(id);
-            favouritePresenter.saveMealIfFavourite(meal);
-
-            if (meal.isFavorite() == true) {
-                Bundle args = new Bundle();
-                args.putString("id", id);
-                NavController navController = Navigation.findNavController(getView());
-                navController.navigate(R.id.action_favouritelistFrag_to_mealRecipeFrag, args);
-            } else {
-                Toast.makeText(getContext(), "Meal not added to favorites", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-        }
+        Bundle args = new Bundle();
+        args.putString("id", id);
+        NavController navController = Navigation.findNavController(getView());
+        navController.navigate(R.id.action_favouritelistFrag_to_mealRecipeFrag, args);
     }
-
 
     private void updateUserDataInFireStore() {
         User updatedUser = new User(currentUser.getDisplayName(), currentUser.getEmail(),
@@ -168,19 +176,10 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
         FirebaseFirestore.getInstance().collection("users")
                 .document(currentUser.getUid())
                 .set(data, SetOptions.merge())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d("hey", "User updated successfully");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("hey", "Error updating user", e);
-                    }
-                });
+                .addOnSuccessListener(unused -> Log.d("hey", "User updated successfully"))
+                .addOnFailureListener(e -> Log.d("hey", "Error updating user", e));
     }
+
 
     @Override
     public void onDestroyView() {
@@ -188,23 +187,19 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
         if (currentUser != null) {
             updateUserDataInFireStore();
         }
+        disposables.clear();
     }
 
     private void showMaterialDialog(Context context) {
-
         new MaterialAlertDialogBuilder(context)
                 .setTitle(getResources().getString(R.string.caloric))
                 .setMessage(getResources().getString(R.string.messageFav))
                 .setNegativeButton(getResources().getString(R.string.signIn), (dialog, which) -> {
-
                     Intent intent = new Intent();
                     intent.setClass(getContext(), LogIn.class);
                     startActivity(intent);
                 })
-                .setPositiveButton(getResources().getString(R.string.cancel), (dialog, which) -> {
-
-
-                })
+                .setPositiveButton(getResources().getString(R.string.cancel), (dialog, which) -> {})
                 .show();
     }
 
@@ -216,7 +211,6 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
     }
 
     private void connectFragments() {
-
         HostedActivity activity = (HostedActivity) getActivity();
         RecommendationFrag fragment = new RecommendationFrag();
         fragment.setArguments(new Bundle());

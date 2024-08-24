@@ -1,50 +1,58 @@
 package com.example.caloric.favourites.presenter;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-
+import android.view.View;
 
 import com.example.caloric.favourites.view.FavouriteViewInterface;
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.RepoInterface;
 
-import java.util.List;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class FavouritePresenter implements FavouritePresenterInterface {
     private RepoInterface repo;
     private FavouriteViewInterface favouriteView;
+    private CompositeDisposable compositeDisposable;
+    View view;
 
-
-    public FavouritePresenter(RepoInterface repo, FavouriteViewInterface favouriteView){
+    public FavouritePresenter(RepoInterface repo, FavouriteViewInterface favouriteView) {
         this.repo = repo;
         this.favouriteView = favouriteView;
+        this.compositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void getAllMeals() {
-        repo.getAllFavouriteMeals().observe((LifecycleOwner) favouriteView, new Observer<List<Meal>>() {
-            @Override
-            public void onChanged(List<Meal> meals) {
-                favouriteView.onGetFavouriteMeals(meals);
-            }
-        });
+        Disposable disposable = repo.getAllFavouriteMeals()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meals -> favouriteView.onGetFavouriteMeals(meals),
+                        throwable -> favouriteView.onError(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
     }
 
     @Override
     public void deleteMeal(Meal meal) {
-        repo.deleteMealFromFavourite(meal);
-    }
-@Override
-    public void saveMealIfFavourite(Meal meal) {
-        if (meal.isFavorite()) {
-            repo.insertMealToFavourite(meal);
-        } else {
-            deleteMeal(meal);
-        }
+        Disposable disposable = repo.deleteMealFromFavourite(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> {
+                            favouriteView.onDeleteFromFav();
+                        },
+                        throwable -> favouriteView.onError(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
+
     }
 
-    @Override
-    public Meal getMealById(String id) {
-        return repo.getMealById(id);
+    public void dispose() {
+        if (!compositeDisposable.isDisposed()) {
+            compositeDisposable.dispose();
+        }
     }
 }
