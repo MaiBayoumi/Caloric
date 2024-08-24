@@ -5,4 +5,8 @@ import java.util.List;
 
 public interface ProfileViewInterface {
     void onGetAllFavouriteList(List<Meal> favMeals);
+
+    void onMealsDeleted();
+
+    void onError(String s);
 }

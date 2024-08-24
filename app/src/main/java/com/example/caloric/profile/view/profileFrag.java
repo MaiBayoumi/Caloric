@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -105,7 +106,6 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
             profilePresenter.deleteAllFavouriteMeals();
             getActivity().finish();
         });
-
         if (currentUser != null) {
             nameTextView.setText(currentUser.getDisplayName());
             emailTextView.setText(currentUser.getEmail());
@@ -211,6 +211,16 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
     @Override
     public void onGetAllFavouriteList(List<Meal> favMeals) {
         this.favMeals = favMeals;
+    }
+
+    @Override
+    public void onMealsDeleted() {
+        Toast.makeText(getContext(), "meal has been successfully added.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onError(String s) {
+        Toast.makeText(getContext(), "Error: " + s, Toast.LENGTH_LONG).show();
     }
 
     private void showMaterialDialog(Context context) {

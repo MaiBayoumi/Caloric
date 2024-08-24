@@ -10,27 +10,48 @@ import com.example.caloric.profile.view.ProfileViewInterface;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class ProfilePresenter implements ProfilePresenterInterface {
     private RepoInterface repo;
     private ProfileViewInterface profileView;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public ProfilePresenter(RepoInterface repo, ProfileViewInterface profileView){
+    public ProfilePresenter(RepoInterface repo, ProfileViewInterface profileView) {
         this.repo = repo;
         this.profileView = profileView;
     }
 
     @Override
     public void deleteAllFavouriteMeals() {
-        repo.deleteAllFavouriteMeals();
+        Disposable disposable = repo.deleteAllFavouriteMeals()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> profileView.onMealsDeleted(),
+                        throwable -> profileView.onError(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
     }
 
     @Override
     public void getAllFavouriteMeals() {
-        repo.getAllFavouriteMeals().observe((LifecycleOwner) profileView, new Observer<List<Meal>>() {
-            @Override
-            public void onChanged(List<Meal> meals) {
-                profileView.onGetAllFavouriteList(meals);
-            }
-        });
+        Disposable disposable = repo.getAllFavouriteMeals()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meals -> profileView.onGetAllFavouriteList(meals),
+                        throwable -> profileView.onError(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
+    }
+
+    public void clearDisposables() {
+        if (compositeDisposable != null && !compositeDisposable.isDisposed()) {
+            compositeDisposable.clear();
+        }
     }
 }
