@@ -1,4 +1,4 @@
-package com.example.caloric.calender.view;
+package com.example.caloric.Planner.view;
 
 
 import com.example.caloric.model.Meal;

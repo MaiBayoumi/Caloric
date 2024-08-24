@@ -1,4 +1,4 @@
-package com.example.caloric.calender.view;
+package com.example.caloric.Planner.view;
 
 import android.content.Context;
 import android.util.Log;

@@ -1,6 +1,6 @@
-package com.example.caloric.calender.presenter;
+package com.example.caloric.Planner.presenter;
 
-import com.example.caloric.calender.view.PlannerViewInterface;
+import com.example.caloric.Planner.view.PlannerViewInterface;
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.RepoInterface;
 import io.reactivex.rxjava3.core.Observable;

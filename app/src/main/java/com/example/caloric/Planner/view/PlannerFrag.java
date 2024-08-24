@@ -1,4 +1,4 @@
-package com.example.caloric.calender.view;
+package com.example.caloric.Planner.view;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -21,8 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caloric.R;
-import com.example.caloric.calender.presenter.PlannerPresenter;
-import com.example.caloric.calender.presenter.PlannerPresenterInterface;
+import com.example.caloric.Planner.presenter.PlannerPresenter;
+import com.example.caloric.Planner.presenter.PlannerPresenterInterface;
 import com.example.caloric.database.LocalDataSource;
 import com.example.caloric.database.LocalSource;
 import com.example.caloric.model.Meal;
@@ -136,7 +136,7 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
     public void onFavItemClicked(String id) {
         if (checkConnection()) {
             Bundle bundle = new Bundle();
-            bundle.putString("mealId", id);
+            bundle.putString("id", id);
             NavController navController = Navigation.findNavController(getView());
             navController.navigate(R.id.action_plannerFrag_to_mealRecipeFrag, bundle);
         } else {
