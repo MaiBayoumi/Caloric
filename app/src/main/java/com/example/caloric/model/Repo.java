@@ -1,131 +1,131 @@
 package com.example.caloric.model;
 
-import androidx.lifecycle.LiveData;
-
-import com.example.caloric.database.LocalDataSource;
 import com.example.caloric.database.LocalSource;
-import com.example.caloric.network.NetworkDelegate;
+import com.example.caloric.network.RemoteDataSource;
 import com.example.caloric.network.RemoteSource;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+
 public class Repo implements RepoInterface {
     private static Repo instance;
-    private RemoteSource remoteSource;
-    private LocalSource localSource;
+    private final RemoteSource remoteSource;
+    private final LocalSource localSource;
 
-    private Repo(RemoteSource remoteSource, LocalSource localSource){
+    private Repo(RemoteSource remoteSource, LocalSource localSource) {
         this.remoteSource = remoteSource;
         this.localSource = localSource;
     }
 
-    public static synchronized Repo getInstance(RemoteSource remoteSource, LocalSource localSource){
-        if(instance == null){
+    public static synchronized Repo getInstance(RemoteSource remoteSource, LocalSource localSource) {
+        if (instance == null) {
             instance = new Repo(remoteSource, localSource);
         }
         return instance;
     }
 
-
     @Override
-    public void getMealByName(String name, NetworkDelegate networkDelegate) {
-        remoteSource.getMealByName(name, networkDelegate);
+    public Completable insertMealToFavourite(Meal meal) {
+        return  localSource.insertMeal(meal);
     }
 
     @Override
-    public void getMealByFirstChar(String firstChar, NetworkDelegate networkDelegate) {
-        remoteSource.getMealByFirstChar(firstChar, networkDelegate);
+    public Completable insertAllFav(List<Meal> meals) {
+        return localSource.insertAllFav(meals);
+
     }
 
     @Override
-    public void getMealById(String id, NetworkDelegate networkDelegate) {
-        remoteSource.getMealById(id, networkDelegate);
+    public Completable deleteMealFromFavourite(Meal meal) {
+        return  localSource.deleteMeal(meal);
     }
 
     @Override
-    public void getRandomMeal(NetworkDelegate networkDelegate) {
-        remoteSource.getRandomMeal(networkDelegate);
+    public Completable deleteAllFavouriteMeals() {
+        return localSource.deleteAllMeals();
+
     }
 
     @Override
-    public void getAllCategories(NetworkDelegate networkDelegate) {
-        remoteSource.getAllCategories(networkDelegate);
-    }
-
-    @Override
-    public void getAllCountries(NetworkDelegate networkDelegate) {
-        remoteSource.getAllCountries(networkDelegate);
-    }
-
-    @Override
-    public void getAllIngredient(NetworkDelegate networkDelegate) {
-        remoteSource.getAllIngredient(networkDelegate);
-    }
-
-    @Override
-    public void getMealsByIngredient(String ingredient, NetworkDelegate networkDelegate) {
-        remoteSource.getMealsByIngredient(ingredient, networkDelegate);
-    }
-
-    @Override
-    public void getMealsByCategory(String category, NetworkDelegate networkDelegate) {
-        remoteSource.getMealsByCategory(category, networkDelegate);
-    }
-
-    @Override
-    public void getMealsByCountry(String country, NetworkDelegate networkDelegate) {
-        remoteSource.getMealsByCountry(country, networkDelegate);
-    }
-
-    @Override
-    public void getRandomMeals(NetworkDelegate networkDelegate) {
-        remoteSource.getRandomMeals(networkDelegate);
-    }
-
-    @Override
-    public void insertMealToFavourite(Meal meal) {
-        localSource.insertMeal(meal);
-    }
-
-    @Override
-    public void insertAllFav(List<Meal> meals) {
-        localSource.insertAllFav(meals);
-    }
-
-    @Override
-    public void deleteMealFromFavourite(Meal meal) {
-        localSource.deleteMeal(meal);
-    }
-
-    @Override
-    public void deleteAllFavouriteMeals() {
-        localSource.deleteAllMeals();
-    }
-
-    @Override
-    public LiveData<List<Meal>> getAllFavouriteMeals() {
+    public Flowable<List<Meal>> getAllFavouriteMeals() {
         return localSource.getAllMeals();
     }
 
     @Override
-    public LiveData<List<Meal>> getMealsOfDay(String day) {
+    public Flowable<List<Meal>> getMealsOfDay(String day) {
         return localSource.getMealsOfDay(day);
     }
 
     @Override
-    public void updateDayOfMeal(String id, String day) {
-        localSource.updateDayOfMeal(id, day);
+    public Completable updateDayOfMeal(String id, String day) {
+        return  localSource.updateDayOfMeal(id, day);
+
     }
 
     @Override
-    public void insertMealToCalendar(Meal meal, String day) {
-        // Call the local data source to insert the meal with the selected day
-        localSource.insertMealToCalendar(meal, day);
+    public Completable insertMealToCalendar(Meal meal, String day) {
+        return localSource.insertMealToCalendar(meal, day);
+
     }
 
     @Override
-    public Meal getMealById(String id) {
-        return localSource.getMealById(id); // Assuming LocalSource has this method implemented
+    public Observable<MealResponse> getMealByName(String name) {
+        return remoteSource.getMealByName(name);
+    }
+
+    @Override
+    public Observable<MealResponse> getMealByFirstChar(String firstChar) {
+        return remoteSource.getMealByFirstChar(firstChar);
+    }
+
+    @Override
+    public Observable<MealResponse> getMealById(String id) {
+        return remoteSource.getMealById(id);
+    }
+
+    @Override
+    public Observable<MealResponse> getRandomMeal() {
+        return remoteSource.getRandomMeal();
+    }
+
+    @Override
+    public Observable<CategoryResponse> getAllCategories() {
+        return remoteSource.getAllCategories();
+    }
+
+    @Override
+    public Observable<CountryResponse> getAllCountries() {
+        return remoteSource.getAllCountries();
+    }
+
+    @Override
+    public Observable<IngredientResponse> getAllIngredients() {
+        return remoteSource.getAllIngredients();
+    }
+
+    @Override
+    public Observable<MealResponse> getMealsByIngredient(String ingredient) {
+        return remoteSource.getMealsByIngredient(ingredient);
+    }
+
+    @Override
+    public Observable<MealResponse> getMealsByCategory(String category) {
+        return remoteSource.getMealsByCategory(category);
+    }
+
+    @Override
+    public Observable<MealResponse> getMealsByCountry(String country) {
+        return remoteSource.getMealsByCountry(country);
+    }
+
+    @Override
+    public Observable<MealResponse> getRandomMeals() {
+        return remoteSource.getRandomMeals();
     }
 
 }

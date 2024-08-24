@@ -6,20 +6,23 @@ import com.example.caloric.model.Meal;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+
 public interface LocalSource {
-    void insertMeal(Meal meal);
+    Completable insertMeal(Meal meal);
 
-    public void insertAllFav(List<Meal> meals);
+    Completable insertAllFav(List<Meal> meals);
 
-    void deleteMeal(Meal meal);
+    Completable deleteMeal(Meal meal);
 
-    void deleteAllMeals() ;
+    Completable deleteAllMeals() ;
 
-    LiveData<List<Meal>> getAllMeals();
-    LiveData<List<Meal>> getMealsOfDay(String day);
-    void updateDayOfMeal(String id, String day);
+    Flowable<List<Meal>> getAllMeals();
+    Flowable<List<Meal>> getMealsOfDay(String day);
+    Completable updateDayOfMeal(String id, String day);
 
-    void insertMealToCalendar(Meal meal, String day);
+    Completable insertMealToCalendar(Meal meal, String day);
 
     Meal getMealById(String id);
 }

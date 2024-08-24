@@ -102,4 +102,10 @@ dependencies {
 
     implementation("com.google.firebase:firebase-storage")
 
+
+   // RxJava with Room
+    implementation ("androidx.room:room-rxjava3:2.5.0")
+    implementation ("io.reactivex.rxjava3:rxjava:3.1.6")
+    implementation ("io.reactivex.rxjava3:rxandroid:3.0.0")
+
 }

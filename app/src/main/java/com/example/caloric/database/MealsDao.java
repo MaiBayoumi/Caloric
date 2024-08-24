@@ -11,31 +11,34 @@ import com.example.caloric.model.Meal;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+
 @Dao
 public interface MealsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertMeal(Meal meal);
+    Completable insertMeal(Meal meal);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertAllFav(List<Meal> meals);
+    Completable insertAllFav(List<Meal> meals);
 
     @Delete
-    public void deleteMeal(Meal meal);
+    Completable deleteMeal(Meal meal);
 
     @Query("DELETE FROM meals_table")
-    public void deleteAllMeals() ;
+    Completable deleteAllMeals() ;
 
     @Query("SELECT * FROM meals_table")
-    LiveData<List<Meal>> getAllMeals();
+    Flowable<List<Meal>> getAllMeals();
 
     @Query("SELECT * From meals_table WHERE day = :day")
-    LiveData<List<Meal>> getMealsOfDay(String day);
+    Flowable<List<Meal>> getMealsOfDay(String day);
 
     @Query("UPDATE meals_table SET day = :day WHERE idMeal = :id")
-    void updateColumnDay(String id, String day);
+    Completable updateColumnDay(String id, String day);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMealToCalendar(Meal meal);
+    Completable insertMealToCalendar(Meal meal);
 
     @Query("SELECT * FROM meals_table WHERE idMeal = :id LIMIT 1")
     Meal getMealById(String id);

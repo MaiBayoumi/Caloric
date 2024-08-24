@@ -77,9 +77,9 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
 
         nameDay.setText(day != null ? day : "No Day Selected");
 
-        RemoteSource remoteSource = RemoteDataSource.getInstance(getContext());
+        RemoteSource remoteDataSourceSource = RemoteDataSource.getInstance(getContext());
         LocalSource localSource = LocalDataSource.getInstance(getContext());
-        RepoInterface repo = Repo.getInstance(remoteSource, localSource);
+        RepoInterface repo = Repo.getInstance(remoteDataSourceSource, localSource);
         detailsPresenter = new PlannerPresenter(repo, this);
 
         if (day != null) {
@@ -105,6 +105,29 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
     }
 
     @Override
+    public void onError(String s) {
+        Toast.makeText(getContext(), "Error: " + s, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onMealDeleted() {
+        Toast.makeText(getContext(), "Meal removed successfully", Toast.LENGTH_SHORT).show();
+        // Optionally, refresh the meal list
+        if (day != null) {
+            detailsPresenter.getMealsForDay(day);
+        }
+    }
+
+    @Override
+    public void onMealUpdated() {
+        Toast.makeText(getContext(), "Meal updated successfully", Toast.LENGTH_SHORT).show();
+        // Optionally, refresh the meal list
+        if (day != null) {
+            detailsPresenter.getMealsForDay(day);
+        }
+    }
+
+    @Override
     public void onDeleteBtnClicked(Meal meal) {
         detailsPresenter.updateDayOfMeal(meal.getIdMeal(), "no day");
     }
@@ -125,6 +148,9 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
     public void onDestroyView() {
         super.onDestroyView();
         ((HostedActivity) requireActivity()).bottomNavigationView.setVisibility(View.VISIBLE);
+        if (detailsPresenter instanceof PlannerPresenter) {
+            ((PlannerPresenter) detailsPresenter).clearDisposables();
+        }
     }
 
     // New method to save any meal to the calendar

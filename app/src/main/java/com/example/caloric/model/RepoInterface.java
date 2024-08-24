@@ -1,49 +1,32 @@
 package com.example.caloric.model;
 
-import androidx.lifecycle.LiveData;
-
-import com.example.caloric.network.NetworkDelegate;
+import com.example.caloric.network.RemoteSource;
 
 import java.util.List;
 
-public interface RepoInterface {
-    //Retrofit
-    void getMealByName(String name, NetworkDelegate networkDelegate);
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
 
-    void getMealByFirstChar(String firstChar, NetworkDelegate networkDelegate);
-
-    void getMealById(String id, NetworkDelegate networkDelegate);
-
-    void getRandomMeal(NetworkDelegate networkDelegate);
-
-    void getAllCategories(NetworkDelegate networkDelegate);
-
-    void getAllCountries(NetworkDelegate networkDelegate);
-
-    void getAllIngredient(NetworkDelegate networkDelegate);
-
-    void getMealsByIngredient(String ingredient, NetworkDelegate networkDelegate);
-
-    void getMealsByCategory(String category, NetworkDelegate networkDelegate);
-
-    void getMealsByCountry(String country, NetworkDelegate networkDelegate);
-
-    void getRandomMeals(NetworkDelegate networkDelegate);
+public interface RepoInterface extends RemoteSource {
 
 
-    //db
-    void insertMealToFavourite(Meal meal);
+    // Database operations
+    Completable insertMealToFavourite(Meal meal);
 
-    void insertAllFav(List<Meal> meals);
+    Completable insertAllFav(List<Meal> meals);
 
-    void deleteMealFromFavourite(Meal meal);
+    Completable deleteMealFromFavourite(Meal meal);
 
-    void deleteAllFavouriteMeals();
+    Completable deleteAllFavouriteMeals();
 
-    LiveData<List<Meal>> getAllFavouriteMeals();
-    LiveData<List<Meal>> getMealsOfDay(String day);
-    void updateDayOfMeal(String id, String day);
+    Flowable<List<Meal>> getAllFavouriteMeals();
 
-    void insertMealToCalendar(Meal meal, String day);
-    Meal getMealById(String id);
+    Flowable<List<Meal>> getMealsOfDay(String day);
+
+    Completable updateDayOfMeal(String id, String day);
+
+    Completable insertMealToCalendar(Meal meal, String day);
+
+
 }

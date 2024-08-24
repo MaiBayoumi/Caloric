@@ -8,6 +8,9 @@ import com.example.caloric.model.Meal;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+
 public class LocalDataSource implements LocalSource {
     private static LocalDataSource instance = null;
     private MealsDao mealsDao;
@@ -25,42 +28,42 @@ public class LocalDataSource implements LocalSource {
 
 
     @Override
-    public void insertMeal(Meal meal) {
-        mealsDao.insertMeal(meal);
+    public Completable insertMeal(Meal meal) {
+        return mealsDao.insertMeal(meal);
     }
 
     @Override
-    public void insertAllFav(List<Meal> meals) {
-        mealsDao.insertAllFav(meals);
+    public Completable insertAllFav(List<Meal> meals) {
+        return mealsDao.insertAllFav(meals);
     }
 
     @Override
-    public void deleteMeal(Meal meal) {
-        mealsDao.deleteMeal(meal);
+    public Completable deleteMeal(Meal meal) {
+        return mealsDao.deleteMeal(meal);
     }
 
     @Override
-    public void deleteAllMeals() {
-        mealsDao.deleteAllMeals();
+    public Completable deleteAllMeals() {
+        return mealsDao.deleteAllMeals();
     }
 
     @Override
-    public LiveData<List<Meal>> getAllMeals() {
+    public Flowable<List<Meal>> getAllMeals() {
         return mealsDao.getAllMeals();
     }
 
     @Override
-    public LiveData<List<Meal>> getMealsOfDay(String day) {
+    public Flowable<List<Meal>> getMealsOfDay(String day) {
         return mealsDao.getMealsOfDay(day);
     }
 
     @Override
-    public void updateDayOfMeal(String id, String day) {
-        mealsDao.updateColumnDay(id,day);
+    public Completable updateDayOfMeal(String id, String day) {
+        return mealsDao.updateColumnDay(id,day);
     }
 
     @Override
-    public void insertMealToCalendar(Meal meal, String day) {
+    public Completable insertMealToCalendar(Meal meal, String day) {
         // Set the day of the week in the meal object
         meal.setDay(day);
 
@@ -68,7 +71,7 @@ public class LocalDataSource implements LocalSource {
         meal.setIsFavorite(false);
 
         // Insert the meal into the database, associating it with the selected day
-        mealsDao.insertMeal(meal);
+        return mealsDao.insertMeal(meal);
     }
 
     public Meal getMealById(String id) {
@@ -76,5 +79,3 @@ public class LocalDataSource implements LocalSource {
     }
 
 }
-
-

@@ -46,10 +46,10 @@ public class SearchPresenter implements NetworkDelegate, SearchPresenterInterfac
         repo.getMealByFirstChar(firstChar, this);
     }
 
-    @Override
-    public void getRandomMeal() {
-        repo.getRandomMeal(this);
-    }
+//    @Override
+//    public void getRandomMeal() {
+//        repo.getRandomMeal(this);
+//    }
 
     @Override
     public void insertMeal(Meal meal) {

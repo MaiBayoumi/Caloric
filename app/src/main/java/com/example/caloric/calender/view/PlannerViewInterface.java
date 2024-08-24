@@ -8,4 +8,9 @@ import java.util.List;
 public interface PlannerViewInterface {
     void onGetMealOfDay(List<Meal> favouriteMeals);
 
+    void onError(String s);
+
+    void onMealDeleted();
+
+    void onMealUpdated();
 }

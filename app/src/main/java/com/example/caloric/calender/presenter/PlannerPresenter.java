@@ -1,18 +1,19 @@
 package com.example.caloric.calender.presenter;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-
 import com.example.caloric.calender.view.PlannerViewInterface;
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.RepoInterface;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
 import java.util.List;
 
 public class PlannerPresenter implements PlannerPresenterInterface {
     private RepoInterface repo;
     private PlannerViewInterface dayViewInterface;
-
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     public PlannerPresenter(RepoInterface repo, PlannerViewInterface dayViewInterface){
         this.repo = repo;
@@ -21,25 +22,45 @@ public class PlannerPresenter implements PlannerPresenterInterface {
 
     @Override
     public void getMealsForDay(String day) {
-        repo.getMealsOfDay(day).observe((LifecycleOwner) dayViewInterface, new Observer<List<Meal>>() {
-            @Override
-            public void onChanged(List<Meal> meals) {
-                dayViewInterface.onGetMealOfDay(meals);
-            }
-        });
+        Observable<List<Meal>> mealsObservable = repo.getMealsOfDay(day).toObservable();
+        disposables.add(
+                mealsObservable
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                meals -> dayViewInterface.onGetMealOfDay(meals),
+                                throwable -> dayViewInterface.onError("Error fetching meals: " + throwable.getMessage())
+                        )
+        );
     }
 
     @Override
     public void deleteMeal(Meal meal) {
-        repo.deleteMealFromFavourite(meal);
+        disposables.add(
+                repo.deleteMealFromFavourite(meal)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                () -> dayViewInterface.onMealDeleted(),
+                                throwable -> dayViewInterface.onError("Error deleting meal: " + throwable.getMessage())
+                        )
+        );
     }
 
     @Override
     public void updateDayOfMeal(String id, String day) {
-        repo.updateDayOfMeal(id, day);
+        disposables.add(
+                repo.updateDayOfMeal(id, day)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                () -> dayViewInterface.onMealUpdated(),
+                                throwable -> dayViewInterface.onError("Error updating meal: " + throwable.getMessage())
+                        )
+        );
     }
 
-
-
-
+    public void clearDisposables() {
+        disposables.clear();
+    }
 }

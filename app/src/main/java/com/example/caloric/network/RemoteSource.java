@@ -1,25 +1,39 @@
 package com.example.caloric.network;
 
+import com.example.caloric.model.Category;
+import com.example.caloric.model.CategoryResponse;
+import com.example.caloric.model.Country;
+import com.example.caloric.model.CountryResponse;
+import com.example.caloric.model.Ingredient;
+import com.example.caloric.model.IngredientResponse;
+import com.example.caloric.model.Meal;
+import com.example.caloric.model.MealResponse;
+
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import java.util.List;
+
 public interface RemoteSource {
-    void getMealByName(String name, NetworkDelegate networkDelegate);
 
-    void getMealByFirstChar(String firstChar, NetworkDelegate networkDelegate);
+    Observable<MealResponse> getMealByName(String name);
 
-    void getMealById(String id, NetworkDelegate networkDelegate);
+    Observable<MealResponse> getMealByFirstChar(String firstChar);
 
-    void getRandomMeal(NetworkDelegate networkDelegate);
+    Observable<MealResponse> getMealById(String id);
 
-    void getAllCategories(NetworkDelegate networkDelegate);
+    Observable<MealResponse> getRandomMeal();
 
-    void getAllCountries(NetworkDelegate networkDelegate);
+    Observable<CategoryResponse> getAllCategories();
 
-    void getAllIngredient(NetworkDelegate networkDelegate);
+    Observable<CountryResponse> getAllCountries();
 
-    void getMealsByIngredient(String ingredient, NetworkDelegate networkDelegate);
+    Observable<IngredientResponse> getAllIngredients();
 
-    void getMealsByCategory(String category, NetworkDelegate networkDelegate);
+    Observable<MealResponse> getMealsByIngredient(String ingredient);
 
-    void getMealsByCountry(String country, NetworkDelegate networkDelegate);
+    Observable<MealResponse> getMealsByCategory(String category);
 
-    void getRandomMeals(NetworkDelegate networkDelegate);
+    Observable<MealResponse> getMealsByCountry(String country);
+
+    Observable<MealResponse> getRandomMeals();
 }

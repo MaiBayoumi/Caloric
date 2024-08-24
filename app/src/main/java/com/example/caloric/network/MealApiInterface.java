@@ -1,45 +1,48 @@
 package com.example.caloric.network;
 
 
+
 import com.example.caloric.model.CategoryResponse;
 import com.example.caloric.model.CountryResponse;
 import com.example.caloric.model.IngredientResponse;
+import com.example.caloric.model.Meal;
 import com.example.caloric.model.MealResponse;
 
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface MealApiInterface {
     @GET("search.php")
-    Call<MealResponse> getMealByName(@Query("s")String name);
+    Observable<MealResponse> getMealByName(@Query("s")String name);
 
     @GET("search.php")
-    Call<MealResponse> getMealByFirstChar(@Query("f") String firstChar);
+    Observable<MealResponse> getMealByFirstChar(@Query("f") String firstChar);
 
     @GET("lookup.php")
-    Call<MealResponse> getMealById(@Query("i") String id);
+    Observable<MealResponse> getMealById(@Query("i") String id);
 
     @GET("random.php")
-    Call<MealResponse> getRandomMeal();
+    Observable<MealResponse> getRandomMeal();
 
     @GET("categories.php")
-    Call<CategoryResponse> getAllCategories();
+    Observable<CategoryResponse> getAllCategories();
 
     @GET("list.php?a=list")
-    Call<CountryResponse> getAllCountries();
+    Observable<CountryResponse> getAllCountries();
 
     @GET("list.php?i=list")
-    Call<IngredientResponse> getAllIngredient();
+    Observable<IngredientResponse> getAllIngredient();
 
     @GET("filter.php")//this return list of strMeal and strMealThumb and idMeal just
-    Call<MealResponse> getMealsByIngredient(@Query("i") String ingredient);
+    Observable<MealResponse> getMealsByIngredient(@Query("i") String ingredient);
 
     @GET("filter.php")//this return list of strMeal and strMealThumb and idMeal just
-    Call<MealResponse> getMealsByCategory(@Query("c") String category);
+    Observable<MealResponse> getMealsByCategory(@Query("c") String category);
 
     @GET("filter.php")//this return list of strMeal and strMealThumb and idMeal just
-    Call<MealResponse> getMealsByCountry(@Query("a") String country);
+    Observable<MealResponse> getMealsByCountry(@Query("a") String country);
 
 
 

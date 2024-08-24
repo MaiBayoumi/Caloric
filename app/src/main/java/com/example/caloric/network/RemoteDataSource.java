@@ -15,7 +15,10 @@ import com.example.caloric.model.MealResponse;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import io.reactivex.rxjava3.core.Observable;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -30,10 +33,11 @@ public class RemoteDataSource implements RemoteSource {
     private MealApiInterface mealApiInterface;
     private static final String BASE_URL = "https://www.themealdb.com/api/json/v1/1/";
 
-    private RemoteDataSource(Context context) {
+    public RemoteDataSource(Context context) {
         File cacheDirectory = new File(context.getCacheDir(), "offline_cache_directory");
         Cache cache = new Cache(cacheDirectory, 80 * 1024 * 1024);
-
+//You are setting up an OkHttpClient with caching by creating a cache directory (offline_cache_directory) and allocating 80 MB of space for it.
+// This can help improve performance and allow for offline capabilities when using Retrofit.
         OkHttpClient okHttpClient = new OkHttpClient
                 .Builder().cache(cache).build();
 
@@ -41,6 +45,7 @@ public class RemoteDataSource implements RemoteSource {
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
 
         mealApiInterface = retrofit.create(MealApiInterface.class);
@@ -53,232 +58,73 @@ public class RemoteDataSource implements RemoteSource {
         return instance;
     }
 
-    @Override
-    public void getMealByName(String name, NetworkDelegate networkDelegate) {
-        mealApiInterface.getMealByName(name).enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if (response.body().getMeals() != null) {
-                    Log.d(TAG, "onResponse: done to get Meal by Name and size equal " + response.body().getMeals().size());
-                    networkDelegate.onSuccessResultMeal(response.body().getMeals());
-                } else {
-                    networkDelegate.onFailureResult("no Result..");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: failed to get Meal By Name");
-                networkDelegate.onFailureResult(t.getMessage());
-            }
-        });
+    public MealApiInterface getMyApi() {
+        return mealApiInterface;
     }
 
     @Override
-    public void getMealByFirstChar(String firstChar, NetworkDelegate networkDelegate) {
-        mealApiInterface.getMealByFirstChar(firstChar).enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                Log.d(TAG, "onResponse: done to get Meal by FirstChar and size equal " + response.body().getMeals().size());
-                networkDelegate.onSuccessResultMeal(response.body().getMeals());
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: failed to get Meal By First Char");
-                networkDelegate.onFailureResult(t.getMessage());
-            }
-        });
+    public Observable<MealResponse> getMealByName(String name) {
+        return mealApiInterface.getMealByName(name);
     }
 
     @Override
-    public void getMealById(String id, NetworkDelegate networkDelegate) {
-        mealApiInterface.getMealById(id).enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                Log.d(TAG, "onResponse: done to get Meal by Id and size equal " + response.body().getMeals().size());
-                networkDelegate.onSuccessResultMeal(response.body().getMeals());
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: failed to get Meal By Id");
-                networkDelegate.onFailureResult(t.getMessage());
-            }
-        });
-    }
-
-
-    @Override
-    public void getRandomMeal(NetworkDelegate networkDelegate) {
-        mealApiInterface.getRandomMeal().enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                Log.d(TAG, "onResponse: done get RandomMeal and the name is : " + response.body().getMeals().get(0).getStrMeal());
-                networkDelegate.onSuccessResultMeal(response.body().getMeals());
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: failed to get Random Meal");
-                networkDelegate.onFailureResult(t.getMessage());
-            }
-        });
-    }
-    @Override
-    public void getAllCategories(NetworkDelegate networkDelegate) {
-        mealApiInterface.getAllCategories().enqueue(new Callback<CategoryResponse>() {
-            @Override
-            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
-                Log.d(TAG, "onResponse: done to get All categories and size equal " + response.body().getCategories().size());
-                networkDelegate.onSuccessResultCategory(response.body().getCategories());
-            }
-
-            @Override
-            public void onFailure(Call<CategoryResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: failed to get All categories");
-                networkDelegate.onFailureResult(t.getMessage());
-            }
-        });
+    public Observable<MealResponse> getMealByFirstChar(String firstChar) {
+        return mealApiInterface.getMealByFirstChar(firstChar);
     }
 
     @Override
-    public void getAllCountries(NetworkDelegate networkDelegate) {
-        mealApiInterface.getAllCountries().enqueue(new Callback<CountryResponse>() {
-            @Override
-            public void onResponse(Call<CountryResponse> call, Response<CountryResponse> response) {
-                Log.d(TAG, "onResponse: done to get All Countries and size equal " + response.body().getCountries().size());
-                networkDelegate.onSuccessResultCountries(response.body().getCountries());
-            }
-
-            @Override
-            public void onFailure(Call<CountryResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: failed to get All Countries");
-                networkDelegate.onFailureResult(t.getMessage());
-            }
-        });
+    public Observable<MealResponse> getMealById(String id) {
+        return mealApiInterface.getMealById(id);
     }
 
     @Override
-    public void getAllIngredient(NetworkDelegate networkDelegate) {
-        mealApiInterface.getAllIngredient().enqueue(new Callback<IngredientResponse>() {
-            @Override
-            public void onResponse(Call<IngredientResponse> call, Response<IngredientResponse> response) {
-                Log.d(TAG, "onResponse: done to get All Ingredient and size equal " + response.body().getIngredient().size());
-                networkDelegate.onSuccessResultIngredient(response.body().getIngredient());
-            }
+    public Observable<MealResponse> getRandomMeal() {
+        return mealApiInterface.getRandomMeal();
 
-            @Override
-            public void onFailure(Call<IngredientResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: failed to get All Ingredient");
-                networkDelegate.onFailureResult(t.getMessage());
-            }
-        });
     }
 
     @Override
-    public void getMealsByIngredient(String ingredient, NetworkDelegate networkDelegate) {
-        mealApiInterface.getMealsByIngredient(ingredient).enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if (response.body().getMeals() != null) {
-                    Log.d(TAG, "onResponse: done to get Meals by Ingredient and size equal " + response.body().getMeals().size());
-                    networkDelegate.onSuccessFilter(response.body());
-                } else {
-                    networkDelegate.onFailureResult("no Result..");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: failed to get MealBy Ingredient");
-                networkDelegate.onFailureResult(t.getMessage());
-            }
-        });
+    public Observable<CategoryResponse> getAllCategories() {
+        return mealApiInterface.getAllCategories();
     }
 
     @Override
-    public void getMealsByCategory(String category, NetworkDelegate networkDelegate) {
-        mealApiInterface.getMealsByCategory(category).enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if (response.body().getMeals() != null) {
-                    Log.d(TAG, "onResponse: done to get meals by Category and size equal " + response.body().getMeals().size());
-                    networkDelegate.onSuccessFilter(response.body());
-                } else {
-                    networkDelegate.onFailureResult("no Result..");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: failed to get Meals By Category");
-                networkDelegate.onFailureResult(t.getMessage());
-            }
-        });
+    public Observable<CountryResponse> getAllCountries() {
+        return mealApiInterface.getAllCountries();
     }
 
     @Override
-    public void getMealsByCountry(String country, NetworkDelegate networkDelegate) {
-        mealApiInterface.getMealsByCountry(country).enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if (response.body().getMeals() != null) {
-                    Log.d(TAG, "onResponse: done to get Meals By Countries and size equal " + response.body().getMeals().size());
-                    networkDelegate.onSuccessFilter(response.body());
-                } else {
-                    networkDelegate.onFailureResult("no Result..");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: failed to get Meals By Country");
-                networkDelegate.onFailureResult(t.getMessage());
-            }
-        });
+    public Observable<IngredientResponse> getAllIngredients() {
+        return mealApiInterface.getAllIngredient();
     }
 
-    public void getRandomMeals(NetworkDelegate networkDelegate) {
-        List<Meal> randomMeals = new ArrayList<>();
-
-        // Example: Fetch 5 random meals
-        for (int i = 0; i < 5; i++) {
-            getRandomMeal(new NetworkDelegate() {
-                @Override
-                public void onSuccessResultMeal(List<Meal> meals) {
-                    randomMeals.addAll(meals);
-                    if (randomMeals.size() == 5) {
-                        networkDelegate.onSuccessResultMeal(randomMeals); // Pass the accumulated random meals
-                    }
-                }
-
-                @Override
-                public void onSuccessFilter(MealResponse meals) {
-
-                }
-
-                @Override
-                public void onSuccessResultCategory(List<Category> categories) {
-
-                }
-
-                @Override
-                public void onSuccessResultIngredient(List<Ingredient> ingredients) {
-
-                }
-
-                @Override
-                public void onSuccessResultCountries(List<Country> countries) {
-                }
-
-                @Override
-                public void onFailureResult(String message) {
-                    networkDelegate.onFailureResult(message);
-                }
-            });
-        }
+    @Override
+    public Observable<MealResponse> getMealsByIngredient(String ingredient) {
+        return mealApiInterface.getMealsByIngredient(ingredient);
     }
 
+    @Override
+    public Observable<MealResponse> getMealsByCategory(String category) {
+        return mealApiInterface.getMealsByCategory(category);
+    }
+
+    @Override
+    public Observable<MealResponse> getMealsByCountry(String country) {
+        return mealApiInterface.getMealsByCountry(country);
+    }
+
+    public Observable<MealResponse> getRandomMeals() {
+        return Observable.just(0) // Start with a single item to initiate the chain
+                .repeat(5) // Repeat the chain 5 times
+                .flatMap(i -> mealApiInterface.getRandomMeal() // Fetch a random meal for each item
+                        .onErrorReturn(throwable -> null) // Handle errors by returning null
+                )
+                .filter(meal -> meal != null) // Filter out any null results
+                .toList() // Collect items into a List<Meal>
+                .map(meals -> new MealResponse(meals.stream()
+                        .flatMap(mealResponse -> mealResponse.getMeals().stream())
+                        .collect(Collectors.toList()))) // Wrap the list of all meals in a MealResponse
+                .toObservable(); // Convert List<MealResponse> to Observable<MealResponse>
+    }
 
 }
