@@ -28,6 +28,7 @@ import com.example.caloric.R;
 import com.example.caloric.database.LocalDataSource;
 import com.example.caloric.model.IngredientModel;
 import com.example.caloric.model.Meal;
+import com.example.caloric.model.MealResponse;
 import com.example.caloric.model.Repo;
 import com.example.caloric.model.RepoInterface;
 import com.example.caloric.network.RemoteDataSource;
@@ -240,8 +241,7 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
                 }
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 // Handle exception if needed
-            }
-        }
+            }}
         return ingredientList;
     }
 
@@ -252,6 +252,32 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
 
     @Override
     public void onFailToGetMealDetails(String message) {
+
+    }
+
+    @Override
+    public void onMealLoaded(MealResponse meal) {
+
+
+    }
+
+    @Override
+    public void onError(String s) {
+
+    }
+
+    @Override
+    public void onMealInsertedToFavourite() {
+
+    }
+
+    @Override
+    public void onMealUpdatedDay() {
+
+    }
+
+    @Override
+    public void onMealInsertedToCalendar() {
 
     }
 

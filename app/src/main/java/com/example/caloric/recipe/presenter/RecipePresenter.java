@@ -1,22 +1,19 @@
 package com.example.caloric.recipe.presenter;
 
-
-import com.example.caloric.database.LocalDataSource;
-import com.example.caloric.model.Category;
-import com.example.caloric.model.Country;
-import com.example.caloric.model.Ingredient;
 import com.example.caloric.model.Meal;
-import com.example.caloric.model.MealResponse;
 import com.example.caloric.model.RepoInterface;
-import com.example.caloric.network.NetworkDelegate;
 import com.example.caloric.recipe.view.RecipeViewInterface;
 
-import java.util.List;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class RecipePresenter implements NetworkDelegate, RecipePresenterInterface {
+public class RecipePresenter implements RecipePresenterInterface {
     private RepoInterface repo;
     private RecipeViewInterface detailsView;
-    //LocalDataSource localDataSource;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public RecipePresenter(RepoInterface repo, RecipeViewInterface detailsView){
         this.repo = repo;
@@ -24,57 +21,62 @@ public class RecipePresenter implements NetworkDelegate, RecipePresenterInterfac
     }
 
     @Override
-    public void getMealById(String id) {
-        repo.getMealById(id,this);
+    public Completable getMealById(String id) {
+        Disposable disposable = repo.getMealById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meal -> detailsView.onGetMealDetails(meal.getMeals()),
+                        throwable -> detailsView.onError(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
+        return null;
+    }
 
+
+
+    @Override
+    public Completable  insertMealToFavourite(Meal meal) {
+        Disposable disposable = repo.insertMealToFavourite(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> detailsView.onMealInsertedToFavourite(),
+                        throwable -> detailsView.onError(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
+        return null;
     }
 
     @Override
-    public void insertMealToFavourite(Meal meal) {
-
-        repo.insertMealToFavourite(meal);
+    public Completable  updateDayOfMeal(String id, String day) {
+        Disposable disposable = repo.updateDayOfMeal(id, day)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> detailsView.onMealUpdatedDay(),
+                        throwable -> detailsView.onError(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
+        return null;
     }
 
     @Override
-    public void updateDayOfMeal(String id, String day) {
-        repo.updateDayOfMeal(id, day);
+    public Completable  insertMealToCalendar(Meal meal, String day) {
+        Disposable disposable = repo.insertMealToCalendar(meal, day)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> detailsView.onMealInsertedToCalendar(),
+                        throwable -> detailsView.onError(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
+        return null;
     }
 
-    @Override
-    public void insertMealToCalendar(Meal meal, String day) {
-        // Logic to save the meal to the calendar in the database with the selected day
-        repo.insertMealToCalendar(meal, day);
+    public void clearDisposables() {
+        if (compositeDisposable != null && !compositeDisposable.isDisposed()) {
+            compositeDisposable.clear();
+        }
     }
-
-    @Override
-    public void onSuccessResultMeal(List<Meal> meals) {
-        detailsView.onGetMealDetails(meals);
-    }
-
-    @Override
-    public void onSuccessFilter(MealResponse meals) {
-
-    }
-
-    @Override
-    public void onSuccessResultCategory(List<Category> categories) {
-
-    }
-
-    @Override
-    public void onSuccessResultIngredient(List<Ingredient> ingredients) {
-
-    }
-
-    @Override
-    public void onSuccessResultCountries(List<Country> countries) {
-
-    }
-
-    @Override
-    public void onFailureResult(String message) {
-        detailsView.onFailToGetMealDetails(message);
-    }
-
-
 }
