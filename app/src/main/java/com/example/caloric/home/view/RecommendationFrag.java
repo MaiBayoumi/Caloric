@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.caloric.R;
 import com.example.caloric.database.LocalDataSource;
@@ -28,10 +29,10 @@ import com.example.caloric.model.Country;
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.MealResponse;
 import com.example.caloric.model.Repo;
-import com.example.caloric.model.RepoInterface;
 import com.example.caloric.model.User;
 import com.example.caloric.network.RemoteDataSource;
 import com.example.caloric.network.RemoteSource;
+import com.example.caloric.recipe.view.IngredientRecyclerAdapter;
 import com.example.caloric.register.LogIn;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -50,84 +51,63 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecommendationFrag extends Fragment  implements RecommendationViewInterface, OnClickInterface{
+public class RecommendationFrag extends Fragment implements RecommendationViewInterface, OnClickInterface {
     private static final String TAG = "TAG";
-    RecyclerView dailyRecyclerView, countryRecyclerView, categoryRecyclerView;
-    RecommendationPresenterInterface presenter;
-    DailyRecyclerAdapter dailyAdapter;
-    CountryRecyclerAdapter countryAdapter;
-    TextView dailyTV, countryTV, categoryTV,caloric;
-    CategoryRecyclerAdapter categoryAdapter;
-    FirebaseFirestore db;
-    boolean isExist = false;
-    FirebaseUser currentUser;
-    User userPojo;
 
-    ArrayList<Meal> mealList;
-    ArrayList<Country> countryList;
-    ArrayList<Category> categoryList;
+    private RecyclerView dailyRecyclerView, countryRecyclerView, categoryRecyclerView;
+    private RecommendationPresenterInterface presenter;
+    private DailyRecyclerAdapter dailyAdapter;
+    private CountryRecyclerAdapter countryAdapter;
+    private CategoryRecyclerAdapter categoryAdapter;
+    private TextView dailyTV, countryTV, categoryTV, caloric;
+
+    private FirebaseFirestore db;
+    private FirebaseUser currentUser;
+    private User userPojo;
+
+    private ArrayList<Meal> mealList;
+    private ArrayList<Country> countryList;
+    private ArrayList<Category> categoryList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mealList = new ArrayList<>();
+        categoryList = new ArrayList<>();
+        countryList = new ArrayList<>();
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_recommendation, container, false);
-
-
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mealList = new ArrayList<>();
-        categoryList = new ArrayList<>();
-        countryList = new ArrayList<>();
-
-
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         dailyRecyclerView = view.findViewById(R.id.recommendRecycler);
         countryRecyclerView = view.findViewById(R.id.countriesRecyclerView);
         categoryRecyclerView = view.findViewById(R.id.categoriesRecyclerView);
         dailyTV = view.findViewById(R.id.dailyTV);
         countryTV = view.findViewById(R.id.countriesTextView);
         categoryTV = view.findViewById(R.id.categoriesTextView);
-        caloric= view.findViewById(R.id.caloric);
-
-
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
-        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        caloric = view.findViewById(R.id.caloric);
 
         dailyAdapter = new DailyRecyclerAdapter(view.getContext(), this, mealList);
-        dailyRecyclerView.setLayoutManager(linearLayoutManager);
-        dailyRecyclerView.setAdapter(dailyAdapter);
-
         countryAdapter = new CountryRecyclerAdapter(view.getContext(), this, countryList);
-        countryRecyclerView.setAdapter(countryAdapter);
+        categoryAdapter = new CategoryRecyclerAdapter(view.getContext(), this, categoryList);
 
-        categoryAdapter = new CategoryRecyclerAdapter(view.getContext(), this,categoryList);
-        Log.d("mai", "onViewCreated: ");
-        categoryRecyclerView.setAdapter(categoryAdapter);
-
-        db = FirebaseFirestore.getInstance();
-        userPojo = new User();
+        setupRecyclerView(dailyRecyclerView, dailyAdapter);
+        setupRecyclerView(countryRecyclerView, countryAdapter);
+        setupRecyclerView(categoryRecyclerView, categoryAdapter);
 
         RemoteSource remoteSource = RemoteDataSource.getInstance(view.getContext());
         LocalSource localSource = LocalDataSource.getInstance(view.getContext());
-        RepoInterface repo = Repo.getInstance(remoteSource, localSource);
+        Repo repo = Repo.getInstance(remoteSource, localSource);
         presenter = new RecommendationPresenter(repo, this);
 
         presenter.getRandomMeals();
@@ -136,24 +116,24 @@ public class RecommendationFrag extends Fragment  implements RecommendationViewI
 
         if (currentUser != null) {
             checkDataInFireStore();
-        }else{
-            presenter.deleteAllFavMeals();
         }
     }
 
-
+    private void setupRecyclerView(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
+    }
 
     @Override
     public void setDailyInspirationData(List<Meal> meals) {
-        mealList.clear();  // Clear the previous data
-        mealList.addAll(meals);  // Add the new random meals
+        dailyAdapter.setList((ArrayList<Meal>) meals);
         dailyAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void setListToCategoriesAdapter(List<Category> categories) {
         categoryAdapter.setList((ArrayList<Category>) categories);
-        Log.d("mai", "setListToCategoriesAdapter: ");
         categoryAdapter.notifyDataSetChanged();
     }
 
@@ -165,18 +145,29 @@ public class RecommendationFrag extends Fragment  implements RecommendationViewI
 
     @Override
     public void onFailureResult(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
 
+
+    @Override
+    public void onDeleteAllFavMealsSuccess() {
+        Toast.makeText(getContext(), "All favorite meals have been successfully deleted.", Toast.LENGTH_SHORT).show();
+        dailyAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onGetMeals(List<Meal> meals) {
-        if (meals != null && !meals.isEmpty()) {
-            dailyRecyclerView.setVisibility(View.VISIBLE);
-            dailyAdapter.setList((ArrayList<Meal>) meals);
-            dailyAdapter.notifyDataSetChanged();
-        } else {
-            onFailureResult("No meals found");
-        }
+    public void onInsertMealSuccess() {
+        //Toast.makeText(getContext(), "Meal successfully added to favorites.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onInsertAllFavSuccess() {
+        //Toast.makeText(getContext(), "All favorite meals have been successfully added.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleteMealSuccess() {
+        //Toast.makeText(getContext(), "Meal successfully removed from favorites.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -187,6 +178,7 @@ public class RecommendationFrag extends Fragment  implements RecommendationViewI
             showMaterialDialog(getContext());
         }
     }
+
     @Override
     public void onDailyInspirationItemClicked(String id) {
         Bundle args = new Bundle();
@@ -195,42 +187,70 @@ public class RecommendationFrag extends Fragment  implements RecommendationViewI
         navController.navigate(R.id.action_recommendationFrag_to_mealRecipeFrag, args);
     }
 
-//    @Override
-//    public void onDailyInspirationItemClicked(String id) {
-////        RecommendationFragDirections.ActionRecommendationFragToMealRecipeFrag action =
-////    RecommendationFragDirections.actionRecommendationFragToMealRecipeFrag(id);
-////        Navigation.findNavController(getView()).navigate(action);
-//        Bundle args = new Bundle();
-//        args.putString("id", id);
-//        NavController navController = Navigation.findNavController(getView());
-//        navController.navigate(R.id.action_recommendationFrag_to_mealRecipeFrag, args);
-//
-//    }
-
     @Override
     public void onSuccessToFilter(MealResponse meals) {
 
-        Bundle args = new Bundle();
-        args.putSerializable("meals", meals);
-        NavController navController = Navigation.findNavController(getView());
-        navController.navigate(R.id.action_recommendationFrag_to_mealsFrag, args);
+    }
+    @Override
+    public void onGetMeals(List<Meal> meals) {
+        if (meals != null && !meals.isEmpty()) {
+            dailyRecyclerView.setVisibility(View.VISIBLE);
+            dailyAdapter.setList(new ArrayList<>(meals)); // Set the data directly to the adapter
+            dailyAdapter.notifyDataSetChanged();
+        } else {
+            onFailureResult("No meals found");
+        }
+    }
 
-  }
+    @Override
+    public void onGetCategoryMeals(List<Category> meals) {
+        Log.d(TAG, "Meals received: " + meals); // Log the received meals
+
+        if (meals != null && !meals.isEmpty()) {
+            categoryRecyclerView.setVisibility(View.VISIBLE); // Show the RecyclerView
+            categoryAdapter.setList(new ArrayList<>(meals)); // Set the meal list to the adapter
+            categoryAdapter.notifyDataSetChanged(); // Notify the adapter to refresh the UI
+        } else {
+            onFailureResult("No meals found for the category"); // Handle the case when no meals are found
+        }
+    }
+
+
+    @Override
+    public void onGetCountryMeals(List<Meal> countries) {
+//        if (countries != null && !countries.isEmpty()) {
+//            countryRecyclerView.setVisibility(View.VISIBLE);
+//            countryAdapter.setList(new ArrayList<>(countries)); // Set the data directly to the adapter
+//            countryAdapter.notifyDataSetChanged();
+//        } else {
+//            onFailureResult("No meals found");
+//        }
+    }
+
+
 
     @Override
     public void onCountryItemClicked(Country country) {
-        presenter.getMealsByCountry(country.getStrArea());
-
+        Bundle args = new Bundle();
+        args.putString("filter", country.getStrArea());
+        args.putString("filterType", "country");
+        NavController navController = Navigation.findNavController(getView());
+        navController.navigate(R.id.action_recommendationFrag_to_mealsFrag, args);
+        //presenter.getMealsByCountry(country.getStrArea());
     }
-
 
     @Override
     public void onCategoryItemClicked(Category category) {
-        presenter.getMealsByCategory(category.getStrCategory());
+        Bundle args = new Bundle();
+        args.putString("filter", category.getStrCategory());
+        args.putString("filterType", "category");
+        NavController navController = Navigation.findNavController(getView());
+        navController.navigate(R.id.action_recommendationFrag_to_mealsFrag, args);
+        //presenter.getMealsByCountry(country.getStrArea());
+        //presenter.getMealsByCategory(category.getStrCategory());
     }
 
-
-    private void checkDataInFireStore2() {
+    private void checkDataInFireStore() {
         db.collection("users")
                 .document(currentUser.getUid())
                 .get()
@@ -239,85 +259,52 @@ public class RecommendationFrag extends Fragment  implements RecommendationViewI
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            Map<String, Object> data = document.getData();
-                            userPojo = document.toObject(User.class);
-                            if (!document.exists()) {
-                                createNewUserInFireStore();
-                            }
-                            if (userPojo.getFavMeals() != null)
-                                presenter.insertAllFav(userPojo.getFavMeals());
-                            isExist = true;
-                        } else {
-                            Log.d("hey", "Error getting documents.", task.getException());
-
-                        }
-                    }
-                });
-
-    }
-
-    private void checkDataInFireStore() {
-        db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (document.getId().equals(currentUser.getUid())) {
-                                    Map<String, Object> data = document.getData();
-                                    userPojo = new User((Map<String, Object>) data.get("userPojo"));
-                                    if (userPojo.getFavMeals() != null)
-                                        presenter.insertAllFav(userPojo.getFavMeals());
-                                    isExist = true;
+                            if (document.exists()) {
+                                userPojo = document.toObject(User.class);
+                                if (userPojo != null && userPojo.getFavMeals() != null) {
+                                    presenter.insertAllFav(userPojo.getFavMeals());
                                 }
-                            }
-                            if (!isExist) {
+                            } else {
                                 createNewUserInFireStore();
                             }
                         } else {
-                            Log.d("hey", "Error getting documents.", task.getException());
+                            Log.d(TAG, "Error getting documents.", task.getException());
                         }
                     }
                 });
     }
 
     private void createNewUserInFireStore() {
-        Map<String, Object> user = new HashMap<>();
         User newUser = new User(currentUser.getDisplayName(), currentUser.getEmail());
-        user.put("userPojo", newUser);
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("userPojo", newUser);
 
         db.collection("users")
                 .document(currentUser.getUid())
-                .set(user)
+                .set(userMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d("hey", "new User Added");
+                        Log.d(TAG, "New user added to Firestore");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("hey", "Error adding document", e);
+                        Log.d(TAG, "Error adding document", e);
                     }
                 });
     }
 
     private void showMaterialDialog(Context context) {
-
         new MaterialAlertDialogBuilder(context)
                 .setTitle(getResources().getString(R.string.caloric))
                 .setMessage(getResources().getString(R.string.messageAdd))
                 .setNegativeButton(getResources().getString(R.string.signIn), (dialog, which) -> {
-
-                    Intent intent = new Intent();
-                    intent.setClass(getContext(), LogIn.class);
+                    Intent intent = new Intent(getContext(), LogIn.class);
                     startActivity(intent);
                 })
-                .setPositiveButton(getResources().getString(R.string.cancel), (dialog, which) -> {
-
-                })
+                .setPositiveButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
                 .show();
     }
 }

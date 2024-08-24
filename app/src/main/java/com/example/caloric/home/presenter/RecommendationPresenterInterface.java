@@ -8,14 +8,16 @@ public interface RecommendationPresenterInterface {
     void getRandomMeal();
     void getAllCategories();
     void getAllCountries();
-    void getAllIngredient();
-    void insertMeal(Meal meal);
 
+    void insertMeal(Meal meal);
     void insertAllFav(List<Meal> meals);
+
     void getMealsByCategory(String category);
     void getMealsByCountry(String country);
-
-    void deleteAllFavMeals();
-
     void getRandomMeals();
+
+
+
+    void deleteMeal(Meal meal);
+    //void deleteAllFavMeals();
 }
