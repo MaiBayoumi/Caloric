@@ -16,9 +16,10 @@ import com.example.caloric.R;
 import com.example.caloric.model.Meal;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.MealViewHolder> {
-    private ArrayList<Meal> myList = new ArrayList<>();
+    private List<Meal> myList = new ArrayList<>();
     private Context context;
     private OnCommonClickInterface onCommonClickInterface;
 
@@ -61,7 +62,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.MealViewHold
         return myList.size();
     }
 
-    public void setList(ArrayList<Meal> myList) {
+    public void setList(List<Meal> myList) {
         this.myList = myList;
         notifyDataSetChanged();
     }

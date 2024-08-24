@@ -9,17 +9,20 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.caloric.R;
 import com.example.caloric.database.LocalDataSource;
 import com.example.caloric.database.LocalSource;
 import com.example.caloric.meals.presenter.MealsPresenter;
 import com.example.caloric.meals.presenter.MealsPresenterInterface;
+import com.example.caloric.model.Country;
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.MealResponse;
 import com.example.caloric.model.Repo;
@@ -29,11 +32,13 @@ import com.example.caloric.network.RemoteSource;
 import com.example.caloric.view.HostedActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MealsFrag extends Fragment implements OnCommonClickInterface, MealsViewInterface {
 
     MealResponse meals;
+    String filter, filterType;
     RecyclerView mealRecycler;
     MealsAdapter mealsAdapter;
     MealsPresenterInterface presenter;
@@ -64,7 +69,7 @@ public class MealsFrag extends Fragment implements OnCommonClickInterface, Meals
         super.onViewCreated(view, savedInstanceState);
 
         mealRecycler = view.findViewById(R.id.mealRecycler);
-        caloric= view.findViewById(R.id.caloric);
+        caloric = view.findViewById(R.id.caloric);
         back = view.findViewById(R.id.back);
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -77,28 +82,34 @@ public class MealsFrag extends Fragment implements OnCommonClickInterface, Meals
 
 
         mealsAdapter = new MealsAdapter(view.getContext(), this);
-
-
-        Bundle args = getArguments();
-        if (args != null) {
-            meals = (MealResponse) args.getSerializable("meals");
-        }
-        mealRecycler.setAdapter(mealsAdapter);
-
-        mealsAdapter.setList((ArrayList<Meal>) meals.getMeals());
-        mealsAdapter.notifyDataSetChanged();
-
-
         RemoteSource remoteSource = RemoteDataSource.getInstance(view.getContext());
         LocalSource localSource = LocalDataSource.getInstance(view.getContext());
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
         presenter = new MealsPresenter(repo, this);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            filter = args.getString("filter");
+            filterType = args.getString("filterType");
+            Log.d("MAI", "onViewCreated: " + filter + " " + filterType);
+
+            if ("country".equals(filterType)) {
+                presenter.getCountryMeals(filter);
+            } else {
+                presenter.getCategoryMeals(filter);
+            }
+        }
+
+        //meals = (MealResponse) args.getSerializable("filter");
+        mealRecycler.setAdapter(mealsAdapter);
+        //mealsAdapter.setList((ArrayList<Meal>) meals.getMeals());
+        mealsAdapter.notifyDataSetChanged();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
         ((HostedActivity) requireActivity()).bottomNavigationView.setVisibility(View.GONE);
     }
 
@@ -114,10 +125,47 @@ public class MealsFrag extends Fragment implements OnCommonClickInterface, Meals
         NavController navController = Navigation.findNavController(getView());
         navController.navigate(R.id.action_mealsFrag_to_mealRecipeFrag, args);
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
         ((HostedActivity) requireActivity()).bottomNavigationView.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void onMealInserted() {
+        Toast.makeText(getContext(), "meal has been successfully added.", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onError(String s) {
+        Toast.makeText(getContext(), "Error: " + s, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onGetMealsByCountry(List<Meal> countryMeals) {
+        //countryMeals = presenter.getCountryMeals(countryMeals);
+        if (countryMeals != null && !countryMeals.isEmpty()) {
+            Log.d("MAI", "No meals found for the selected country " + countryMeals.size());
+
+            mealsAdapter.setList(countryMeals);
+            mealsAdapter.notifyDataSetChanged();
+        } else {
+            Log.d("MAI", "No meals found for the selected country");
+        }
+    }
+
+    @Override
+    public void onGetMealsByCategory(List<Meal> categoryMeals) {
+        if (categoryMeals != null && !categoryMeals.isEmpty()) {
+            mealsAdapter.setList(categoryMeals);
+            mealsAdapter.notifyDataSetChanged();
+        } else {
+            Log.d("MAI", "No meals found for the selected category");
+
+        }
+
+    }
+
 }
