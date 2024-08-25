@@ -1,5 +1,7 @@
 package com.example.caloric.model;
 
+import com.example.caloric.Planner.model.PlannerModel;
+import com.example.caloric.database.LocalSource;
 import com.example.caloric.network.RemoteSource;
 
 import java.util.List;
@@ -22,11 +24,17 @@ public interface RepoInterface extends RemoteSource {
 
     Flowable<List<Meal>> getAllFavouriteMeals();
 
-    Flowable<List<Meal>> getMealsOfDay(String day);
+    Flowable<List<PlannerModel>> getMealsOfDay(String day);
 
     Completable updateDayOfMeal(String id, String day);
 
-    Completable insertMealToCalendar(Meal meal, String day);
+    Completable insertMealToCalendar(PlannerModel meal, String day);
+
+    // Completable saveMealToPlan(PlannerModel plannerModel);
+
+    Flowable<List<PlannerModel>> getAllPlannedMeal();
+    Completable insertPLannedMeal(PlannerModel meal);
+    Completable deletePlannedMeal(PlannerModel meal);
 
 
 }

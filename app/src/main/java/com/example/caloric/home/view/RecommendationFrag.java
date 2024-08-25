@@ -32,7 +32,6 @@ import com.example.caloric.model.Repo;
 import com.example.caloric.model.User;
 import com.example.caloric.network.RemoteDataSource;
 import com.example.caloric.network.RemoteSource;
-import com.example.caloric.recipe.view.IngredientRecyclerAdapter;
 import com.example.caloric.register.LogIn;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,8 +42,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;

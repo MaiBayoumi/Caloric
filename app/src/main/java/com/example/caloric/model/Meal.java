@@ -15,6 +15,7 @@ public class Meal implements Parcelable {
     private String idMeal;
     private String day;
     private boolean isFavorite;
+    public String userId;
 
     private String nameDay;
     private String strMeal;
@@ -69,6 +70,13 @@ public class Meal implements Parcelable {
     public Meal() {
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getIdMeal() {
         return idMeal;

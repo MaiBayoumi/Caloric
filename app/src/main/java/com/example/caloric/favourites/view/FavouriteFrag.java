@@ -5,16 +5,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +15,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.caloric.R;
 import com.example.caloric.database.LocalDataSource;
 import com.example.caloric.database.LocalSource;
@@ -34,13 +33,10 @@ import com.example.caloric.home.view.RecommendationFrag;
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.Repo;
 import com.example.caloric.model.RepoInterface;
-import com.example.caloric.model.User;
 import com.example.caloric.network.RemoteDataSource;
 import com.example.caloric.network.RemoteSource;
 import com.example.caloric.register.LogIn;
 import com.example.caloric.view.HostedActivity;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,7 +58,7 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
     TextView nullText;
     Button refreshBtn;
     FirebaseUser currentUser;
-    List<Meal> mealsFromRoom;
+    List<Meal> mealsFromRoom = new ArrayList<>();  // Initialize with an empty list
     private final CompositeDisposable disposables = new CompositeDisposable();
 
 
@@ -169,10 +165,30 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
     }
 
     private void updateUserDataInFireStore() {
-        User updatedUser = new User(currentUser.getDisplayName(), currentUser.getEmail(),
-                mealsFromRoom);
+        // Create a map for user data
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("displayName", currentUser.getDisplayName());
+        userData.put("email", currentUser.getEmail());
+        userData.put("uid", currentUser.getUid());
+
+        // Serialize mealsFromRoom if it's not null
+        List<Map<String, Object>> mealsList = new ArrayList<>();
+        if (mealsFromRoom != null) {
+            for (Meal meal : mealsFromRoom) {
+                Map<String, Object> mealMap = new HashMap<>();
+                mealMap.put("idMeal", meal.getIdMeal());
+                mealMap.put("strMeal", meal.getStrMeal());
+                // Add other meal properties
+                mealsList.add(mealMap);
+            }
+        }
+
+        // Combine user data and meals data
         Map<String, Object> data = new HashMap<>();
-        data.put("userPojo", updatedUser);
+        data.put("userData", userData);
+        data.put("meals", mealsList);
+
+        // Update Firestore document
         FirebaseFirestore.getInstance().collection("users")
                 .document(currentUser.getUid())
                 .set(data, SetOptions.merge())

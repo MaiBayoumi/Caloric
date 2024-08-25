@@ -1,11 +1,15 @@
 package com.example.caloric.recipe.presenter;
 
+import com.example.caloric.Planner.model.PlannerModel;
 import com.example.caloric.model.Meal;
 import com.example.caloric.model.RepoInterface;
 import com.example.caloric.recipe.view.RecipeViewInterface;
 
+import java.util.List;
+
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -62,8 +66,47 @@ public class RecipePresenter implements RecipePresenterInterface {
     }
 
     @Override
-    public Completable  insertMealToCalendar(Meal meal, String day) {
+    public Completable  insertMealToCalendar(PlannerModel meal, String day) {
         Disposable disposable = repo.insertMealToCalendar(meal, day)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> detailsView.onMealInsertedToCalendar(),
+                        throwable -> detailsView.onError(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
+        return null;
+    }
+
+    @Override
+    public Flowable<List<Meal>> getAllPlannedMeal() {
+        Disposable disposable = repo.getAllPlannedMeal()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        (meals) -> detailsView.onMealInsertedToCalendar(),
+                        throwable -> detailsView.onError(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
+        return null;
+    }
+
+    @Override
+    public Completable insertPLannedMeal(PlannerModel meal) {
+        Disposable disposable = repo.insertPLannedMeal(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> detailsView.onMealInsertedToCalendar(),
+                        throwable -> detailsView.onError(throwable.getMessage())
+                );
+        compositeDisposable.add(disposable);
+        return null;
+    }
+
+    @Override
+    public Completable deletePlannedMeal(PlannerModel meal) {
+        Disposable disposable = repo.deletePlannedMeal(meal)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

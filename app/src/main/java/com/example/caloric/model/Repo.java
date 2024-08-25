@@ -1,5 +1,6 @@
 package com.example.caloric.model;
 
+import com.example.caloric.Planner.model.PlannerModel;
 import com.example.caloric.database.LocalSource;
 import com.example.caloric.network.RemoteDataSource;
 import com.example.caloric.network.RemoteSource;
@@ -57,7 +58,7 @@ public class Repo implements RepoInterface {
     }
 
     @Override
-    public Flowable<List<Meal>> getMealsOfDay(String day) {
+    public Flowable<List<PlannerModel>> getMealsOfDay(String day) {
         return localSource.getMealsOfDay(day);
     }
 
@@ -68,10 +69,26 @@ public class Repo implements RepoInterface {
     }
 
     @Override
-    public Completable insertMealToCalendar(Meal meal, String day) {
+    public Completable insertMealToCalendar(PlannerModel meal, String day) {
         return localSource.insertMealToCalendar(meal, day);
 
     }
+
+    @Override
+    public Flowable<List<PlannerModel>> getAllPlannedMeal() {
+        return localSource.getAllPlannedMeal();
+    }
+
+    @Override
+    public Completable insertPLannedMeal(PlannerModel meal) {
+        return localSource.insertPLannedMeal(meal);
+    }
+
+    @Override
+    public Completable deletePlannedMeal(PlannerModel meal) {
+        return localSource.deletePlannedMeal(meal);
+    }
+
 
     @Override
     public Observable<MealResponse> getMealByName(String name) {
@@ -87,6 +104,7 @@ public class Repo implements RepoInterface {
     public Observable<MealResponse> getMealById(String id) {
         return remoteSource.getMealById(id);
     }
+
 
     @Override
     public Observable<MealResponse> getRandomMeal() {
@@ -127,5 +145,10 @@ public class Repo implements RepoInterface {
     public Observable<MealResponse> getRandomMeals() {
         return remoteSource.getRandomMeals();
     }
+
+//    @Override
+//    public Completable saveMealToPlan(PlannerModel plannerModel) {
+//        localSource.saveMealToPlan(plannerModel);  // Save the meal to the local database
+//    }
 
 }

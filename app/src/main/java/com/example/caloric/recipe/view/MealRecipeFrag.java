@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.caloric.Planner.model.PlannerModel;
 import com.example.caloric.R;
 import com.example.caloric.database.LocalDataSource;
 import com.example.caloric.model.IngredientModel;
@@ -156,11 +157,17 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
                 .setPositiveButton("OK", (dialog, which) -> {
                     if (mSelectedIndex >= 0) {
                         String selectedDay = daysOfWeek.get(mSelectedIndex);
-                        Log.d("MealRecipeFrag", "Selected Day: " + selectedDay); // Log the selected day
-                        detailsPresenter.updateDayOfMeal(currentMeal.getIdMeal(), selectedDay);
+                        Log.d("MealRecipeFrag", "Selected Day: " + selectedDay);
+                        PlannerModel plannerModel = new PlannerModel();// Log the selected day
+                        plannerModel.setIdMeal(currentMeal.getIdMeal());
+                        plannerModel.setStrMealThumb(currentMeal.getStrMealThumb());
+                        plannerModel.setStrMeal(currentMeal.getStrMeal());
+                        plannerModel.setDayOfMeal(currentMeal.getNameDay());
+
+                        //detailsPresenter.insertPLannedMeal(plannerModel);
 
                         // Save the meal to the calendar (database) for the selected day
-                        detailsPresenter.insertMealToCalendar(currentMeal, selectedDay);
+                        detailsPresenter.insertMealToCalendar(plannerModel, selectedDay);
                         Toast.makeText(requireContext(), "Meal added to calendar for " + selectedDay, Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -278,7 +285,6 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
 
     @Override
     public void onMealInsertedToCalendar() {
-
     }
 
     @Override

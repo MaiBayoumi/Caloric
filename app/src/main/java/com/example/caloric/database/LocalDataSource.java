@@ -4,12 +4,14 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.caloric.Planner.model.PlannerModel;
 import com.example.caloric.model.Meal;
 
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
 
 public class LocalDataSource implements LocalSource {
     private static LocalDataSource instance = null;
@@ -25,7 +27,6 @@ public class LocalDataSource implements LocalSource {
         }
         return instance;
     }
-
 
     @Override
     public Completable insertMeal(Meal meal) {
@@ -53,7 +54,7 @@ public class LocalDataSource implements LocalSource {
     }
 
     @Override
-    public Flowable<List<Meal>> getMealsOfDay(String day) {
+    public Flowable<List<PlannerModel>> getMealsOfDay(String day) {
         return mealsDao.getMealsOfDay(day);
     }
 
@@ -63,19 +64,37 @@ public class LocalDataSource implements LocalSource {
     }
 
     @Override
-    public Completable insertMealToCalendar(Meal meal, String day) {
+    public Completable insertMealToCalendar(PlannerModel meal, String day) {
         // Set the day of the week in the meal object
-        meal.setDay(day);
-
-        // Ensure the meal is not marked as a favorite
-        meal.setIsFavorite(false);
+        meal.setDayOfMeal(day);
 
         // Insert the meal into the database, associating it with the selected day
-        return mealsDao.insertMeal(meal);
+        return mealsDao.insertPLannedMeal(meal);
     }
 
     public Meal getMealById(String id) {
         return mealsDao.getMealById(id); // Assuming MealDao has this method
     }
+
+    @Override
+    public Flowable<List<PlannerModel>> getAllPlannedMeal() {
+        return mealsDao.getAllPlannedMeal();
+    }
+
+    @Override
+    public Completable insertPLannedMeal(PlannerModel meal) {
+        return mealsDao.insertPLannedMeal(meal);
+    }
+
+    @Override
+    public Completable deletePlannedMeal(PlannerModel meal) {
+        return mealsDao.deletePlannedMeal(meal);
+    }
+
+
+//    @Override
+//    public Completable saveMealToPlan(PlannerModel plannerModel) {
+//        new Thread(() -> planDao.insert(plannerModel)).start();  // Save the PlannerModel asynchronously
+//    }
 
 }

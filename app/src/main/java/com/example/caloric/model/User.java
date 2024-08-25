@@ -9,6 +9,7 @@ public class User {
     private String email;
     private List<Meal> favMeals;
     private String userImage;
+    private String id;
 
     public User() {
     }
@@ -96,6 +97,14 @@ public class User {
         this.name = displayName;
         this.email = email;
         this.favMeals = mealsFromRoom;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

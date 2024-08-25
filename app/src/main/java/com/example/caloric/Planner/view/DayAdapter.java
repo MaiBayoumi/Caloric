@@ -1,7 +1,6 @@
 package com.example.caloric.Planner.view;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.caloric.Planner.model.PlannerModel;
 import com.example.caloric.R;
 import com.example.caloric.model.Meal;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
-    private ArrayList<Meal> myList ;
+    private ArrayList<PlannerModel> myList ;
     private Context context;
     private OnDayClickInterface onDayClickInterface;
 
 
-    public DayAdapter(Context context, OnDayClickInterface onDayClickInterface,ArrayList<Meal> myList){
+    public DayAdapter(Context context, OnDayClickInterface onDayClickInterface,ArrayList<PlannerModel> myList){
         this.context = context;
         this.onDayClickInterface = onDayClickInterface;
         this.myList = myList;
@@ -66,7 +65,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
         return myList.size();
     }
 
-    public void setList(ArrayList<Meal> myList) {
+    public void setList(ArrayList<PlannerModel> myList) {
         this.myList = myList;
         notifyDataSetChanged();
     }

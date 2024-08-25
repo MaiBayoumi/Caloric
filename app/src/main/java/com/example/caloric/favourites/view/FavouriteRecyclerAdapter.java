@@ -73,6 +73,10 @@ public class FavouriteRecyclerAdapter extends RecyclerView.Adapter<FavouriteRecy
         notifyDataSetChanged();
     }
 
+    public ArrayList<Meal> getFavouriteMeals() {
+        return myList;
+    }
+
     public class FavouriteViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mealImg, saveBtn;
