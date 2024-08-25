@@ -1,4 +1,4 @@
-Caloric
+Caloric 
 Caloric is a meal planner app that allows users to plan their meals for the week and easily find recipes based on their preferences. The app uses various third-party libraries and features to provide a seamless user experience.
 
 Used Tools
