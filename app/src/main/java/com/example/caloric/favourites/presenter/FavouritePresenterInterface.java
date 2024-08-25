@@ -6,7 +6,7 @@ import com.example.caloric.model.Meal;
 import io.reactivex.rxjava3.core.Observable;
 
 public interface FavouritePresenterInterface {
-    void getAllMeals();
+    void getAllMeals(String userId);
 
     void deleteMeal(Meal meal);
 

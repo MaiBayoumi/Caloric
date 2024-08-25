@@ -22,18 +22,14 @@ public interface RepoInterface extends RemoteSource {
 
     Completable deleteAllFavouriteMeals();
 
-    Flowable<List<Meal>> getAllFavouriteMeals();
+    Flowable<List<Meal>> getAllFavouriteMeals(String userId);
 
-    Flowable<List<PlannerModel>> getMealsOfDay(String day);
+    Flowable<List<PlannerModel>> getMealsOfDay(String day,String userId);
 
-    Completable updateDayOfMeal(String id, String day);
 
     Completable insertMealToCalendar(PlannerModel meal, String day);
 
-    // Completable saveMealToPlan(PlannerModel plannerModel);
 
-    Flowable<List<PlannerModel>> getAllPlannedMeal();
-    Completable insertPLannedMeal(PlannerModel meal);
     Completable deletePlannedMeal(PlannerModel meal);
 
 

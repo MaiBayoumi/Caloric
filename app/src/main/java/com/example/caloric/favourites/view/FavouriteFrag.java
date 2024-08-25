@@ -101,7 +101,10 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
             favouriteRecycler.setAdapter(favouriteAdapter);
             favouriteRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-            favouritePresenter.getAllMeals();
+            if (FirebaseAuth.getInstance().getCurrentUser()!=null){
+                favouritePresenter.getAllMeals(FirebaseAuth.getInstance().getUid());
+            }
+
 
             if (!checkConnection()) {
                 refreshBtn.setVisibility(View.VISIBLE);
@@ -128,10 +131,6 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
         favouriteAdapter.setList((ArrayList<Meal>) favouriteMeals);
     }
 
-    @Override
-    public void deleteMealFromFavourite(Meal meal) {
-        favouritePresenter.deleteMeal(meal);
-    }
 
     @Override
     public void onError(String message) {
@@ -143,13 +142,13 @@ public class FavouriteFrag extends Fragment implements LifecycleOwner, Favourite
         Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public void onGetMealDetails(String id) {
-        Bundle args = new Bundle();
-        args.putString("id", id);
-        NavController navController = Navigation.findNavController(getView());
-        navController.navigate(R.id.action_recommendationFrag_to_mealRecipeFrag, args);
-    }
+//    @Override
+//    public void onGetMealDetails(String id) {
+//        Bundle args = new Bundle();
+//        args.putString("id", id);
+//        NavController navController = Navigation.findNavController(getView());
+//        navController.navigate(R.id.action_recommendationFrag_to_mealRecipeFrag, args);
+//    }
 
     @Override
     public void onDeleteBtnClicked(Meal meal) {

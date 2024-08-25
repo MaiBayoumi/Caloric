@@ -49,19 +49,16 @@ public class LocalDataSource implements LocalSource {
     }
 
     @Override
-    public Flowable<List<Meal>> getAllMeals() {
-        return mealsDao.getAllMeals();
+    public Flowable<List<Meal>> getAllMeals(String userId) {
+        return mealsDao.getAllMeals(userId);
     }
 
     @Override
-    public Flowable<List<PlannerModel>> getMealsOfDay(String day) {
-        return mealsDao.getMealsOfDay(day);
+    public Flowable<List<PlannerModel>> getMealsOfDay(String day,String userId) {
+        return mealsDao.getMealsOfDay(day,userId);
     }
 
-    @Override
-    public Completable updateDayOfMeal(String id, String day) {
-        return mealsDao.updateColumnDay(id,day);
-    }
+
 
     @Override
     public Completable insertMealToCalendar(PlannerModel meal, String day) {
@@ -76,15 +73,7 @@ public class LocalDataSource implements LocalSource {
         return mealsDao.getMealById(id); // Assuming MealDao has this method
     }
 
-    @Override
-    public Flowable<List<PlannerModel>> getAllPlannedMeal() {
-        return mealsDao.getAllPlannedMeal();
-    }
 
-    @Override
-    public Completable insertPLannedMeal(PlannerModel meal) {
-        return mealsDao.insertPLannedMeal(meal);
-    }
 
     @Override
     public Completable deletePlannedMeal(PlannerModel meal) {
@@ -92,9 +81,6 @@ public class LocalDataSource implements LocalSource {
     }
 
 
-//    @Override
-//    public Completable saveMealToPlan(PlannerModel plannerModel) {
-//        new Thread(() -> planDao.insert(plannerModel)).start();  // Save the PlannerModel asynchronously
-//    }
+
 
 }

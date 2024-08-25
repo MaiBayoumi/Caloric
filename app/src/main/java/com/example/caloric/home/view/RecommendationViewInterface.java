@@ -16,10 +16,4 @@ public interface RecommendationViewInterface {
     void onFailureResult(String message);
     void onInsertMealSuccess();
     void onInsertAllFavSuccess();
-    void onDeleteMealSuccess();
-    void onDeleteAllFavMealsSuccess();
-    void onSuccessToFilter(MealResponse meals);
-
-    void onGetCategoryMeals(List<Category> categories);
-    void onGetCountryMeals(List<Meal> categories);
 }

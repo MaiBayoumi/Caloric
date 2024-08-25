@@ -53,20 +53,16 @@ public class Repo implements RepoInterface {
     }
 
     @Override
-    public Flowable<List<Meal>> getAllFavouriteMeals() {
-        return localSource.getAllMeals();
+    public Flowable<List<Meal>> getAllFavouriteMeals(String userId) {
+        return localSource.getAllMeals(userId);
     }
 
     @Override
-    public Flowable<List<PlannerModel>> getMealsOfDay(String day) {
-        return localSource.getMealsOfDay(day);
+    public Flowable<List<PlannerModel>> getMealsOfDay(String day,String userId) {
+        return localSource.getMealsOfDay(day,userId);
     }
 
-    @Override
-    public Completable updateDayOfMeal(String id, String day) {
-        return  localSource.updateDayOfMeal(id, day);
 
-    }
 
     @Override
     public Completable insertMealToCalendar(PlannerModel meal, String day) {
@@ -74,15 +70,6 @@ public class Repo implements RepoInterface {
 
     }
 
-    @Override
-    public Flowable<List<PlannerModel>> getAllPlannedMeal() {
-        return localSource.getAllPlannedMeal();
-    }
-
-    @Override
-    public Completable insertPLannedMeal(PlannerModel meal) {
-        return localSource.insertPLannedMeal(meal);
-    }
 
     @Override
     public Completable deletePlannedMeal(PlannerModel meal) {
@@ -146,9 +133,6 @@ public class Repo implements RepoInterface {
         return remoteSource.getRandomMeals();
     }
 
-//    @Override
-//    public Completable saveMealToPlan(PlannerModel plannerModel) {
-//        localSource.saveMealToPlan(plannerModel);  // Save the meal to the local database
-//    }
+
 
 }

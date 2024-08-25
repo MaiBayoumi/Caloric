@@ -11,15 +11,11 @@ public interface RecipeViewInterface {
     void onGetMealDetails(List<Meal> meals);
 
     void insertMealToFavourite(Meal meal);
-    void onFailToGetMealDetails(String message);
 
-    void onMealLoaded(MealResponse meal);
 
     void onError(String s);
 
     void onMealInsertedToFavourite();
-
-    void onMealUpdatedDay();
 
     void onMealInsertedToCalendar();
 

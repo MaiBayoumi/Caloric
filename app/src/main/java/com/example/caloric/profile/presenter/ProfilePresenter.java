@@ -38,8 +38,8 @@ public class ProfilePresenter implements ProfilePresenterInterface {
     }
 
     @Override
-    public void getAllFavouriteMeals() {
-        Disposable disposable = repo.getAllFavouriteMeals()
+    public void getAllFavouriteMeals(String id) {
+        Disposable disposable = repo.getAllFavouriteMeals(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

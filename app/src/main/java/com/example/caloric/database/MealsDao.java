@@ -30,23 +30,23 @@ public interface MealsDao {
     @Query("DELETE FROM meals_table")
     Completable deleteAllMeals();
 
-    @Query("SELECT * FROM meals_table")
-    Flowable<List<Meal>> getAllMeals();
+    @Query("SELECT * FROM meals_table where userId = :userId")
+    Flowable<List<Meal>> getAllMeals(String userId);
 
-    @Query("SELECT * From PLAN_TABLE WHERE dayOfMeal = :day ")
-    Flowable<List<PlannerModel>> getMealsOfDay(String day);
+    @Query("SELECT * From PLAN_TABLE WHERE dayOfMeal = :day AND userId= :userId ")
+    Flowable<List<PlannerModel>> getMealsOfDay(String day,String userId);
 
-    @Query("UPDATE meals_table SET day = :day WHERE idMeal = :id")
-    Completable updateColumnDay(String id, String day);
+//    @Query("UPDATE meals_table SET day = :day WHERE idMeal = :id")
+//    Completable updateColumnDay(String id, String day);
 
     @Query("SELECT * FROM meals_table WHERE idMeal = :id LIMIT 1")
     Meal getMealById(String id);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertMealToCalendar(PlannerModel meal);
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    Completable insertMealToCalendar(PlannerModel meal);
 
-    @Query("SELECT * FROM plan_table")
-    Flowable<List<PlannerModel>> getAllPlannedMeal();
+//    @Query("SELECT * FROM plan_table WHERE userId= :userId")
+//    Flowable<List<PlannerModel>> getAllPlannedMeal(String userId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertPLannedMeal(PlannerModel meal);

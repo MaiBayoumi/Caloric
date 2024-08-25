@@ -24,8 +24,8 @@ public class FavouritePresenter implements FavouritePresenterInterface {
     }
 
     @Override
-    public void getAllMeals() {
-        Disposable disposable = repo.getAllFavouriteMeals()
+    public void getAllMeals(String userId) {
+        Disposable disposable = repo.getAllFavouriteMeals(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

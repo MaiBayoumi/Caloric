@@ -140,16 +140,6 @@ public class PlannerFrag extends Fragment implements PlannerViewInterface, OnDay
     }
 
     @Override
-    public void onMealUpdated() {
-
-    }
-
-    @Override
-    public void onSuccess() {
-        // Handle success cases here
-    }
-
-    @Override
     public void onDeleteBtnClicked(PlannerModel meal) {
         detailsPresenter.deletePlannedMeal(meal);
     }

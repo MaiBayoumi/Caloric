@@ -146,11 +146,6 @@ public class RecommendationFrag extends Fragment implements RecommendationViewIn
     }
 
 
-    @Override
-    public void onDeleteAllFavMealsSuccess() {
-        Toast.makeText(getContext(), "All favorite meals have been successfully deleted.", Toast.LENGTH_SHORT).show();
-        dailyAdapter.notifyDataSetChanged();
-    }
 
     @Override
     public void onInsertMealSuccess() {
@@ -162,10 +157,6 @@ public class RecommendationFrag extends Fragment implements RecommendationViewIn
         //Toast.makeText(getContext(), "All favorite meals have been successfully added.", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onDeleteMealSuccess() {
-        //Toast.makeText(getContext(), "Meal successfully removed from favorites.", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onSaveBtnClick(Meal meal) {
@@ -184,10 +175,7 @@ public class RecommendationFrag extends Fragment implements RecommendationViewIn
         navController.navigate(R.id.action_recommendationFrag_to_mealRecipeFrag, args);
     }
 
-    @Override
-    public void onSuccessToFilter(MealResponse meals) {
 
-    }
     @Override
     public void onGetMeals(List<Meal> meals) {
         if (meals != null && !meals.isEmpty()) {
@@ -199,41 +187,13 @@ public class RecommendationFrag extends Fragment implements RecommendationViewIn
         }
     }
 
-    @Override
-    public void onGetCategoryMeals(List<Category> meals) {
-        Log.d(TAG, "Meals received: " + meals); // Log the received meals
-
-        if (meals != null && !meals.isEmpty()) {
-            categoryRecyclerView.setVisibility(View.VISIBLE); // Show the RecyclerView
-            categoryAdapter.setList(new ArrayList<>(meals)); // Set the meal list to the adapter
-            categoryAdapter.notifyDataSetChanged(); // Notify the adapter to refresh the UI
-        } else {
-            onFailureResult("No meals found for the category"); // Handle the case when no meals are found
-        }
-    }
-
-
-    @Override
-    public void onGetCountryMeals(List<Meal> countries) {
-//        if (countries != null && !countries.isEmpty()) {
-//            countryRecyclerView.setVisibility(View.VISIBLE);
-//            countryAdapter.setList(new ArrayList<>(countries)); // Set the data directly to the adapter
-//            countryAdapter.notifyDataSetChanged();
-//        } else {
-//            onFailureResult("No meals found");
-//        }
-    }
-
-
-
-    @Override
+  @Override
     public void onCountryItemClicked(Country country) {
         Bundle args = new Bundle();
         args.putString("filter", country.getStrArea());
         args.putString("filterType", "country");
         NavController navController = Navigation.findNavController(getView());
         navController.navigate(R.id.action_recommendationFrag_to_mealsFrag, args);
-        //presenter.getMealsByCountry(country.getStrArea());
     }
 
     @Override
@@ -243,8 +203,6 @@ public class RecommendationFrag extends Fragment implements RecommendationViewIn
         args.putString("filterType", "category");
         NavController navController = Navigation.findNavController(getView());
         navController.navigate(R.id.action_recommendationFrag_to_mealsFrag, args);
-        //presenter.getMealsByCountry(country.getStrArea());
-        //presenter.getMealsByCategory(category.getStrCategory());
     }
 
     private void checkDataInFireStore() {

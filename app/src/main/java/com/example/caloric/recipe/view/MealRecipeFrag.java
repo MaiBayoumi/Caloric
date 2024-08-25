@@ -257,16 +257,6 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
         detailsPresenter.insertMealToFavourite(meal);
     }
 
-    @Override
-    public void onFailToGetMealDetails(String message) {
-
-    }
-
-    @Override
-    public void onMealLoaded(MealResponse meal) {
-
-
-    }
 
     @Override
     public void onError(String s) {
@@ -278,10 +268,6 @@ public class MealRecipeFrag extends Fragment implements RecipeViewInterface {
 
     }
 
-    @Override
-    public void onMealUpdatedDay() {
-
-    }
 
     @Override
     public void onMealInsertedToCalendar() {

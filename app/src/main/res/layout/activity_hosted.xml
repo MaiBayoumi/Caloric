@@ -26,11 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@drawable/navbottom"
-        app:menu="@menu/nav_menu"
-        app:itemIconTint="@color/black"
-        app:itemIconSize="35dp"
         android:elevation="10dp"
-        app:elevation="10dp" />
+        app:elevation="10dp"
+        app:itemIconSize="35dp"
+        app:itemIconTint="@color/black"
+        app:menu="@menu/nav_menu" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

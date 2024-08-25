@@ -20,17 +20,13 @@ public interface LocalSource {
 
     Completable deleteAllMeals() ;
 
-    Flowable<List<Meal>> getAllMeals();
-    Flowable<List<PlannerModel>> getMealsOfDay(String day);
-    Completable updateDayOfMeal(String id, String day);
+    Flowable<List<Meal>> getAllMeals(String userId);
+    Flowable<List<PlannerModel>> getMealsOfDay(String day,String userId);
 
     Completable insertMealToCalendar(PlannerModel meal, String day);
 
     Meal getMealById(String id);
 
-    //Completable saveMealToPlan(PlannerModel plannerModel);
 
-    Flowable<List<PlannerModel>> getAllPlannedMeal();
-    Completable insertPLannedMeal(PlannerModel meal);
     Completable deletePlannedMeal(PlannerModel meal);
 }

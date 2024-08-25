@@ -17,10 +17,5 @@ public interface PlannerViewInterface {
     void onMealDeleted();
 
 
-    void onMealUpdated();
-
-    //void onMealUpdated();
-
-    void onSuccess();
 
 }

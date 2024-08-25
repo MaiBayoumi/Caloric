@@ -11,12 +11,8 @@ public interface FavouriteViewInterface {
 
     void onGetFavouriteMeals(List<Meal> favouriteMeals);
 
-    void deleteMealFromFavourite(Meal meal);
-
     void onError(String message);
 
 
     void onDeleteFromFav();
-
-    void onGetMealDetails(String id);
 }

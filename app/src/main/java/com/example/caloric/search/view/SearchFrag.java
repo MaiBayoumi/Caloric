@@ -170,21 +170,6 @@ public class SearchFrag extends Fragment implements SearchViewInterface, OnSearc
     }
 
     @Override
-    public void onGetAllCategories(List<Category> categories) {
-
-    }
-
-    @Override
-    public void onGetAllIngredient(List<Ingredient> ingredients) {
-
-    }
-
-    @Override
-    public void onGetAllCountries(List<Country> countries) {
-
-    }
-
-    @Override
     public void onFailureResult(String message) {
         nullTextView.setText(message);
         nullTextView.setVisibility(View.VISIBLE);

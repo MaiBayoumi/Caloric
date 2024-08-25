@@ -10,14 +10,10 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 
 public interface RecipePresenterInterface {
-    Completable getMealById(String id);
-    Completable insertMealToFavourite(Meal meal);
-    Completable updateDayOfMeal(String id, String day);
-    Completable insertMealToCalendar(PlannerModel meal, String day);
-
-    Flowable<List<Meal>> getAllPlannedMeal();
-    Completable insertPLannedMeal(PlannerModel meal);
-    Completable deletePlannedMeal(PlannerModel meal);
+    void getMealById(String id);
+    void insertMealToFavourite(Meal meal);
+    void insertMealToCalendar(PlannerModel meal, String day);
+    void deletePlannedMeal(PlannerModel meal);
 
 
 

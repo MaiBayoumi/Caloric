@@ -7,6 +7,7 @@ import com.example.caloric.model.Meal;
 import com.example.caloric.model.MealResponse;
 import com.example.caloric.model.RepoInterface;
 import com.example.caloric.search.view.SearchViewInterface;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -87,14 +88,17 @@ public class SearchPresenter implements SearchPresenterInterface {
 
     @Override
     public void insertMeal(Meal meal) {
-        Disposable disposable = repo.insertMealToFavourite(meal)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        () -> searchView.onInsertMealSuccess(),
-                        throwable -> searchView.onFailureResult(throwable.getMessage())
-                );
-        compositeDisposable.add(disposable);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            meal.setUserId(FirebaseAuth.getInstance().getUid());
+            Disposable disposable = repo.insertMealToFavourite(meal)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            () -> searchView.onInsertMealSuccess(),
+                            throwable -> searchView.onFailureResult(throwable.getMessage())
+                    );
+            compositeDisposable.add(disposable);
+        }
     }
 
     public void getRandomMeals() {

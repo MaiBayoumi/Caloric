@@ -92,7 +92,10 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
         LocalSource localSource = LocalDataSource.getInstance(view.getContext());
         RepoInterface repo = Repo.getInstance(remoteSource, localSource);
         profilePresenter = new ProfilePresenter(repo, this);
-        profilePresenter.getAllFavouriteMeals();
+        if (FirebaseAuth.getInstance().getCurrentUser()!=null){
+
+            profilePresenter.getAllFavouriteMeals(FirebaseAuth.getInstance().getUid());
+        }
 
         loadUserProfile(); // Load the user's profile information
 
@@ -103,7 +106,7 @@ public class profileFrag extends Fragment implements ProfileViewInterface {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(getContext(), LogIn.class);
             startActivity(intent);
-            profilePresenter.deleteAllFavouriteMeals();
+           // profilePresenter.deleteAllFavouriteMeals();
             getActivity().finish();
         });
         if (currentUser != null) {
