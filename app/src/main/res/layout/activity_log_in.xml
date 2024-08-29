@@ -151,7 +151,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
-   <!-- <Button
+    <!-- <Button
         android:id="@+id/googlebtn"
         android:layout_width="180dp"
         android:layout_height="53dp"
@@ -184,11 +184,11 @@
         android:id="@+id/guestbtn"
         android:layout_width="55dp"
         android:layout_height="53dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="108dp"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/googlebtn"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:srcCompat="@drawable/personw" />
 
@@ -196,11 +196,11 @@
         android:id="@+id/googlebtn"
         android:layout_width="55dp"
         android:layout_height="53dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="20dp"
         android:clickable="true"
         android:contentDescription="@string/guest"
         android:focusable="true"
+        app:layout_constraintEnd_toStartOf="@+id/guestbtn"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:srcCompat="@drawable/google" />
