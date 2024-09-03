@@ -25,6 +25,9 @@ Features
 * Video Tutorials: Provides video tutorials to teach users how to cook meals.
 * Detailed Meal Information: Shows detailed information about each meal, including ingredients and nutritional information.
 
+
+LinkedIn: https://www.linkedin.com/in/mai-ibrahim-bayoumi-684023220/
+
   
 
 
