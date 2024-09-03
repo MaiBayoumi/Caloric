@@ -26,6 +26,21 @@ Features
 * Video Tutorials: Provides video tutorials to teach users how to cook meals.
 * Detailed Meal Information: Shows detailed information about each meal, including ingredients and nutritional information.
 
+  
+![Uploading WhatsApp Image 2024-08-29 at 12.06.09 PM-imageonline.co-merged.jpeg…]()
+
+![Uploading WhatsApp Image 2024-08-29 at 12.06.09 PM-imageonline.co-merged (1).jpeg…]()
+
+![Uploading WhatsApp Image 2024-08-29 at 12.06.08 PM-imageonline.co-merged.jpeg…]()
+
+![Uploading WhatsApp Image 2024-08-29 at 12.06.09 PM-imageonline.co-merged (2).jpeg…]()
+
+
+
+
+
+  
+
 
 
 
