@@ -27,16 +27,13 @@ Features
 * Detailed Meal Information: Shows detailed information about each meal, including ingredients and nutritional information.
 
   
-![Uploading WhatsApp Image 2024-08-29 at 12.06.09 PM-imageonline.co-merged.jpeg…]()
-
-![Uploading WhatsApp Image 2024-08-29 at 12.06.09 PM-imageonline.co-merged (1).jpeg…]()
-
-![Uploading WhatsApp Image 2024-08-29 at 12.06.08 PM-imageonline.co-merged.jpeg…]()
-
-![Uploading WhatsApp Image 2024-08-29 at 12.06.09 PM-imageonline.co-merged (2).jpeg…]()
 
 
+![WhatsApp Image 2024-08-29 at 12 06 09 PM-imageonline co-merged (1)](https://github.com/user-attachments/assets/6bff1b01-77a5-42e6-bf55-6e42d87e6c59)
 
+![WhatsApp Image 2024-08-29 at 12 06 08 PM-imageonline co-merged](https://github.com/user-attachments/assets/0edccb94-4446-4c64-bdba-8621d8c35c37)
+
+![WhatsApp Image 2024-08-29 at 12 06 09 PM-imageonline co-merged (2)](https://github.com/user-attachments/assets/d27ea49f-be0d-4b28-bbb1-3b5f9687fede)
 
 
   
